@@ -1,11 +1,13 @@
 **/.DS_Store
-.Brewfile.lock.json
-.cache
 .CFUserTextEncoding
+.NERDTreeBookmarks
+.bash_history
+.cache
 .cups
+.gitconfig.local
 .gnupg
 .lesshst
-.NERDTreeBookmarks
+.nix-channels
 .npm
 .nvm
 .pyenv
@@ -18,19 +20,38 @@
 .zprofile.bak
 .zsh_history
 .zsh_sessions
-.gitconfig.local
 myVim.log
 package-lock.json
 work.zsh
 
 
 # directories
-Google*
+.Trash/
+.cargo/
+.docker/
+.dropbox/
+.expo/
+.gitkraken/
+.ipython/
+.lazygit/
+.local/
+.marks/
+.nix-defexpr
+.oh-my-zsh/
+.prettierd/
+.rustup/
+.terminfo/
+.tmux/
+.vim/
+.vpn-credentials/
+.vscode/
 Applications/
+Code/
 Desktop/
 Documents/
 Downloads/
-Google Drive/
+Dropbox/
+Google*
 Library/
 Movies/
 Music/
@@ -39,20 +60,3 @@ Postman/
 Public/
 SynologyDrive/
 go/
-"Google Drive"/
-Code/
-.Trash/
-.docker/
-.expo/
-.gitkraken/
-.ipython/
-.lazygit/
-.local/
-.marks/
-.oh-my-zsh/
-.prettierd/
-.terminfo/
-.vscode/
-.vim/
-.tmux/
-.vpn-credentials/
