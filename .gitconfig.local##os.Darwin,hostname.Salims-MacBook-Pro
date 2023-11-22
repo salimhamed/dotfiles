@@ -3,6 +3,8 @@
     helper = osxkeychain
     UseHttpPath = true
 [user]
+    name = Salim Hamed
+    email = salimhamed@gmail.com
     signingkey = F89A322CE1D7967A
 [commit]
     gpgsign = true
@@ -21,4 +23,3 @@
     conflictstyle = diff3
 [diff]
     colorMoved = default
-

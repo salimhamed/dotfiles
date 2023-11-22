@@ -2,7 +2,14 @@
 [credential]
     helper = osxkeychain
     UseHttpPath = true
+[user]
+    name = Salim Hamed
+    email = salim@junglescout.com
+    signingkey = 8FB0DA6800BC4F99 
+[commit]
+    gpgsign = true
 [core]
+    editor = nvim
     pager = delta
 [interactive]
     diffFilter = delta --color-only
@@ -16,4 +23,3 @@
     conflictstyle = diff3
 [diff]
     colorMoved = default
-

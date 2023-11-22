@@ -91,7 +91,8 @@ install_or_update_app_with_pipx "black" \
     "pycodestyle" \
     "pylint" \
     "virtualenv" \
-    "pipenv"
+    "pipenv" \
+    "hatch"
 
 # install python applications that cannot be installed with pipx in a venv
 virtual_env_directory="${HOME}/.local/share/virtualenvs"

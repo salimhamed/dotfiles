@@ -1,2 +1,2 @@
   map("n", "gr", lsp_utils.references, { desc = "[LSP] Show (r)eferences" })
-
+let g:WhichKeyDesc_lsp_goto_references = "gr  Goto (r)eferences"

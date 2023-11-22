@@ -155,5 +155,11 @@ nmap <leader>b<C--> <Action>(MoveTabDown)
 let g:WhichKeyDesc_lsp_goto_references = "gr  Goto (r)eferences"
 nmap gr <Action>(FindUsages)
 
+let g:WhichKeyDesc_lsp_goto_type_definition = "go  Goto type definition"
+nmap go <Action>(GotoTypeDeclaration)
+
 let g:WhichKeyDesc_lsp_goto_quick_implementations = "gq  Goto (q)uick implementations"
 nmap gq <Action>(QuickImplementations)
+
+let g:WhichKeyDesc_lsp_goto_database_view = "gb  Goto Data(b)ase view"
+nmap gb <Action>(sql.SelectInDatabaseView)

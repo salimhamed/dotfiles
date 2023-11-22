@@ -12,7 +12,14 @@ First, install [`yadm`](https://yadm.io/docs/install). Then, clone the
 repository with `yadm` and run `bootstrap`.
 
 ```bash
-yadm clone https://github.com/salimhamed/dotfiles.git && yadm bootstrap
+# clone repository
+yadm clone https://github.com/salimhamed/dotfiles.git
+
+# create symlinks for alternate files
+yadm alt
+
+# bootstrap the environment
+yadm bootstrap
 ```
 
 ## 🏃 Usage
@@ -256,6 +263,7 @@ various terminals within Neovim.
 - `<C-f>` while in command mode will open a window with command line history.
   Close this window with `<C-c>`.
 - `<C-w>x` this will swap windows
+- `:messages` will show you messages that appeared during startup.
 
 ### 🔧 CLI Utilities
 
@@ -286,6 +294,18 @@ Below is a list of CLI utilities that are installed.
 | ------- | ------------------------------------------ |
 | `z`     | `cd` to a path using `zoxide`              |
 | `C-r`   | Use `fzd` to search through prior commands |
+
+### 🐍 Pycharm (JetBrains) Keymaps
+
+This repository contains a .ideavimrc file for configuring JetBrains IDEs, such
+as PyCharm, with Neovim-like keybindings via
+[ideavim](https://github.com/JetBrains/ideavim). The keymaps below are
+JetBrains-specific and provided here for my own reference.
+
+| Utility   | Description                                                           |
+| --------- | --------------------------------------------------------------------- |
+| `S-Alt-]` | Go to next editor tab (works for switching between terminal tabs)     |
+| `S-Alt-[` | Go to previous editor tab (works for switching between terminal tabs) |
 
 ## 📦 Acknowledgements
 
