@@ -16,6 +16,9 @@ if [ -f "$HOME/.Brewfile" ]; then
     brew bundle cleanup --global --force
 fi
 
+# in some cases after prettierd is updated, it needs to be restarted
+prettierd restart
+
 # install nvm
 if [ ! -d "$HOME/.nvm" ]; then
     echo "Installing nvm..."
@@ -92,7 +95,8 @@ install_or_update_app_with_pipx "black" \
     "pylint" \
     "virtualenv" \
     "pipenv" \
-    "hatch"
+    "hatch" \
+    "tox"
 
 # install python applications that cannot be installed with pipx in a venv
 virtual_env_directory="${HOME}/.local/share/virtualenvs"
@@ -118,7 +122,7 @@ nvm install "${NODE_VERSION}"
 nvm alias default "${NODE_VERSION}"
 
 # install node applications
-npm install -g @taplo/cli
+npm install -g @taplo/cli prettier
 
 # install tmux plugin manager
 if [ ! -d "${HOME}/.tmux/plugins/tpm" ]; then

@@ -30,16 +30,16 @@ colors:
 
 font:
   bold:
-    family: "JetBrainsMonoNL Nerd Font Mono"
+    family: "JetBrainsMono NFM"
     style: Bold
   bold_italic:
-    family: "JetBrainsMonoNL Nerd Font Mono"
+    family: "JetBrainsMono NFM"
     style: Bold Italic
   italic:
-    family: "JetBrainsMonoNL Nerd Font Mono"
+    family: "JetBrainsMono NFM"
     style: Italic
   normal:
-    family: "JetBrainsMonoNL Nerd Font Mono"
+    family: "JetBrainsMono NFM"
     style: Regular
   size: 16
 

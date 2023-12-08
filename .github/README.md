@@ -52,30 +52,31 @@ The `<Prefix>` Keybinding has been remapped to `C-a`, replacing the default
 
 ##### Tmux General Usage
 
-| Keybinding         | Description                                   |
-| ------------------ | --------------------------------------------- |
-| `<Prefix> C-L`     | Clear screen                                  |
-| `<Prefix> c`       | Create new window                             |
-| `<Prefix> C-]`     | Goto next window                              |
-| `<Prefix> C-[`     | Goto previous window                          |
-| `<Prefix> 0`       | Goto 0 index window (works for other numbers) |
-| `<Prefix> f`       | Find window                                   |
-| `<Prefix> w`       | List all windows                              |
-| `<Prefix> ,`       | Rename window                                 |
-| `<Prefix> C-v`     | Vertical split pane                           |
-| `<Prefix> C-_`     | Horizontal split pane                         |
-| `<Prefix> S-Up`    | Resize pane 5 rows up                         |
-| `<Prefix> S-Down`  | Resize pane 5 rows down                       |
-| `<Prefix> S-Right` | Resize pane 5 rows right                      |
-| `<Prefix> S-Left`  | Resize pane 5 rows left                       |
-| `<Prefix> z`       | Toggle zooom on current pane                  |
-| `C-h`              | Navigate panes left or send C-h to Vim        |
-| `C-j`              | Navigate panes down or send C-j to Vim        |
-| `C-k`              | Navigate panes up or send C-k to Vim          |
-| `C-l`              | Navigate panes right or send C-l to Vim       |
-| `<Prefix> s`       | Show and select other tmux sessions           |
-| `<Prefix> )`       | Goto next session                             |
-| `<Prefix> (`       | Goto previous session                         |
+| Keybinding                | Description                                              |
+| ------------------------- | -------------------------------------------------------- |
+| `<Prefix> C-L`            | Clear screen                                             |
+| `<Prefix> c`              | Create new window                                        |
+| `<Prefix> C-]`            | Goto next window                                         |
+| `<Prefix> C-[`            | Goto previous window                                     |
+| `<Prefix> 0`              | Goto 0 index window (works for other numbers)            |
+| `<Prefix> f`              | Find window                                              |
+| `<Prefix> w`              | List all windows                                         |
+| `<Prefix> ,`              | Rename window                                            |
+| `<Prefix> C-v`            | Vertical split pane                                      |
+| `<Prefix> C-_`            | Horizontal split pane                                    |
+| `<Prefix> S-Up`           | Resize pane 5 rows up                                    |
+| `<Prefix> S-Down`         | Resize pane 5 rows down                                  |
+| `<Prefix> S-Right`        | Resize pane 5 rows right                                 |
+| `<Prefix> S-Left`         | Resize pane 5 rows left                                  |
+| `<Prefix> z`              | Toggle zooom on current pane                             |
+| `C-h`                     | Navigate panes left or send C-h to Vim                   |
+| `C-j`                     | Navigate panes down or send C-j to Vim                   |
+| `C-k`                     | Navigate panes up or send C-k to Vim                     |
+| `C-l`                     | Navigate panes right or send C-l to Vim                  |
+| `<Prefix> s`              | Show and select other tmux sessions                      |
+| `<Prefix> :new -s <name>` | Create a new session, within a tmux session, with a name |
+| `<Prefix> )`              | Goto next session                                        |
+| `<Prefix> (`              | Goto previous session                                    |
 
 ##### Updating Configuration and Managing Plugins
 
@@ -258,11 +259,11 @@ various terminals within Neovim.
 | `gc` in visual mode | Comment out selection                                                              |
 | `gc` + motion       | Comment out using the target of a motion (e.g., `gcap` to comment out a paragraph) |
 
-##### Vim Tricks
+##### Misc Vim Tricks
 
 - `<C-f>` while in command mode will open a window with command line history.
   Close this window with `<C-c>`.
-- `<C-w>x` this will swap windows
+- `<C-w>x` will swap windows.
 - `:messages` will show you messages that appeared during startup.
 
 ### 🔧 CLI Utilities
