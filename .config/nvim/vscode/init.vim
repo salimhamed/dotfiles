@@ -1,8 +1,8 @@
-"use the system clipboard
-set clipboard=unnamed
+"configure clipboard
+set clipboard+=unnamedplus
 
 "rebind <Leader> key
-let mapleader = ","
+let mapleader = " "
 
 "mouse and backspace
 set mouse=a  "on OSX press ALT and click
@@ -68,4 +68,3 @@ set smartcase "override the ignore case setting when searching with uppercase
 " https://github.com/vscode-neovim/vscode-neovim/issues/58#issuecomment-630551787
 nmap j gj
 nmap k gk
-

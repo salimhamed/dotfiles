@@ -16,6 +16,15 @@ if [ -f "$HOME/.Brewfile" ]; then
     brew bundle cleanup --global --force
 fi
 
+# install / update gh copilot cli
+if gh extension list | grep -q 'gh-copilot'; then
+    echo "gh copilot extension is installed. Updating..."
+    gh extension upgrade gh-copilot
+else
+    echo "gh copilot is not installed. Installing..."
+    gh extension install github/gh-copilot
+fi
+
 # in some cases after prettierd is updated, it needs to be restarted
 prettierd restart
 
