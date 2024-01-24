@@ -15,8 +15,8 @@ repository with `yadm` and run `bootstrap`.
 # clone repository
 yadm clone https://github.com/salimhamed/dotfiles.git
 
-# create symlinks for alternate files
-yadm alt
+# set the class to either `Personal` or `Work`
+yadm config local.class Personal
 
 # bootstrap the environment
 yadm bootstrap

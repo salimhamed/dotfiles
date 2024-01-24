@@ -1,25 +1,22 @@
 # manually set language environment
 export LANG=en_US.UTF-8
 
-# Manage path
-export PATH="${HOME}/go/bin:${HOME}/.local/bin:${HOME}/bin:/usr/local/bin:${PATH}"
-
-# add JetBrains Toolbox scripts to path
+# create variable for JetBrains Toolbox scripts path
 if [ -d "${HOME}/Library/Application Support/JetBrains/Toolbox" ]; then
-    export PATH="${PATH}:${HOME}/Library/Application Support/JetBrains/Toolbox/scripts"
+    JETBRAINS_TOOLBOX_PATH="${PATH}:${HOME}/Library/Application Support/JetBrains/Toolbox/scripts"
+else
+    JETBRAINS_TOOLBOX_PATH=""
 fi
 
-# Define custom location for configuration files
+# define custom location for configuration files
 export XDG_CONFIG_HOME="$HOME/.config"
 
-# Define preferred editor
+# define preferred editor
 if command -v nvim &>/dev/null; then
     export EDITOR='nvim'
 else
     export EDITOR='vim'
 fi
-
-# setup pyenv
 
 # pyenv is installed with homebrew, so homebrew must be setup first
 if [ -f /opt/homebrew/bin/brew ]; then
@@ -27,14 +24,17 @@ if [ -f /opt/homebrew/bin/brew ]; then
 fi
 
 # setup pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
+
+# append bin directories with executables to path.
+#   this happens after setting up pyenv to ensure `.local/bin` is at the front of the path, so
+#   global utilities (and pipx utilities) are used before utilities from pyenv environments
+export PATH="${HOME}/go/bin:${HOME}/.local/bin:${HOME}/bin:/usr/local/bin:${JETBRAINS_TOOLBOX_PATH}:${PATH}"
 
 # define custom path for starship configuration
 export STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
 
-# Path to oh-my-zsh installation.
+# path to oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
 
 # disable theme because prompt is managed by starship
@@ -114,3 +114,6 @@ eval "$(register-python-argcomplete pipx)"
 
 # configure auto completion for pipenv
 eval "$(_PIPENV_COMPLETE=zsh_source pipenv)"
+
+# setup direnv
+eval "$(direnv hook zsh)"

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # prompt for system password
 sudo -v
@@ -14,6 +14,15 @@ if [ -f "$HOME/.Brewfile" ]; then
     echo "Updating homebrew bundle..."
     brew bundle --global
     brew bundle cleanup --global --force
+fi
+
+# install / update gh copilot cli
+if gh extension list | grep -q 'gh-copilot'; then
+    echo "gh copilot extension is installed. Updating..."
+    gh extension upgrade gh-copilot
+else
+    echo "gh copilot is not installed. Installing..."
+    gh extension install github/gh-copilot
 fi
 
 # in some cases after prettierd is updated, it needs to be restarted
@@ -39,6 +48,40 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
     echo "Installing oh-my-zsh..."
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc
 fi
+
+# install global version of python
+echo "Installing/updating global version of python..."
+PY_VERSION=3.11.3
+pyenv install --skip-existing "${PY_VERSION}"
+pyenv global "${PY_VERSION}"
+pyenv exec pip install --upgrade pip
+
+# install python applications
+install_or_update_app_with_pipx() {
+    local pyenv_python
+    pyenv_python="$(pyenv which python)"
+
+    for package in "$@"; do
+        echo "Installing ${package} with pipx"
+        pipx install --python "${pyenv_python}" "${package}"
+    done
+}
+
+# first, uninstall all applications managed by pipx
+pipx uninstall-all
+
+install_or_update_app_with_pipx "black" \
+    "codespell" \
+    "flake8" \
+    "isort" \
+    "mypy" \
+    "pycodestyle" \
+    "pylint" \
+    "virtualenv" \
+    "pipenv" \
+    "hatch" \
+    "tox" \
+    "poetry"
 
 # define helpers for managing zsh plugins
 zsh_custom_dir="${HOME}/.oh-my-zsh-custom"
@@ -66,37 +109,9 @@ curl --location --silent https://raw.githubusercontent.com/TheLocehiliosan/yadm/
 echo "Installing/updating luarocks completion..."
 luarocks completion zsh >"${zsh_custom_dir}/completions/_luarocks"
 
-# install global version of python
-echo "Installing/updating global version of python..."
-PY_VERSION=3.11.3
-pyenv install --skip-existing "${PY_VERSION}"
-pyenv global "${PY_VERSION}"
-pyenv exec pip install --upgrade pip
-
-# install python applications
-install_or_update_app_with_pipx() {
-    for package in "$@"; do
-        if ! command -v "${package}" >/dev/null 2>&1; then
-            echo "Installing ${package} with pipx"
-            pipx install "${package}"
-        else
-            echo "Upgrading ${package} with pipx"
-            pipx upgrade "${package}"
-        fi
-    done
-}
-
-install_or_update_app_with_pipx "black" \
-    "codespell" \
-    "flake8" \
-    "isort" \
-    "mypy" \
-    "pycodestyle" \
-    "pylint" \
-    "virtualenv" \
-    "pipenv" \
-    "hatch" \
-    "tox"
+# update poetry auto completion script
+echo "Installing/updating poetry completion..."
+poetry completions zsh >"${zsh_custom_dir}/completions/_poetry"
 
 # install python applications that cannot be installed with pipx in a venv
 virtual_env_directory="${HOME}/.local/share/virtualenvs"
