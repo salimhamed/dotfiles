@@ -152,6 +152,14 @@ curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "${tmp_aws_dir}/AWSCLIV2.pkg
 sudo installer -pkg "${tmp_aws_dir}/AWSCLIV2.pkg" -target /
 rm -rf "${tmp_aws_dir}"
 
+# install miniconda
+echo "Installing/updating miniconda"
+miniconda_install_dir="${HOME}/miniconda3"
+mkdir -p "${miniconda_install_dir}"
+curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -o "${miniconda_install_dir}/miniconda.sh"
+bash "${miniconda_install_dir}/miniconda.sh" -b -u -p "${miniconda_install_dir}"
+rm -rf "${miniconda_install_dir}/miniconda.sh"
+
 # update tldr cache
 echo "Updating the tldr cache..."
 tldr --update

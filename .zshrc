@@ -23,13 +23,13 @@ if [ -f /opt/homebrew/bin/brew ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-# setup pyenv
-eval "$(pyenv init --path)"
-
 # append bin directories with executables to path.
-#   this happens after setting up pyenv to ensure `.local/bin` is at the front of the path, so
-#   global utilities (and pipx utilities) are used before utilities from pyenv environments
 export PATH="${HOME}/go/bin:${HOME}/.local/bin:${HOME}/bin:/usr/local/bin:${JETBRAINS_TOOLBOX_PATH}:${PATH}"
+
+# setup pyenv
+#   this happens after configuring PATH, so utilities from pyenv environments are used before
+#   global utilities (and pipx utilities)
+eval "$(pyenv init --path)"
 
 # define custom path for starship configuration
 export STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
