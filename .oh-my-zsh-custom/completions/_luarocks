@@ -18,6 +18,7 @@ _luarocks() {
     "--local[Use the tree in the user's home directory]"
     "--global[Use the system tree when \`local_by_default\` is \`true\`]"
     "--no-project[Do not use project tree even if running from a project folder]"
+    "--force-lock[Attempt to overwrite the lock for commands that require exclusive access, such as 'install']"
     "--verbose[Display verbose output of commands executed]"
     "--timeout[Timeout on network operations, in seconds]: :_files"
     "--project-tree: :_files"
@@ -140,7 +141,10 @@ _luarocks() {
       options=(
         $options
         {-h,--help}"[Show this help message and exit]"
-        "--reset[Delete .luarocks/config-5.x.lua and ./lua and generate new ones]"
+        "--wrapper-dir[Location where the 'lua' and 'luarocks' wrapper scripts should be generated; if not given, the current directory is used as a default]: :_files"
+        "--reset[Delete any .luarocks/config-5.x.lua and ./lua and generate new ones]"
+        "--no-wrapper-scripts[Do not generate wrapper ./lua and ./luarocks launcher scripts]"
+        "--no-gitignore[Do not generate a .gitignore file]"
         "--output[Write the rockspec with the given filename]: :_files"
         "--license[A license string, such as \"MIT/X11\" or \"GNU GPL v3\"]: :_files"
         "--summary[A short one-line description summary]: :_files"
@@ -265,8 +269,9 @@ _luarocks() {
         {-h,--help}"[Show this help message and exit]"
         "--no-bin[Do not export the PATH variable]"
         "--append[Appends the paths to the existing paths]"
-        "--lr-path[Exports the Lua path (not formatted as shell command)]"
-        "--lr-cpath[Exports the Lua cpath (not formatted as shell command)]"
+        "--lr-path[Prints Lua path components defined by the configured rocks trees (not formatted as a shell command)]"
+        "--lr-cpath[Prints Lua cpath components defined by the configured rocks trees (not formatted as a shell command)]"
+        "--full[By default, --lr-path and --lr-cpath only include the paths derived by the LuaRocks rocks_trees]"
         "--lr-bin[Exports the system path (not formatted as shell command)]"
         "--bin"
       )

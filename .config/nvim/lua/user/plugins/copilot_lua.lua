@@ -6,7 +6,7 @@ M = {
   -- lazy load on entering insert
   event = "InsertEnter",
   opts = {
-    -- disable auto suggestions because suggetsions are integrated with cmp
+    -- disable auto suggestions because suggestions are integrated with cmp
     suggestion = { enabled = false },
     panel = { enabled = false },
   },

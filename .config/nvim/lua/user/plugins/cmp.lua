@@ -69,13 +69,13 @@ local M = {
     local get_sources = function()
       if is_copilot_cmp_enabled then
         return {
-          { name = "path", group_index = 1 },
-          { name = "nvim_lsp", group_index = 1 },
-          { name = "nvim_lsp_signature_help", group_index = 1 },
-          { name = "emoji", group_index = 1 },
-          { name = "copilot", group_index = 2 },
-          { name = "luasnip", group_index = 2 },
-          { name = "buffer", group_index = 2 },
+          { name = "copilot", group_index = 1 },
+          { name = "path", group_index = 2 },
+          { name = "nvim_lsp", group_index = 2 },
+          { name = "nvim_lsp_signature_help", group_index = 2 },
+          { name = "emoji", group_index = 2 },
+          { name = "luasnip", group_index = 3 },
+          { name = "buffer", group_index = 3 },
         }
       end
       return {

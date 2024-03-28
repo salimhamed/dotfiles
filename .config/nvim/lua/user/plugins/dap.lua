@@ -37,6 +37,9 @@ M = {
         map("n", "<leader>dT", dap_python.test_class, { desc = "Debug Class" })
       end,
     },
+    {
+      "nvim-neotest/nvim-nio",
+    },
   },
   config = function()
     -- define icons for debugging
