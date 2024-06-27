@@ -16,7 +16,7 @@ local M = {
     },
   },
   opts = function()
-    local trouble = require("trouble.providers.telescope")
+    local trouble = require("trouble.sources.telescope")
     local actions = require("telescope.actions")
     return {
       defaults = {
@@ -24,12 +24,12 @@ local M = {
           i = {
             ["<C-w>"] = "which_key", -- (default: <C-/>, which is used to open terminal)
             -- similar keymaps to the rest of the neovim setup
-            ["<C-x>"] = trouble.open_with_trouble,
+            ["<C-x>"] = trouble.open,
             ["<C-_>"] = actions.select_horizontal,
           },
           n = {
             -- similar keymaps to the rest of the neovim setup
-            ["<C-x>"] = trouble.open_with_trouble,
+            ["<C-x>"] = trouble.open,
             ["<C-_>"] = actions.select_horizontal,
           },
         },

@@ -1,2 +1,4 @@
   map("n", "gr", lsp_utils.references, { desc = "[LSP] Show (r)eferences" })
 let g:WhichKeyDesc_lsp_goto_references = "gr  Goto (r)eferences"
+  map("n", "<leader>fb", builtin.buffers, { desc = "Find (b)uffer" })
+  map("n", "<leader>fs", builtin.lsp_document_symbols, { desc = "Find buffer (s)ymbols" })

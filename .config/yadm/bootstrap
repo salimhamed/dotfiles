@@ -78,8 +78,10 @@ install_or_update_app_with_pipx "black" \
     "pycodestyle" \
     "pylint" \
     "virtualenv" \
+    "parquet-tools" \
     "pipenv" \
     "hatch" \
+    "argcomplete" \
     "tox" \
     "poetry"
 

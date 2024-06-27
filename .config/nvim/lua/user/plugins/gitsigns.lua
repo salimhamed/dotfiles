@@ -1,6 +1,15 @@
 local M = {
   "lewis6991/gitsigns.nvim",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "seanbreckenridge/gitsigns-yadm.nvim",
+  },
   opts = {
+    -- setup for gitsigns-yadm.nvim
+    _on_attach_pre = function(_, callback)
+      require("gitsigns-yadm").yadm_signs(callback)
+    end,
+    -- end setup for gitsigns-yadm.nvim
     signs = {
       add = { text = "▎" },
       change = { text = "▎" },
@@ -8,9 +17,6 @@ local M = {
       topdelete = { text = "" },
       changedelete = { text = "▎" },
       untracked = { text = "▎" },
-    },
-    yadm = {
-      enable = false,
     },
     on_attach = function(buffer)
       local gs = package.loaded.gitsigns

@@ -14,5 +14,11 @@
     defaultBranch = main
 [remote]
     prune = true
+[alias]
+    co = checkout
+    ci = commit
+    st = status
+    br = branch
+    lg = log --oneline --decorate --all --graph
 [include]
     path = .gitconfig.local

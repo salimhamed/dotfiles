@@ -54,6 +54,7 @@ The `<Prefix>` Keybinding has been remapped to `C-a`, replacing the default
 
 | Keybinding                | Description                                              |
 | ------------------------- | -------------------------------------------------------- |
+| `<Prefix> [`              | Enter "Copy Mode" or "Select Mode"                       |
 | `<Prefix> C-L`            | Clear screen                                             |
 | `<Prefix> c`              | Create new window                                        |
 | `<Prefix> C-]`            | Goto next window                                         |
