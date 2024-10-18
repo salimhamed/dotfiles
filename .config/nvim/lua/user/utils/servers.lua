@@ -59,30 +59,6 @@ M.servers_options = {
   },
   pyright = {},
   taplo = {},
-  tsserver = {
-    server_capabilities = {
-      documentFormattingProvider = false,
-    },
-    settings = {
-      typescript = {
-        format = {
-          indentSize = vim.o.shiftwidth,
-          convertTabsToSpaces = vim.o.expandtab,
-          tabSize = vim.o.tabstop,
-        },
-      },
-      javascript = {
-        format = {
-          indentSize = vim.o.shiftwidth,
-          convertTabsToSpaces = vim.o.expandtab,
-          tabSize = vim.o.tabstop,
-        },
-      },
-      completions = {
-        completeFunctionCalls = true,
-      },
-    },
-  },
   yamlls = {
     settings = {
       yaml = {
@@ -98,16 +74,17 @@ M.servers_options = {
 
 -- optinoal custom setup function
 M.server_setup = {
-  tsserver = function(lsp_config_setup_opts)
-    require("typescript").setup({
-      disable_commands = true, -- commands are configured with null-ls
-      debug = false,
-      go_to_source_definition = {
-        fallback = true,
-      },
-      server = lsp_config_setup_opts,
-    })
-  end,
+  -- Example of custom setup
+  -- tsserver = function(lsp_config_setup_opts)
+  --   require("typescript").setup({
+  --     disable_commands = true, -- commands are configured with null-ls
+  --     debug = false,
+  --     go_to_source_definition = {
+  --       fallback = true,
+  --     },
+  --     server = lsp_config_setup_opts,
+  --   })
+  -- end,
 }
 
 function M.get_server_names()

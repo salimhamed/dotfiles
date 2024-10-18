@@ -57,6 +57,7 @@ The `<Prefix>` Keybinding has been remapped to `C-a`, replacing the default
 | `<Prefix> [`              | Enter "Copy Mode" or "Select Mode"                       |
 | `<Prefix> C-L`            | Clear screen                                             |
 | `<Prefix> c`              | Create new window                                        |
+| `<Prefix> &`              | Kill current window                                      |
 | `<Prefix> C-]`            | Goto next window                                         |
 | `<Prefix> C-[`            | Goto previous window                                     |
 | `<Prefix> 0`              | Goto 0 index window (works for other numbers)            |
@@ -70,11 +71,15 @@ The `<Prefix>` Keybinding has been remapped to `C-a`, replacing the default
 | `<Prefix> S-Right`        | Resize pane 5 rows right                                 |
 | `<Prefix> S-Left`         | Resize pane 5 rows left                                  |
 | `<Prefix> z`              | Toggle zooom on current pane                             |
+| `<Prefix> x`              | Kill current pane                                        |
 | `C-h`                     | Navigate panes left or send C-h to Vim                   |
 | `C-j`                     | Navigate panes down or send C-j to Vim                   |
 | `C-k`                     | Navigate panes up or send C-k to Vim                     |
 | `C-l`                     | Navigate panes right or send C-l to Vim                  |
 | `<Prefix> s`              | Show and select other tmux sessions                      |
+| `<Prefix> w`              | Show and select other tmux windows in current session    |
+| `<Prefix> >`              | Pane show action menu                                    |
+| `<Prefix> <`              | Pane show window action menu                             |
 | `<Prefix> :new -s <name>` | Create a new session, within a tmux session, with a name |
 | `<Prefix> )`              | Goto next session                                        |
 | `<Prefix> (`              | Goto previous session                                    |

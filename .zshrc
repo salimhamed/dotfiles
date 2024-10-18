@@ -74,7 +74,6 @@ plugins=(
     zsh-syntax-highlighting
     vi-mode
     fzf
-    fd
     pip
     zoxide
     starship
@@ -117,3 +116,7 @@ eval "$(_PIPENV_COMPLETE=zsh_source pipenv)"
 
 # setup direnv
 eval "$(direnv hook zsh)"
+
+# prevent virtualenv from changing the prompt
+# starship will display the virtualenv name
+export VIRTUAL_ENV_DISABLE_PROMPT=1
