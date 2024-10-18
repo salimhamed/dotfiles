@@ -1,0 +1,12 @@
+# add snaps bin to path
+export PATH="/snap/bin:$PATH"
+
+# nvm setup
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# add default nvm node to path
+NODE_VERSION=$(nvm version)
+export PATH="$NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH"
+

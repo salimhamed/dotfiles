@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# prompt for system password
+sudo -v
+
+# update package lists
+echo "Updating package lists..."
+sudo apt update -y
+
+# install packages from a list
+if [ -f "$HOME/.ubuntu-packages" ]; then
+    echo "Installing packages from .ubuntu-packages..."
+    xargs sudo apt install -y < "$HOME/.ubuntu-packages"
+fi
+
+# upgrade all installed packages
+echo "Upgrading all installed packages..."
+sudo apt upgrade -y
+
+# remove unnecessary packages
+echo "Removing unnecessary packages..."
+sudo apt autoremove -y
+
+# Change the default shell to Zsh
+if [ "$SHELL" != "$(which zsh)" ]; then
+    echo "Changing default shell to Zsh..."
+    chsh -s "$(which zsh)"
+    echo "Default shell changed to Zsh. Log out and log back in for the changes to take effect."
+else
+    echo "Zsh is already the default shell."
+fi
+
+# Install stable version of nvim
+echo "Building Neovim from source..."
+sudo snap install --beta nvim --classic
+
+# install nvm
+echo "Installing nvm..."
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+source "${HOME}/.nvm/nvm.sh"
+
+# install global version of node
+install_node() {
+    local node_version="v20.18.0"
+
+    echo "Installing/updating global version of node..."
+
+    nvm install "${node_version}"
+    nvm alias default "${node_version}"
+
+    echo "Node ${node_version} has been installed and set as default"
+}
+
+install_node
+
+# install global node applications
+npm install -g @taplo/cli prettier yarn
+

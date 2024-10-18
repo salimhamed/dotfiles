@@ -1,4 +1,0 @@
-[credential]
-    helper = store
-    UseHttpPath = true
-
