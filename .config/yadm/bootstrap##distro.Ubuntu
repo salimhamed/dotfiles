@@ -10,7 +10,7 @@ sudo apt update -y
 # install packages from a list
 if [ -f "$HOME/.ubuntu-packages" ]; then
     echo "Installing packages from .ubuntu-packages..."
-    xargs sudo apt install -y < "$HOME/.ubuntu-packages"
+    xargs sudo apt install -y <"$HOME/.ubuntu-packages"
 fi
 
 # upgrade all installed packages
@@ -34,6 +34,12 @@ fi
 echo "Building Neovim from source..."
 sudo snap install --beta nvim --classic
 
+# Install fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install --bin
+
+# Install
+
 # install nvm
 echo "Installing nvm..."
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
@@ -56,3 +62,99 @@ install_node
 # install global node applications
 npm install -g @taplo/cli prettier yarn
 
+# install starship
+curl -sS https://starship.rs/install.sh | sh -s -- -y
+
+# install shfmt
+go install mvdan.cc/sh/v3/cmd/shfmt@latest
+
+# install pyenv
+curl https://pyenv.run | bash
+
+# install global version of python
+echo "Installing/updating global version of python..."
+PY_VERSION=3.11.3
+pyenv install --skip-existing "${PY_VERSION}"
+pyenv global "${PY_VERSION}"
+pyenv exec pip install --upgrade pip
+
+# install python applications
+install_or_update_app_with_pipx() {
+    local pyenv_python
+    pyenv_python="$(pyenv which python)"
+
+    for package in "$@"; do
+        echo "Installing ${package} with pipx"
+        pipx install --python "${pyenv_python}" "${package}"
+    done
+}
+
+# first, uninstall all applications managed by pipx
+pipx uninstall-all
+
+install_or_update_app_with_pipx "black" \
+    "codespell" \
+    "flake8" \
+    "isort" \
+    "mypy" \
+    "pycodestyle" \
+    "pylint" \
+    "virtualenv" \
+    "parquet-tools" \
+    "pipenv" \
+    "hatch" \
+    "argcomplete" \
+    "tox" \
+    "poetry"
+
+# install tmux plugin manager
+if [ ! -d "${HOME}/.tmux/plugins/tpm" ]; then
+    echo "Installing tmux plugin manager..."
+    mkdir -p "${HOME}/.tmux/plugins"
+    git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
+fi
+
+# install ripgrep
+install_ripgrep() {
+    local temp_dir=$(mktemp -d)
+    local rg_version="14.1.1"
+    local rg_url="https://github.com/BurntSushi/ripgrep/releases/download/${rg_version}/ripgrep_${rg_version}-1_amd64.deb"
+    local temp_file="${temp_dir}/ripgrep_${rg_version}-1_amd64.deb"
+
+    curl -Lo "$temp_file" "$rg_url"
+    sudo dpkg -i "$temp_file"
+    rm -rf "$temp_dir"
+
+    echo "ripgrep has been installed successfully."
+}
+install_ripgrep
+
+# install lazygit
+install_lazygit() {
+    local temp_dir=$(mktemp -d)
+    local lazygit_version="0.44.1"
+    local lg_url="https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${lazygit_version}_Linux_x86_64.tar.gz"
+    local temp_file_archive="${temp_dir}/lazygit.tar.gz"
+
+    curl -Lo "${temp_file_archive}" "${lg_url}"
+    tar xzf "${temp_file_archive}" -C "${temp_dir}" lazygit
+    sudo install "${temp_dir}/lazygit" /usr/local/bin
+
+    echo "lazygit has been installed successfully."
+}
+install_lazygit
+
+# install delta
+install_delta() {
+    local temp_dir=$(mktemp -d)
+    local delta_version="0.18.2"
+    local url="https://github.com/dandavison/delta/releases/download/${delta_version}/git-delta_${delta_version}_amd64.deb"
+    local temp_file="${temp_dir}/git-delta_${delta_version}_amd64.deb"
+
+    curl -Lo "$temp_file" "$url"
+    sudo dpkg -i "$temp_file"
+    rm -rf "$temp_dir"
+
+    echo "delta has been installed successfully."
+}
+install_delta

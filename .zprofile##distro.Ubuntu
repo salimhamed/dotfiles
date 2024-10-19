@@ -1,0 +1,14 @@
+# setup pyenv in .zprofile for use in non-interactive shells
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+
+# Add pipx to path
+export PATH="${PATH}:/home/ubuntu/.local/bin"
+
+# add snaps bin to path
+export PATH="/snap/bin:$PATH"
+
+# add go script to path
+GO_BIN_PATH=$(go env GOPATH)
+export PATH=$PATH:${GO_BIN_PATH}/bin
