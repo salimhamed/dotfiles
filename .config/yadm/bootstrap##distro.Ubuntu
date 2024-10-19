@@ -35,10 +35,10 @@ echo "Building Neovim from source..."
 sudo snap install --beta nvim --classic
 
 # Install fzf
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install --bin
-
-# Install
+if [ ! -d "$HOME/.fzf" ]; then
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install --bin
+fi
 
 # install nvm
 echo "Installing nvm..."
@@ -56,11 +56,16 @@ install_node() {
 
     echo "Node ${node_version} has been installed and set as default"
 }
-
 install_node
 
 # install global node applications
-npm install -g @taplo/cli prettier yarn
+npm install -g @taplo/cli prettier yarn neovim tree-sitter-cli
+
+# install rust and cargo
+curl https://sh.rustup.rs -sSf | sh -s -- -y
+
+# install rust tools
+cargo install fd-find ripgrep
 
 # install starship
 curl -sS https://starship.rs/install.sh | sh -s -- -y
@@ -114,21 +119,6 @@ if [ ! -d "${HOME}/.tmux/plugins/tpm" ]; then
     git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
 fi
 
-# install ripgrep
-install_ripgrep() {
-    local temp_dir=$(mktemp -d)
-    local rg_version="14.1.1"
-    local rg_url="https://github.com/BurntSushi/ripgrep/releases/download/${rg_version}/ripgrep_${rg_version}-1_amd64.deb"
-    local temp_file="${temp_dir}/ripgrep_${rg_version}-1_amd64.deb"
-
-    curl -Lo "$temp_file" "$rg_url"
-    sudo dpkg -i "$temp_file"
-    rm -rf "$temp_dir"
-
-    echo "ripgrep has been installed successfully."
-}
-install_ripgrep
-
 # install lazygit
 install_lazygit() {
     local temp_dir=$(mktemp -d)
@@ -158,3 +148,18 @@ install_delta() {
     echo "delta has been installed successfully."
 }
 install_delta
+
+# install nvim
+install_nvim() {
+    local temp_dir=$(mktemp -d)
+    local nvim_version="0.10.2"
+    local nvim_url="https://github.com/neovim/neovim/releases/download/v0.10.2/nvim-linux64.tar.gz"
+    local temp_file="${temp_dir}/nvim-linux64.tar.gz"
+
+    curl -Lo "${temp_file}" "${nvim_url}"
+    sudo rm -rf /opt/nvim
+    sudo tar -C /opt -xzf "${temp_file}"
+
+    echo "nvim has been installed successfully."
+}
+install_nvim

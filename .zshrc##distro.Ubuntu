@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # nvm setup
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
@@ -7,7 +9,7 @@ export NVM_DIR="$HOME/.nvm"
 NODE_VERSION=$(nvm version)
 export PATH="$NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH"
 
-# install starship
+# initalize starship
 eval "$(starship init zsh)"
 
 # install plugins with zsh_unplugged
@@ -29,4 +31,17 @@ plugin_repos=(
 plugin-load $plugin_repos
 
 # configure fzf shortcuts
+if [[ ! "$PATH" == *$HOME/.fzf/bin* ]]; then
+    PATH="${PATH:+${PATH}:}$HOME/.fzf/bin"
+fi
 source <(fzf --zsh)
+
+# add cargo to path
+if [[ ! "$PATH" == *$HOME/.cargo/bin* ]]; then
+    export PATH="$HOME/.cargo/bin:$PATH"
+fi
+
+# add nvim to path
+if [[ ! "$PATH" == *$HOME/.cargo/bin* ]]; then
+    export PATH="$PATH:/opt/nvim-linux64/bin"
+fi
