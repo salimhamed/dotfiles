@@ -30,10 +30,6 @@ else
     echo "Zsh is already the default shell."
 fi
 
-# Install stable version of nvim
-echo "Building Neovim from source..."
-sudo snap install --beta nvim --classic
-
 # Install fzf
 if [ ! -d "$HOME/.fzf" ]; then
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
@@ -66,6 +62,9 @@ curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 # install rust tools
 cargo install fd-find ripgrep
+
+# install lua tools
+sudo luarocks install luacheck
 
 # install starship
 curl -sS https://starship.rs/install.sh | sh -s -- -y
@@ -153,7 +152,7 @@ install_delta
 install_nvim() {
     local temp_dir=$(mktemp -d)
     local nvim_version="0.10.2"
-    local nvim_url="https://github.com/neovim/neovim/releases/download/v0.10.2/nvim-linux64.tar.gz"
+    local nvim_url="https://github.com/neovim/neovim/releases/download/v${nvim_version}/nvim-linux64.tar.gz"
     local temp_file="${temp_dir}/nvim-linux64.tar.gz"
 
     curl -Lo "${temp_file}" "${nvim_url}"
@@ -163,3 +162,9 @@ install_nvim() {
     echo "nvim has been installed successfully."
 }
 install_nvim
+
+# install lunarvim
+if [ ! -d "${HOME}/.local/share/lunarvim/lvim" ]; then
+    bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh) --no-install-dependencies
+    echo "lunar vim has been installed"
+fi

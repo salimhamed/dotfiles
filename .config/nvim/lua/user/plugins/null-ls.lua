@@ -36,7 +36,7 @@ function M.config(_, _)
       -- javascript / typescript
       null_ls.builtins.formatting.prettierd,
       -- see https://github.com/jose-elias-alvarez/typescript.nvim#setup-1
-      require("typescript.extensions.null-ls.code-actions"),
+      -- require("typescript.extensions.null-ls.code-actions"),
 
       -- python
       null_ls.builtins.diagnostics.flake8,

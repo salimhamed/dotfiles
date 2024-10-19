@@ -3,7 +3,7 @@ M = {}
 function M.get_yadm_files()
   local output = vim.fn.systemlist("yadm --no-pager --literal-pathspecs ls-files")
   if vim.v.shell_error ~= 0 then
-    print("Error running 'yamd ls-files'.")
+    print("Error running 'yadm ls-files'.")
     return {}
   end
   local files = {}

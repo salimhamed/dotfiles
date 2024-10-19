@@ -14,12 +14,14 @@ libpq-dev
 libsm6
 libxext6
 libxrender1
-neovim
+luarocks
 ninja-build
 pipx
 python3-dev
 python3-neovim
 python3-pip
+shellcheck
 unzip
 wget
+xclip
 zsh

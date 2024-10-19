@@ -42,6 +42,12 @@ if [[ ! "$PATH" == *$HOME/.cargo/bin* ]]; then
 fi
 
 # add nvim to path
-if [[ ! "$PATH" == *$HOME/.cargo/bin* ]]; then
+if [[ ! "$PATH" == *$HOME/opt/nvim-linux64/bin* ]]; then
     export PATH="$PATH:/opt/nvim-linux64/bin"
 fi
+
+# alias for other nvim distributions
+alias nvim-lazy="NVIM_APPNAME=lazyvim nvim"
+alias nvim-kickstart="NVIM_APPNAME=kickstart nvim"
+alias nvim-chad="NVIM_APPNAME=nvchad nvim"
+alias nvim-lunar="${HOME}/.local/bin/lvim"
