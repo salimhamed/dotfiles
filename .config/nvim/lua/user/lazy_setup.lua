@@ -18,6 +18,9 @@ require("lazy").setup("user.plugins", {
     missing = true, -- install missing plugins on startup
     colorscheme = { require("user.plugins.colorscheme").colorscheme_name }, -- try to load colorscheme when starting an installation during startup
   },
-  checker = { enabled = true },
+  checker = {
+    enabled = true,
+    notify = false,
+  },
   change_detection = { enabled = false },
 })
