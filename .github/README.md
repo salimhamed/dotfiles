@@ -292,7 +292,7 @@ Below is a list of CLI utilities that are installed.
 | `ripgrep`     | A fast line-oriented search tool, like `grep` with steroids.         | [Link](https://github.com/BurntSushi/ripgrep)       |
 | `tealdeer`    | More readable `man` pages (e.g., `tldr grep`)                        | [Link](https://github.com/dbrgn/tealdeer)           |
 | `tree`        | A recursive directory listing command with tree-like output.         | [Link](http://mama.indstate.edu/users/ice/tree)     |
-| `exa`         | Modern replacement for `ls`.                                         | [Link](https://github.com/ogham/exa)                |
+| `eza`         | Modern replacement for `ls`.                                         | [Link](https://github.com/eza-community/eza)        |
 | `zoxide`      | A smarter `cd` command.                                              | [Link](https://github.com/ajeetdsouza/zoxide)       |
 
 ### 🔧 Terminal Keymaps
