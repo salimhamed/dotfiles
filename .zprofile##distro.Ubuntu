@@ -12,3 +12,6 @@ export PATH="/snap/bin:$PATH"
 # add go script to path
 GO_BIN_PATH=$(go env GOPATH)
 export PATH=$PATH:${GO_BIN_PATH}/bin
+
+# Created by `pipx` on 2025-02-24 06:13:32
+export PATH="$PATH:$HOME/.local/bin"
