@@ -15,8 +15,8 @@ alias mkdir='mkdir -pv'
 alias less='less -FSRXc'
 
 # use modern alternatives
-alias ls='exa'
-alias ll='exa -la --header --git --icons --changed --time-style=iso'
+alias ls='eza'
+alias ll='eza -la --header --git --icons --changed --time-style=iso'
 alias cat='bat'
 alias cd='z'
 

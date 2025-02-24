@@ -1,10 +1,5 @@
 local M = {
   "nvim-telescope/telescope.nvim",
-  -- tag = "0.1.1",
-  -- TODO: install from master to avoid deprecation message
-  -- 0.1.2 should be available soon.
-  -- https://github.com/nvim-telescope/telescope.nvim/issues/2472#issuecomment-1515253884
-  branch = "master",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "folke/trouble.nvim",
