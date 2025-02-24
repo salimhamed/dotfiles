@@ -9,7 +9,7 @@ export NVM_DIR="$HOME/.nvm"
 NODE_VERSION=$(nvm version)
 export PATH="$NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH"
 
-# initalize starship
+# initialize starship
 eval "$(starship init zsh)"
 
 # install plugins with zsh_unplugged
@@ -42,8 +42,13 @@ if [[ ! "$PATH" == *$HOME/.cargo/bin* ]]; then
 fi
 
 # add nvim to path
-if [[ ! "$PATH" == *$HOME/opt/nvim-linux64/bin* ]]; then
-    export PATH="$PATH:/opt/nvim-linux64/bin"
+if [[ ! "$PATH" == */opt/nvim-linux64/bin* ]]; then
+    export PATH="/opt/nvim-linux64/bin:$PATH"
+fi
+
+# add local bin to path
+if [[ ! "$PATH" == *$HOME/.local/bin* ]]; then
+    export PATH="$PATH:$HOME/.local/bin"
 fi
 
 # alias for other nvim distributions
