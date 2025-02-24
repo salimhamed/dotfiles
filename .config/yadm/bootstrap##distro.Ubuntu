@@ -133,8 +133,8 @@ fi
 # install lazygit
 install_lazygit() {
     local temp_dir=$(mktemp -d)
-    local lazygit_version="0.44.1"
-    local lg_url="https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${lazygit_version}_Linux_x86_64.tar.gz"
+    local lazygit_version=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
+    local lg_url="https://github.com/jesseduffield/lazygit/releases/download/v${lazygit_version}/lazygit_${lazygit_version}_Linux_x86_64.tar.gz"
     local temp_file_archive="${temp_dir}/lazygit.tar.gz"
 
     curl -Lo "${temp_file_archive}" "${lg_url}"
@@ -143,7 +143,7 @@ install_lazygit() {
 
     echo "lazygit has been installed successfully."
 }
-# install_lazygit
+install_lazygit
 
 # install delta
 install_delta() {
@@ -158,7 +158,7 @@ install_delta() {
 
     echo "delta has been installed successfully."
 }
-# install_delta
+install_delta
 
 # install nvim
 install_nvim() {
