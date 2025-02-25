@@ -3,11 +3,17 @@ bzip2
 ca-certificates
 ccache
 cmake
+containerd.io
 curl
 direnv
+docker-buildx-plugin
+docker-ce
+docker-ce-cli
+docker-compose-plugin
 gcc
 gettext
 git
+gnupg
 golang
 libbz2-dev
 libffi-dev
