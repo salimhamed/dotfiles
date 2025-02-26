@@ -115,19 +115,6 @@ luarocks completion zsh >"${zsh_custom_dir}/completions/_luarocks"
 echo "Installing/updating poetry completion..."
 poetry completions zsh >"${zsh_custom_dir}/completions/_poetry"
 
-# install python applications that cannot be installed with pipx in a venv
-virtual_env_directory="${HOME}/.local/share/virtualenvs"
-venv_python_executable="${virtual_env_directory}/cli/bin/python"
-
-mkdir -p "${virtual_env_directory}"
-if ! command -v "${venv_python_executable}" >/dev/null 2>&1; then
-    echo "Creating python venv for cli tools at ${virtual_env_directory}/cli..."
-    virtualenv "${virtual_env_directory}/cli"
-fi
-
-echo "Installing python cli tools into ${virtual_env_directory}/cli venv..."
-"${virtual_env_directory}/cli/bin/python" -m pip install debugpy
-
 # install global version of node
 echo "Installing/updating global version of node..."
 NODE_VERSION="v18.15.0"
