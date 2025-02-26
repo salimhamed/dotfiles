@@ -5,6 +5,9 @@
 [user]
     name = Salim Hamed
     email = salimhamed@gmail.com
+    signingkey = D0329E5353A8B62B
+[commit]
+    gpgsign = true
 [core]
     editor = nvim
     pager = delta
