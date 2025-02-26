@@ -3,11 +3,22 @@
 # prompt for system password
 sudo -v
 
-# Add the repository to Apt sources:
+# Add the docker repository to apt sources
 echo \
-    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" |
-    sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+  sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+
+# Add github cli repository to apt sources
+add_gh_cli_to_apt_sources() {
+  local out
+  out=$(mktemp)
+  wget -nv -O"$out" https://cli.github.com/packages/githubcli-archive-keyring.gpg
+  cat $out | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg >/dev/null
+  sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
+}
+add_gh_cli_to_apt_sources
 
 # update apt
 sudo apt-get update
@@ -18,8 +29,8 @@ sudo apt update -y
 
 # install packages from a list
 if [ -f "$HOME/.ubuntu-packages" ]; then
-    echo "Installing packages from .ubuntu-packages..."
-    xargs sudo apt install -y <"$HOME/.ubuntu-packages"
+  echo "Installing packages from .ubuntu-packages..."
+  xargs sudo apt install -y <"$HOME/.ubuntu-packages"
 fi
 
 # upgrade all installed packages
@@ -37,40 +48,40 @@ sudo chmod a+r /etc/apt/keyrings/docker.asc
 
 # Change the default shell to Zsh
 if [ "$SHELL" != "$(which zsh)" ]; then
-    echo "Changing default shell to Zsh..."
-    chsh -s "$(which zsh)"
-    echo "Default shell changed to Zsh. Log out and log back in for the changes to take effect."
+  echo "Changing default shell to Zsh..."
+  chsh -s "$(which zsh)"
+  echo "Default shell changed to Zsh. Log out and log back in for the changes to take effect."
 else
-    echo "Zsh is already the default shell. Skipping..."
+  echo "Zsh is already the default shell. Skipping..."
 fi
 
 # Install fzf
 if [ ! -d "$HOME/.fzf" ]; then
-    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-    ~/.fzf/install --bin
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  ~/.fzf/install --bin
 else
-    echo "fzf is already installed. Skipping..."
+  echo "fzf is already installed. Skipping..."
 fi
 
 # install nvm
 if [ ! -d "$HOME/.nvm" ]; then
-    echo "Installing nvm..."
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+  echo "Installing nvm..."
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 else
-    echo "nvm is already installed. Skipping..."
+  echo "nvm is already installed. Skipping..."
 fi
 source "$HOME/.nvm/nvm.sh"
 
 # install global version of node
 install_node() {
-    local node_version="v20.18.0"
+  local node_version="v20.18.0"
 
-    echo "Installing/updating global version of node..."
+  echo "Installing/updating global version of node..."
 
-    nvm install "${node_version}"
-    nvm alias default "${node_version}"
+  nvm install "${node_version}"
+  nvm alias default "${node_version}"
 
-    echo "Node ${node_version} has been installed and set as default"
+  echo "Node ${node_version} has been installed and set as default"
 }
 install_node
 
@@ -94,9 +105,9 @@ go install mvdan.cc/sh/v3/cmd/shfmt@latest
 
 # install pyenv
 if [ ! -d "${HOME}/.pyenv" ]; then
-    curl https://pyenv.run | bash
+  curl https://pyenv.run | bash
 else
-    echo "pyenv is already installed. Skipping..."
+  echo "pyenv is already installed. Skipping..."
 fi
 
 # install global version of python
@@ -108,91 +119,95 @@ pyenv exec pip install --upgrade pip
 
 # install python applications
 install_or_update_app_with_pipx() {
-    local pyenv_python
-    pyenv_python="$(pyenv which python)"
+  local pyenv_python
+  pyenv_python="$(pyenv which python)"
 
-    for package in "$@"; do
-        echo "Installing ${package} with pipx"
-        pipx install --python "${pyenv_python}" "${package}"
-    done
+  for package in "$@"; do
+    echo "Installing ${package} with pipx"
+    pipx install --python "${pyenv_python}" "${package}"
+  done
 }
 
 # first, uninstall all applications managed by pipx
 pipx uninstall-all
 
 install_or_update_app_with_pipx "black" \
-    "codespell" \
-    "flake8" \
-    "isort" \
-    "mypy" \
-    "pycodestyle" \
-    "pylint" \
-    "virtualenv" \
-    "parquet-tools" \
-    "pipenv" \
-    "hatch" \
-    "argcomplete" \
-    "tox" \
-    "poetry"
+  "codespell" \
+  "flake8" \
+  "isort" \
+  "mypy" \
+  "pycodestyle" \
+  "pylint" \
+  "virtualenv" \
+  "parquet-tools" \
+  "pipenv" \
+  "hatch" \
+  "argcomplete" \
+  "tox" \
+  "poetry"
 
 # install tmux plugin manager
 if [ ! -d "${HOME}/.tmux/plugins/tpm" ]; then
-    echo "Installing tmux plugin manager..."
-    mkdir -p "${HOME}/.tmux/plugins"
-    git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
+  echo "Installing tmux plugin manager..."
+  mkdir -p "${HOME}/.tmux/plugins"
+  git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
 else
-    echo "tmux plugin manager is already installed. Skipping..."
+  echo "tmux plugin manager is already installed. Skipping..."
 fi
 
 # install lazygit
 install_lazygit() {
-    local temp_dir=$(mktemp -d)
-    local lazygit_version=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
-    local lg_url="https://github.com/jesseduffield/lazygit/releases/download/v${lazygit_version}/lazygit_${lazygit_version}_Linux_x86_64.tar.gz"
-    local temp_file_archive="${temp_dir}/lazygit.tar.gz"
+  local temp_dir
+  local lazygit_version
+  temp_dir=$(mktemp -d)
+  lazygit_version=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
+  local lg_url="https://github.com/jesseduffield/lazygit/releases/download/v${lazygit_version}/lazygit_${lazygit_version}_Linux_x86_64.tar.gz"
+  local temp_file_archive="${temp_dir}/lazygit.tar.gz"
 
-    curl -Lo "${temp_file_archive}" "${lg_url}"
-    tar xzf "${temp_file_archive}" -C "${temp_dir}" lazygit
-    sudo install "${temp_dir}/lazygit" /usr/local/bin
+  curl -Lo "${temp_file_archive}" "${lg_url}"
+  tar xzf "${temp_file_archive}" -C "${temp_dir}" lazygit
+  sudo install "${temp_dir}/lazygit" /usr/local/bin
 
-    echo "lazygit has been installed successfully."
+  echo "lazygit has been installed successfully."
 }
 install_lazygit
 
 # install delta
 install_delta() {
-    local temp_dir=$(mktemp -d)
-    local delta_version="0.18.2"
-    local url="https://github.com/dandavison/delta/releases/download/${delta_version}/git-delta_${delta_version}_amd64.deb"
-    local temp_file="${temp_dir}/git-delta_${delta_version}_amd64.deb"
+  local temp_dir
+  temp_dir=$(mktemp -d)
+  local delta_version="0.18.2"
+  local url="https://github.com/dandavison/delta/releases/download/${delta_version}/git-delta_${delta_version}_amd64.deb"
+  local temp_file="${temp_dir}/git-delta_${delta_version}_amd64.deb"
 
-    curl -Lo "$temp_file" "$url"
-    sudo dpkg -i "$temp_file"
-    rm -rf "$temp_dir"
+  curl -Lo "$temp_file" "$url"
+  sudo dpkg -i "$temp_file"
+  rm -rf "$temp_dir"
 
-    echo "delta has been installed successfully."
+  echo "delta has been installed successfully."
 }
 install_delta
 
 # install nvim
 install_nvim() {
-    local temp_dir=$(mktemp -d)
-    local nvim_version="0.10.3"
-    local nvim_url="https://github.com/neovim/neovim/releases/download/v${nvim_version}/nvim-linux64.tar.gz"
-    local temp_file="${temp_dir}/nvim-linux64.tar.gz"
+  local temp_dir
+  temp_dir=$(mktemp -d)
+  local nvim_version="0.10.3"
+  local nvim_url="https://github.com/neovim/neovim/releases/download/v${nvim_version}/nvim-linux64.tar.gz"
+  local temp_file="${temp_dir}/nvim-linux64.tar.gz"
 
-    curl -Lo "${temp_file}" "${nvim_url}"
-    sudo rm -rf /opt/nvim
-    sudo tar -C /opt -xzf "${temp_file}"
+  curl -Lo "${temp_file}" "${nvim_url}"
+  sudo rm -rf /opt/nvim
+  sudo tar -C /opt -xzf "${temp_file}"
 
-    echo "nvim has been installed successfully."
+  echo "nvim has been installed successfully."
 }
 install_nvim
 
 # install lunarvim
 if [ ! -d "${HOME}/.local/share/lunarvim/lvim" ]; then
-    bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh) --no-install-dependencies
-    echo "lunarvim has been installed"
+  bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh) --no-install-dependencies
+  echo "lunarvim has been installed"
 else
-    echo "lunarvim is already installed. Skipping..."
+  echo "lunarvim is already installed. Skipping..."
 fi
