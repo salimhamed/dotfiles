@@ -203,11 +203,3 @@ install_nvim() {
     echo "nvim has been installed successfully."
 }
 install_nvim
-
-# install lunarvim
-if [ ! -d "${HOME}/.local/share/lunarvim/lvim" ]; then
-    bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh) --no-install-dependencies
-    echo "lunarvim has been installed"
-else
-    echo "lunarvim is already installed. Skipping..."
-fi
