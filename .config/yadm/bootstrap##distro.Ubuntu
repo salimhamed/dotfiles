@@ -9,6 +9,17 @@ echo \
   $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" |
   sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 
+# Add github cli repository to apt sources
+add_gh_cli_to_apt_sources() {
+  local out
+  out=$(mktemp)
+  wget -nv -O"$out" https://cli.github.com/packages/githubcli-archive-keyring.gpg
+  cat $out | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg >/dev/null
+  sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
+}
+add_gh_cli_to_apt_sources
+
 # update apt
 sudo apt-get update
 
@@ -146,8 +157,10 @@ fi
 
 # install lazygit
 install_lazygit() {
-  local temp_dir=$(mktemp -d)
-  local lazygit_version=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
+  local temp_dir
+  local lazygit_version
+  temp_dir=$(mktemp -d)
+  lazygit_version=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
   local lg_url="https://github.com/jesseduffield/lazygit/releases/download/v${lazygit_version}/lazygit_${lazygit_version}_Linux_x86_64.tar.gz"
   local temp_file_archive="${temp_dir}/lazygit.tar.gz"
 
@@ -161,7 +174,8 @@ install_lazygit
 
 # install delta
 install_delta() {
-  local temp_dir=$(mktemp -d)
+  local temp_dir
+  temp_dir=$(mktemp -d)
   local delta_version="0.18.2"
   local url="https://github.com/dandavison/delta/releases/download/${delta_version}/git-delta_${delta_version}_amd64.deb"
   local temp_file="${temp_dir}/git-delta_${delta_version}_amd64.deb"
@@ -176,7 +190,8 @@ install_delta
 
 # install nvim
 install_nvim() {
-  local temp_dir=$(mktemp -d)
+  local temp_dir
+  temp_dir=$(mktemp -d)
   local nvim_version="0.10.3"
   local nvim_url="https://github.com/neovim/neovim/releases/download/v${nvim_version}/nvim-linux64.tar.gz"
   local temp_file="${temp_dir}/nvim-linux64.tar.gz"
