@@ -12,6 +12,7 @@ docker-ce-cli
 docker-compose-plugin
 gcc
 gettext
+gh
 git
 gnupg
 golang
