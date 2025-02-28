@@ -52,7 +52,7 @@ if [[ ! "$PATH" == *$HOME/.local/bin* ]]; then
 fi
 
 # alias for other nvim distributions
-alias nvim-lazy="NVIM_APPNAME=lazyvim nvim"
+alias lvim="NVIM_APPNAME=lazyvim nvim"
 alias nvim-kickstart="NVIM_APPNAME=kickstart nvim"
 alias nvim-chad="NVIM_APPNAME=nvchad nvim"
 
