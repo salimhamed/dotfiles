@@ -1,3 +1,4 @@
+apt-transport-https
 build-essential
 bzip2
 ca-certificates
@@ -16,6 +17,7 @@ gh
 git
 gnupg
 golang
+jq
 libbz2-dev
 libffi-dev
 libglib2.0-0
@@ -31,6 +33,7 @@ libxml2-dev
 libxmlsec1-dev
 libxrender1
 luarocks
+net-tools
 ninja-build
 pipx
 python3-dev
@@ -41,6 +44,7 @@ tk-dev
 tmux
 unzip
 wget
+wireguard
 xclip
 xz-utils
 zlib1g-dev

@@ -41,6 +41,36 @@ sudo apt upgrade -y
 echo "Removing unnecessary packages..."
 sudo apt autoremove -y
 
+# isntall nordvpn
+install_nordvpn() {
+    local base_url="https://repo.nordvpn.com"
+    local pub_key="${base_url}/gpg/nordvpn_public.asc"
+    local repo_url_deb="${base_url}/deb/nordvpn/debian"
+    local release="stable main"
+
+    echo "Installing NordVPN..."
+
+    # Add the repository key with either wget or curl
+    curl -s "${pub_key}" | sudo tee /etc/apt/trusted.gpg.d/nordvpn_public.asc >/dev/null
+
+    # Add the NordVPN repository
+    echo "deb ${repo_url_deb} ${release}" | sudo tee /etc/apt/sources.list.d/nordvpn.list
+
+    # Update package list and install NordVPN
+    sudo apt-get -y update
+    sudo apt-get -y install nordvpn
+
+    # Check if installation was successful
+    if command -v nordvpn >/dev/null 2>&1; then
+        echo "NordVPN has been successfully installed!"
+        return 0
+    else
+        echo "Something went wrong during the installation."
+        return 1
+    fi
+}
+install_nordvpn
+
 # Add Docker's official GPG key
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc

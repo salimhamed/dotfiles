@@ -62,3 +62,10 @@ alias lazyyadm='lazygit --use-config-file "${HOME}/.config/yadm/lazygit.yml,${HO
 # lazygit aliases
 alias ly='lazyyadm'
 alias lg='lazygit'
+
+# nordvpn info
+nordinfo() {
+  curl -s "https://api.nordvpn.com/v1/servers/recommendations?&filters\[servers_technologies\]\[identifier\]=wireguard_udp&limit=1" | \
+  jq -r '.[]|.hostname, .station, (.locations|.[]|.country|.city.name), (.locations|.[]|.country|.name), (.technologies|.[].metadata|.[].value), .load'
+}
+
