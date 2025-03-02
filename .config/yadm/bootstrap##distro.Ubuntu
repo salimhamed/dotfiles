@@ -122,7 +122,7 @@ npm install -g @taplo/cli prettier yarn neovim tree-sitter-cli
 curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 # install rust tools
-cargo install fd-find ripgrep
+cargo install fd-find ripgrep eza
 
 # install lua tools
 sudo luarocks install luacheck
