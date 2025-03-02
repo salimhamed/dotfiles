@@ -34,6 +34,7 @@ libxmlsec1-dev
 libxrender1
 luarocks
 net-tools
+nfs-common
 ninja-build
 pipx
 python3-dev

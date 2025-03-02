@@ -69,3 +69,7 @@ nordinfo() {
   jq -r '.[]|.hostname, .station, (.locations|.[]|.country|.city.name), (.locations|.[]|.country|.name), (.technologies|.[].metadata|.[].value), .load'
 }
 
+# use modern alternatives
+alias ls='eza'
+alias ll='eza -la --header --git --icons --changed --time-style=iso'
+
