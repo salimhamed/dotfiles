@@ -1,11 +1,11 @@
 # install tabs
+tap "fsouza/prettierd"
 tap "homebrew/bundle"
 tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
+tap "hudochenkov/sshpass"
 tap "jesseduffield/lazygit"
 tap "teamookla/speedtest"
-tap "fsouza/prettierd"
-tap "hudochenkov/sshpass"
 
 # install packages
 brew "aichat"
@@ -38,6 +38,7 @@ brew "luarocks"
 brew "macos-trash"
 brew "markdownlint-cli"
 brew "moreutils"
+brew "mutagen-io/mutagen/mutagen"
 brew "neovim"
 brew "nmap"
 brew "node"
