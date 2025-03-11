@@ -233,3 +233,35 @@ install_nvim() {
     echo "nvim has been installed successfully."
 }
 install_nvim
+
+# install or update aws cli
+install_aws_cli() {
+    local tmp_aws_dir
+    tmp_aws_dir=$(mktemp -d)
+
+    echo "Downloading AWS CLI..."
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "${tmp_aws_dir}/awscliv2.zip"
+
+    echo "Extracting AWS CLI installer..."
+    unzip -q "${tmp_aws_dir}/awscliv2.zip" -d "${tmp_aws_dir}"
+
+    # Set default install and bin directories
+    local install_dir="/usr/local/aws-cli"
+    local bin_dir="/usr/local/bin"
+
+    # Check if AWS CLI is already installed
+    if [ -e "${install_dir}" ]; then
+        echo "Updating existing AWS CLI installation..."
+        sudo "${tmp_aws_dir}/aws/install" --bin-dir "${bin_dir}" --install-dir "${install_dir}" --update
+    else
+        echo "Performing fresh installation of AWS CLI..."
+        sudo "${tmp_aws_dir}/aws/install" --bin-dir "${bin_dir}" --install-dir "${install_dir}"
+    fi
+
+    # Clean up
+    echo "Cleaning up temporary files..."
+    rm -rf "${tmp_aws_dir}"
+
+    echo "AWS CLI installation/update completed successfully."
+}
+install_aws_cli

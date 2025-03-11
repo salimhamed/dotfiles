@@ -18,6 +18,7 @@ git
 gnupg
 golang
 jq
+keychain
 libbz2-dev
 libffi-dev
 libglib2.0-0
