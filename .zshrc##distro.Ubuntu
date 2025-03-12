@@ -73,3 +73,7 @@ nordinfo() {
 alias ls='eza'
 alias ll='eza -la --header --git --icons --changed --time-style=iso'
 
+# TODO: move this to a file that is ignored from version control and ran here
+if [ -f /usr/bin/keychain ]; then
+  eval $(keychain --eval --quiet ~/.ssh/id_ed25519)
+fi
