@@ -51,6 +51,14 @@ if [[ ! "$PATH" == *$HOME/.local/bin* ]]; then
     export PATH="$PATH:$HOME/.local/bin"
 fi
 
+# source secrets
+# shellcheck source=/dev/null
+[ -f ~/.secrets.sh ] && . ~/.secrets.sh
+
+# source work helpers
+# shellcheck source=/dev/null
+[ -f ~/.setup.zsh ] && . ~/.setup.zsh
+
 # alias for other nvim distributions
 alias lvim="NVIM_APPNAME=lazyvim nvim"
 alias nvim-kickstart="NVIM_APPNAME=kickstart nvim"
@@ -73,7 +81,3 @@ nordinfo() {
 alias ls='eza'
 alias ll='eza -la --header --git --icons --changed --time-style=iso'
 
-# TODO: move this to a file that is ignored from version control and ran here
-if [ -f /usr/bin/keychain ]; then
-  eval $(keychain --eval --quiet ~/.ssh/id_ed25519)
-fi
