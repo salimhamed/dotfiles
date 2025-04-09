@@ -126,7 +126,10 @@ nvm install "${NODE_VERSION}"
 nvm alias default "${NODE_VERSION}"
 
 # install node applications
-npm install -g @taplo/cli prettier yarn neovim tree-sitter-cli aws-cdk@latest
+npm install -g @taplo/cli prettier yarn neovim tree-sitter-cli aws-cdk@latest @anthropic-ai/claude-code
+
+# install go packages
+go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 
 # install tmux plugin manager
 if [ ! -d "${HOME}/.tmux/plugins/tpm" ]; then
