@@ -117,7 +117,7 @@ poetry completions zsh >"${zsh_custom_dir}/completions/_poetry"
 
 # install global version of node
 echo "Installing/updating global version of node..."
-NODE_VERSION="v18.15.0"
+NODE_VERSION="v22.14.0"
 
 export NVM_DIR="$HOME/.nvm"
 # shellcheck source=/dev/null
