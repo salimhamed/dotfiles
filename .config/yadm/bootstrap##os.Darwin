@@ -117,7 +117,7 @@ poetry completions zsh >"${zsh_custom_dir}/completions/_poetry"
 
 # install global version of node
 echo "Installing/updating global version of node..."
-NODE_VERSION="v18.15.0"
+NODE_VERSION="v22.14.0"
 
 export NVM_DIR="$HOME/.nvm"
 # shellcheck source=/dev/null
@@ -127,6 +127,9 @@ nvm alias default "${NODE_VERSION}"
 
 # install node applications
 npm install -g @taplo/cli prettier yarn neovim tree-sitter-cli aws-cdk@latest
+
+# install go packages
+go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 
 # install tmux plugin manager
 if [ ! -d "${HOME}/.tmux/plugins/tpm" ]; then

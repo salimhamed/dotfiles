@@ -75,3 +75,6 @@ vim.opt.cursorline = false
 
 -- do not automattically add newlines to the end of files
 vim.opt.fixendofline = false
+
+-- enable
+vim.lsp.enable("bashls")

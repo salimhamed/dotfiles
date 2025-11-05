@@ -160,7 +160,7 @@ _poetry_088755da4e00f06a_complete()
             ;;
 
             ('self show')
-            opts+=("--addons:List only add-on packages installed." "--latest:Show the latest version." "--outdated:Show the latest version but only for packages that are outdated." "--tree:List the dependencies as a tree.")
+            opts+=("--addons:List only add-on packages installed." "--format:Specify the output format \(\`json\` or \`text\`\). Default is \`text\`. \`json\` cannot be combined with the --tree option." "--latest:Show the latest version." "--outdated:Show the latest version but only for packages that are outdated." "--tree:List the dependencies as a tree.")
             ;;
 
             ('self show plugins')
@@ -176,7 +176,7 @@ _poetry_088755da4e00f06a_complete()
             ;;
 
             (show)
-            opts+=("--all:Show all packages \(even those not compatible with current system\)." "--latest:Show the latest version." "--no-truncate:Do not truncate the output based on the terminal width." "--only:The only dependency groups to include." "--outdated:Show the latest version but only for packages that are outdated." "--top-level:Show only top-level dependencies." "--tree:List the dependencies as a tree." "--why:When showing the full list, or a --tree for a single package, display whether they are a direct dependency or required by other packages" "--with:The optional dependency groups to include." "--without:The dependency groups to ignore.")
+            opts+=("--all:Show all packages \(even those not compatible with current system\)." "--format:Specify the output format \(\`json\` or \`text\`\). Default is \`text\`. \`json\` cannot be combined with the --tree option." "--latest:Show the latest version." "--no-truncate:Do not truncate the output based on the terminal width." "--only:The only dependency groups to include." "--outdated:Show the latest version but only for packages that are outdated." "--top-level:Show only top-level dependencies." "--tree:List the dependencies as a tree." "--why:When showing the full list, or a --tree for a single package, display whether they are a direct dependency or required by other packages" "--with:The optional dependency groups to include." "--without:The dependency groups to ignore.")
             ;;
 
             ('source add')

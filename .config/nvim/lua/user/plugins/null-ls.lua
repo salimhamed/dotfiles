@@ -1,5 +1,5 @@
 local M = {
-  "jose-elias-alvarez/null-ls.nvim",
+  "nvimtools/none-ls.nvim",
   dependencies = {
     { "nvim-lua/plenary.nvim" },
     { "lukas-reineke/lsp-format.nvim" },
@@ -29,19 +29,12 @@ function M.config(_, _)
     sources = {
       -- lua
       null_ls.builtins.formatting.stylua,
-      null_ls.builtins.diagnostics.luacheck.with({
-        extra_args = { "--globals=vim" },
-      }),
 
       -- javascript / typescript
       null_ls.builtins.formatting.prettierd,
-      -- see https://github.com/jose-elias-alvarez/typescript.nvim#setup-1
-      -- require("typescript.extensions.null-ls.code-actions"),
 
       -- python
-      null_ls.builtins.diagnostics.flake8,
       null_ls.builtins.diagnostics.mypy,
-      null_ls.builtins.diagnostics.pycodestyle,
       null_ls.builtins.diagnostics.pylint,
       null_ls.builtins.formatting.isort,
       null_ls.builtins.formatting.black,
@@ -50,8 +43,6 @@ function M.config(_, _)
       null_ls.builtins.code_actions.gitsigns,
 
       -- shell
-      null_ls.builtins.code_actions.shellcheck,
-      null_ls.builtins.diagnostics.shellcheck,
       null_ls.builtins.formatting.shfmt.with({
         extra_args = { "--indent", "4", "--case-indent" },
         filetypes = { "sh", "zsh" },
@@ -67,9 +58,6 @@ function M.config(_, _)
       null_ls.builtins.formatting.codespell.with({
         extra_args = codespell_ignore_file_extra_args(),
       }),
-
-      -- toml
-      null_ls.builtins.formatting.taplo,
     },
     on_attach = function(client, _)
       format_on_attach(client)
