@@ -3,8 +3,8 @@
 # --- Internal helpers ---
 
 _wt_root() {
-    local d=$(git rev-parse --git-common-dir 2>/dev/null) || return 1
-    [[ "$d" == ".git" ]] && git rev-parse --show-toplevel || dirname "$d"
+    local wt_git_dir=$(git rev-parse --git-common-dir 2>/dev/null) || return 1
+    [[ "$wt_git_dir" == ".git" ]] && git rev-parse --show-toplevel || dirname "$wt_git_dir"
 }
 
 _wt_default_branch() {
@@ -18,54 +18,54 @@ _wt_list_names() {
 }
 
 _wt_path() {
-    local name="$1" root
-    root=$(_wt_root) || return 1
-    echo "$(dirname "$root")/$name"
+    local wt_name="$1" wt_root
+    wt_root=$(_wt_root) || return 1
+    echo "$(dirname "$wt_root")/$wt_name"
 }
 
 _wt_goto() {
-    local name="$1" path
-    path=$(_wt_path "$name") || return 1
+    local wt_name="$1" wt_path
+    wt_path=$(_wt_path "$wt_name") || return 1
 
-    [[ -d "$path" ]] || { echo "Not found: $path"; return 1; }
+    [[ -d "$wt_path" ]] || { echo "Not found: $wt_path"; return 1; }
 
     if [[ -n "$TMUX" ]]; then
-        if tmux list-windows -F '#{window_name}' | grep -qx "$name"; then
-            tmux select-window -t "$name"
+        if tmux list-windows -F '#{window_name}' | grep -qx "$wt_name"; then
+            tmux select-window -t "$wt_name"
         else
-            tmux new-window -n "$name" -c "$path"
+            tmux new-window -n "$wt_name" -c "$wt_path"
         fi
     else
-        cd "$path"
+        cd "$wt_path"
     fi
 }
 
 # --- Navigation ---
 
 wt() {
-    local root names match
-    root=$(_wt_root) || { echo "Not in a git repo"; return 1; }
-    names=$(_wt_list_names)
+    local wt_root wt_names wt_match
+    wt_root=$(_wt_root) || { echo "Not in a git repo"; return 1; }
+    wt_names=$(_wt_list_names)
 
-    [[ -z "$names" ]] && { echo "No worktrees found"; return 1; }
+    [[ -z "$wt_names" ]] && { echo "No worktrees found"; return 1; }
 
     if [[ -z "$1" ]]; then
-        match=$(echo "$names" | fzf --height=40% --reverse) || return 1
+        wt_match=$(echo "$wt_names" | fzf --height=40% --reverse) || return 1
     else
-        local filtered
-        filtered=$(echo "$names" | grep -i "$1")
+        local wt_filtered
+        wt_filtered=$(echo "$wt_names" | grep -i "$1")
 
-        if [[ -z "$filtered" ]]; then
+        if [[ -z "$wt_filtered" ]]; then
             echo "No worktree matching: $1"
             return 1
-        elif [[ $(echo "$filtered" | wc -l) -eq 1 ]]; then
-            match="$filtered"
+        elif [[ $(echo "$wt_filtered" | wc -l) -eq 1 ]]; then
+            wt_match="$wt_filtered"
         else
-            match=$(echo "$filtered" | fzf --height=40% --reverse --query="$1") || return 1
+            wt_match=$(echo "$wt_filtered" | fzf --height=40% --reverse --query="$1") || return 1
         fi
     fi
 
-    _wt_goto "$match"
+    _wt_goto "$wt_match"
 }
 
 wt-new() {
@@ -135,11 +135,11 @@ wt-here() {
     if [[ -n "$wt_upstream" ]]; then
         wt_ahead=$(git rev-list --count '@{upstream}..HEAD' 2>/dev/null)
         wt_behind=$(git rev-list --count 'HEAD..@{upstream}' 2>/dev/null)
-        local tracking=""
-        [[ "$wt_ahead" -gt 0 ]] && tracking="+$wt_ahead ahead"
-        [[ "$wt_behind" -gt 0 ]] && tracking="${tracking:+$tracking, }$wt_behind behind"
-        [[ -n "$tracking" ]] && echo "  Branch: $wt_branch ($tracking)"
-        [[ -z "$tracking" ]] && echo "  Branch: $wt_branch (up to date)"
+        local wt_tracking=""
+        [[ "$wt_ahead" -gt 0 ]] && wt_tracking="+$wt_ahead ahead"
+        [[ "$wt_behind" -gt 0 ]] && wt_tracking="${wt_tracking:+$wt_tracking, }$wt_behind behind"
+        [[ -n "$wt_tracking" ]] && echo "  Branch: $wt_branch ($wt_tracking)"
+        [[ -z "$wt_tracking" ]] && echo "  Branch: $wt_branch (up to date)"
     else
         echo "  Branch: $wt_branch (no upstream)"
     fi
@@ -154,80 +154,80 @@ wt-here() {
 
     wt_pr=$(timeout 1 gh pr view --json number,title,isDraft 2>/dev/null)
     if [[ -n "$wt_pr" ]]; then
-        local pr_num pr_title pr_draft pr_marker
-        pr_num=$(echo "$wt_pr" | grep -o '"number":[0-9]*' | cut -d: -f2)
-        pr_title=$(echo "$wt_pr" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)
-        pr_draft=$(echo "$wt_pr" | grep -o '"isDraft":true')
-        [[ -n "$pr_draft" ]] && pr_marker="[draft] "
-        echo "  PR: #$pr_num ${pr_marker}- $pr_title"
+        local wt_pr_num wt_pr_title wt_pr_draft wt_pr_marker
+        wt_pr_num=$(echo "$wt_pr" | grep -o '"number":[0-9]*' | cut -d: -f2)
+        wt_pr_title=$(echo "$wt_pr" | grep -o '"title":"[^"]*"' | cut -d'"' -f4)
+        wt_pr_draft=$(echo "$wt_pr" | grep -o '"isDraft":true')
+        [[ -n "$wt_pr_draft" ]] && wt_pr_marker="[draft] "
+        echo "  PR: #$wt_pr_num ${wt_pr_marker}- $wt_pr_title"
     fi
 }
 
 wt-status() {
-    local wt_root default_branch pr_data
+    local wt_root wt_default_branch wt_pr_data
     wt_root=$(_wt_root) || { echo "Not in a git repo"; return 1; }
-    default_branch=$(_wt_default_branch)
+    wt_default_branch=$(_wt_default_branch)
 
-    pr_data=$(gh pr list --json number,headRefName,isDraft,reviewDecision --state open 2>/dev/null)
+    wt_pr_data=$(gh pr list --json number,headRefName,isDraft,reviewDecision --state open 2>/dev/null)
 
     printf "%-18s %-6s %-22s %s\n" "WORKTREE" "STATUS" "PR" "SYNC"
 
     local wt_path="" wt_branch=""
-    git worktree list --porcelain | while read -r line; do
-        [[ "$line" == worktree* ]] && wt_path="${line#worktree }"
-        [[ "$line" == branch* ]] && wt_branch="${line#branch refs/heads/}"
+    git worktree list --porcelain | while read -r wt_line; do
+        [[ "$wt_line" == worktree* ]] && wt_path="${wt_line#worktree }"
+        [[ "$wt_line" == branch* ]] && wt_branch="${wt_line#branch refs/heads/}"
 
-        if [[ -z "$line" && -n "$wt_path" ]]; then
-            local name status pr_info sync_info
-            name=$(basename "$wt_path")
+        if [[ -z "$wt_line" && -n "$wt_path" ]]; then
+            local wt_name wt_status wt_pr_info wt_sync_info
+            wt_name=$(basename "$wt_path")
 
-            status="clean"
-            [[ -n $(git -C "$wt_path" status --porcelain 2>/dev/null) ]] && status="dirty"
+            wt_status="clean"
+            [[ -n $(git -C "$wt_path" status --porcelain 2>/dev/null) ]] && wt_status="dirty"
 
-            if [[ "$wt_branch" == "$default_branch" ]]; then
-                pr_info="-"
+            if [[ "$wt_branch" == "$wt_default_branch" ]]; then
+                wt_pr_info="-"
             else
-                local pr_num pr_draft pr_review pr_state=""
-                pr_num=$(echo "$pr_data" | jq -r --arg b "$wt_branch" '.[] | select(.headRefName==$b) | .number' 2>/dev/null)
-                if [[ -n "$pr_num" && "$pr_num" != "null" ]]; then
-                    pr_draft=$(echo "$pr_data" | jq -r --arg b "$wt_branch" '.[] | select(.headRefName==$b) | .isDraft')
-                    pr_review=$(echo "$pr_data" | jq -r --arg b "$wt_branch" '.[] | select(.headRefName==$b) | .reviewDecision')
-                    if [[ "$pr_draft" == "true" ]]; then
-                        pr_state="draft"
-                    elif [[ "$pr_review" == "APPROVED" ]]; then
-                        pr_state="approved"
-                    elif [[ "$pr_review" == "CHANGES_REQUESTED" ]]; then
-                        pr_state="changes"
-                    elif [[ -n "$pr_review" && "$pr_review" != "null" && "$pr_review" != "" ]]; then
-                        pr_state="review"
+                local wt_pr_num wt_pr_draft wt_pr_review wt_pr_state=""
+                wt_pr_num=$(echo "$wt_pr_data" | jq -r --arg b "$wt_branch" '.[] | select(.headRefName==$b) | .number' 2>/dev/null)
+                if [[ -n "$wt_pr_num" && "$wt_pr_num" != "null" ]]; then
+                    wt_pr_draft=$(echo "$wt_pr_data" | jq -r --arg b "$wt_branch" '.[] | select(.headRefName==$b) | .isDraft')
+                    wt_pr_review=$(echo "$wt_pr_data" | jq -r --arg b "$wt_branch" '.[] | select(.headRefName==$b) | .reviewDecision')
+                    if [[ "$wt_pr_draft" == "true" ]]; then
+                        wt_pr_state="draft"
+                    elif [[ "$wt_pr_review" == "APPROVED" ]]; then
+                        wt_pr_state="approved"
+                    elif [[ "$wt_pr_review" == "CHANGES_REQUESTED" ]]; then
+                        wt_pr_state="changes"
+                    elif [[ -n "$wt_pr_review" && "$wt_pr_review" != "null" && "$wt_pr_review" != "" ]]; then
+                        wt_pr_state="review"
                     else
-                        pr_state="open"
+                        wt_pr_state="open"
                     fi
-                    pr_info="#${pr_num} ${pr_state}"
+                    wt_pr_info="#${wt_pr_num} ${wt_pr_state}"
                 else
-                    pr_info="(none)"
+                    wt_pr_info="(none)"
                 fi
             fi
 
-            if [[ "$wt_branch" == "$default_branch" ]]; then
-                sync_info="current"
+            if [[ "$wt_branch" == "$wt_default_branch" ]]; then
+                wt_sync_info="current"
             else
-                local counts ahead behind
-                counts=$(git -C "$wt_path" rev-list --left-right --count "${default_branch}...${wt_branch}" 2>/dev/null)
-                if [[ -n "$counts" ]]; then
-                    behind=$(echo "$counts" | cut -f1)
-                    ahead=$(echo "$counts" | cut -f2)
-                    if [[ "$ahead" == "0" && "$behind" == "0" ]]; then
-                        sync_info="current"
+                local wt_counts wt_ahead wt_behind
+                wt_counts=$(git -C "$wt_path" rev-list --left-right --count "${wt_default_branch}...${wt_branch}" 2>/dev/null)
+                if [[ -n "$wt_counts" ]]; then
+                    wt_behind=$(echo "$wt_counts" | cut -f1)
+                    wt_ahead=$(echo "$wt_counts" | cut -f2)
+                    if [[ "$wt_ahead" == "0" && "$wt_behind" == "0" ]]; then
+                        wt_sync_info="current"
                     else
-                        sync_info="+${ahead}/-${behind}"
+                        wt_sync_info="+${wt_ahead}/-${wt_behind}"
                     fi
                 else
-                    sync_info="?"
+                    wt_sync_info="?"
                 fi
             fi
 
-            printf "%-18s %-6s %-22s %s\n" "$name" "$status" "$pr_info" "$sync_info"
+            printf "%-18s %-6s %-22s %s\n" "$wt_name" "$wt_status" "$wt_pr_info" "$wt_sync_info"
             wt_path="" wt_branch=""
         fi
     done
@@ -235,10 +235,10 @@ wt-status() {
 
 wt-list() {
     local wt_path="" wt_branch="" wt_status=""
-    git worktree list --porcelain | while read -r line; do
-        [[ "$line" == worktree* ]] && wt_path="${line#worktree }"
-        [[ "$line" == branch* ]] && wt_branch="${line#branch refs/heads/}"
-        if [[ -z "$line" && -n "$wt_path" ]]; then
+    git worktree list --porcelain | while read -r wt_line; do
+        [[ "$wt_line" == worktree* ]] && wt_path="${wt_line#worktree }"
+        [[ "$wt_line" == branch* ]] && wt_branch="${wt_line#branch refs/heads/}"
+        if [[ -z "$wt_line" && -n "$wt_path" ]]; then
             wt_status="clean"
             [[ -n $(git -C "$wt_path" status --porcelain 2>/dev/null) ]] && wt_status="dirty"
             printf "%-30s %-20s [%s]\n" "$(basename "$wt_path")" "$wt_branch" "$wt_status"
@@ -311,11 +311,11 @@ wt-done() {
 wt-cleanup() {
     git worktree prune
     echo "Pruned stale worktrees."
-    local default=$(_wt_default_branch)
-    local merged=$(git branch --merged "$default" 2>/dev/null | grep -vE "^\*|^[[:space:]]*${default}$")
-    if [[ -n "$merged" ]]; then
+    local wt_default=$(_wt_default_branch)
+    local wt_merged=$(git branch --merged "$wt_default" 2>/dev/null | grep -vE "^\*|^[[:space:]]*${wt_default}$")
+    if [[ -n "$wt_merged" ]]; then
         echo "Merged branches:"
-        echo "$merged"
+        echo "$wt_merged"
     else
         echo "No merged branches."
     fi
