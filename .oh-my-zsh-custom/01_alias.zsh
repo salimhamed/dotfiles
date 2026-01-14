@@ -18,7 +18,10 @@ alias less='less -FSRXc'
 alias ls='eza'
 alias ll='eza -la --header --git --icons --changed --time-style=iso'
 alias cat='bat'
-alias cd='z'
+# only use zoxide for cd in interactive terminals
+if [[ -t 1 ]]; then
+    alias cd='z'
+fi
 
 # Opens current directory in MacOS Finder
 alias f='open -a Finder ./'
