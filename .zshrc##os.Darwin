@@ -124,6 +124,7 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 # Claude Code - Advanced Tool Use
 # Enables tool search for deferred/conditional tool loading
 # See: https://www.anthropic.com/engineering/advanced-tool-use
+# See: https://github.com/anthropics/claude-code/issues/12836#issuecomment-3656762362
 export ENABLE_TOOL_SEARCH=true
 export ENABLE_EXPERIMENTAL_MCP_CLI=false
 
