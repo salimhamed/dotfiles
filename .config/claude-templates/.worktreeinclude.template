@@ -1,0 +1,18 @@
+# Python
+.venv
+.python-version
+
+# Node
+node_modules
+
+# IDE
+.idea
+.vscode
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.test
+
+# Add project-specific files below:
