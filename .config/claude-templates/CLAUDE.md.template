@@ -1,0 +1,63 @@
+# Project: {{PROJECT_NAME}}
+
+## Quick Reference
+
+- **Language:** {{LANGUAGES}}
+- **Package Manager:** {{PACKAGE_MANAGERS}}
+- **Testing:** {{TEST_FRAMEWORKS}}
+- **Linting:** {{LINTERS}}
+
+## Project Structure
+
+```
+{{PROJECT_STRUCTURE}}
+```
+
+## Development Commands
+
+```bash
+{{DEV_COMMANDS}}
+```
+
+## Coding Standards
+
+Follow the global skills for language-specific patterns:
+- Python: `~/.claude/skills/python-patterns/`
+- TypeScript: `~/.claude/skills/typescript-patterns/`
+- AWS: `~/.claude/skills/aws-infrastructure/`
+
+### Project-Specific Standards
+
+{{PROJECT_STANDARDS}}
+
+## Tool Usage Patterns
+
+### Batch Operations
+
+When working with multiple files/resources, write code to process in batches:
+
+```python
+# Batch processing - efficient
+results = await asyncio.gather(*[process(item) for item in items])
+summary = {"total": len(items), "success": sum(1 for r in results if r.ok)}
+
+# One-by-one - inefficient
+# Don't request each item separately
+```
+
+### Context Efficiency
+
+- Use `git diff --stat` before full diffs
+- Summarize large outputs rather than showing everything
+- For data processing, show aggregates not raw data
+
+## Git Workflow
+
+1. Create worktree: `worktree-new feature-name --claude`
+2. Develop in isolated environment
+3. Create PR when ready
+4. After merge: `worktree-cleanup`
+
+## Project-Specific Notes
+
+{{PROJECT_NOTES}}
