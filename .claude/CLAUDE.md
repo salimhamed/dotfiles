@@ -1,4 +1,6 @@
-- When producing Python code, please only add docstrings in situations where the code is particular complex and nuanced. In general, the code should read like a book so docstrings should not be needed.
+## Python
+
+- Only add docstrings for complex/nuanced code. Code should read like a book.
 
 ## Context Efficiency (Advanced Tool Use)
 
