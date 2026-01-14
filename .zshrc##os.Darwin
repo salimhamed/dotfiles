@@ -121,6 +121,12 @@ eval "$(direnv hook zsh)"
 # starship will display the virtualenv name
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
+# Claude Code - Advanced Tool Use
+# Enables tool search for deferred/conditional tool loading
+# See: https://www.anthropic.com/engineering/advanced-tool-use
+export ENABLE_TOOL_SEARCH=true
+export ENABLE_EXPERIMENTAL_MCP_CLI=false
+
 # alias for other nvim distributions
 alias lvim="NVIM_APPNAME=lazyvim nvim"
 alias nvim-kickstart="NVIM_APPNAME=kickstart nvim"
