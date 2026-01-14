@@ -23,6 +23,39 @@ _wt_path() {
     echo "$(dirname "$wt_root")/$wt_name"
 }
 
+_wt_copy_files() {
+    local wt_src_root="$1" wt_dest_path="$2"
+    local wt_config="$wt_src_root/.worktreerc"
+    local wt_exclude=(".DS_Store" "*.pyc" "__pycache__" ".git")
+
+    [[ -f "$wt_config" ]] || return 0
+
+    local wt_rsync_opts=(-a)
+    for wt_pattern in "${wt_exclude[@]}"; do
+        wt_rsync_opts+=(--exclude "$wt_pattern")
+    done
+
+    local wt_entry
+    while IFS= read -r wt_entry || [[ -n "$wt_entry" ]]; do
+        [[ -z "$wt_entry" || "$wt_entry" == \#* ]] && continue
+
+        local wt_src="$wt_src_root/$wt_entry"
+        local wt_dest="$wt_dest_path/$wt_entry"
+
+        if [[ -e "$wt_src" ]]; then
+            mkdir -p "$(dirname "$wt_dest")"
+            if [[ -d "$wt_src" ]]; then
+                rsync "${wt_rsync_opts[@]}" "$wt_src/" "$wt_dest/"
+            else
+                rsync "${wt_rsync_opts[@]}" "$wt_src" "$wt_dest"
+            fi
+            echo "  Copied: $wt_entry"
+        else
+            echo "  Warning: $wt_entry not found, skipping"
+        fi
+    done < "$wt_config"
+}
+
 _wt_goto() {
     local wt_name="$1" wt_path
     wt_path=$(_wt_path "$wt_name") || return 1
@@ -105,6 +138,8 @@ wt-new() {
     else
         git worktree add "$wt_path" -b "$wt_branch" "$wt_base"
     fi || return 1
+
+    _wt_copy_files "$wt_repo" "$wt_path"
 
     if [[ -n "$TMUX" ]]; then
         tmux new-window -n "$wt_branch" -c "$wt_path"
