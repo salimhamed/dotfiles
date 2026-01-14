@@ -6,9 +6,11 @@
 
 ### Variable Naming Conventions
 
-Use a function-specific prefix for all local variables to avoid conflicts with shell builtins, environment variables, and other functions.
+Use a function-specific prefix for all local variables to avoid conflicts with
+shell builtins, environment variables, and other functions.
 
 **Avoid these generic variable names:**
+
 - `path` - conflicts with `$PATH`
 - `name` - common collision
 - `status` - conflicts with `$?` semantics
@@ -19,6 +21,7 @@ Use a function-specific prefix for all local variables to avoid conflicts with s
 **Pattern:** `<prefix>_<descriptive_name>`
 
 Example for worktree functions using `wt_` prefix:
+
 ```zsh
 wt_example() {
     local wt_branch wt_path wt_status
@@ -27,8 +30,6 @@ wt_example() {
     # ...
 }
 ```
-
-Reference: `~/.oh-my-zsh-custom/07_worktree_functions.zsh`
 
 ## Context Efficiency (Advanced Tool Use)
 
