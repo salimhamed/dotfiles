@@ -6,51 +6,67 @@ _wt_root() {
 }
 
 _wt_default_branch() {
-    git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo main
+    command git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | command sed 's@^refs/remotes/origin/@@' || echo main
 }
 
 # Create worktree: wt-new <branch> [base-branch] [--existing]
 wt-new() {
-    local branch="" base="" existing=false
+    local wt_branch="" wt_base="" wt_existing=false
     for arg in "$@"; do
         case "$arg" in
-            --existing) existing=true ;;
-            -*) echo "Unknown option: $arg"; return 1 ;;
-            *) [[ -z "$branch" ]] && branch="$arg" || base="$arg" ;;
+            --existing) wt_existing=true ;;
+            -*)
+                echo "Unknown option: $arg"
+                return 1
+                ;;
+            *) [[ -z "$wt_branch" ]] && wt_branch="$arg" || wt_base="$arg" ;;
         esac
     done
 
-    [[ -z "$branch" ]] && { echo "Usage: wt-new <branch> [base] [--existing]"; return 1; }
-    local repo=$(_wt_root) || { echo "Not in a git repo"; return 1; }
-    local path="$(dirname "$repo")/$branch"
-    [[ -d "$path" ]] && { echo "Exists: $path"; return 1; }
+    [[ -z "$wt_branch" ]] && {
+        echo "Usage: wt-new <branch> [base] [--existing]"
+        return 1
+    }
 
-    [[ -z "$base" ]] && base=$(_wt_default_branch)
+    local wt_repo
+    wt_repo=$(_wt_root) || {
+        echo "Not in a git repo"
+        return 1
+    }
 
-    if $existing; then
-        git worktree add "$path" "$branch"
+    local wt_path="$(dirname "$wt_repo")/$wt_branch"
+    [[ -d "$wt_path" ]] && {
+        echo "Exists: $wt_path"
+        return 1
+    }
+
+    [[ -z "$wt_base" ]] && wt_base=$(_wt_default_branch)
+
+    if $wt_existing; then
+        git worktree add "$wt_path" "$wt_branch"
     else
-        git worktree add "$path" -b "$branch" "$base"
+        git worktree add "$wt_path" -b "$wt_branch" "$wt_base"
     fi || return 1
 
     if [[ -n "$TMUX" ]]; then
-        tmux new-window -n "$branch" -c "$path"
-        echo "Opened tmux window: $branch"
+        tmux new-window -n "$wt_branch" -c "$wt_path"
+        echo "Opened tmux window: $wt_branch"
     else
-        echo "cd $path"
+        echo "cd $wt_path"
     fi
 }
 
 # List worktrees with dirty status
 wt-list() {
+    local wt_path="" wt_branch="" wt_status=""
     git worktree list --porcelain | while read -r line; do
-        [[ "$line" == worktree* ]] && path="${line#worktree }"
-        [[ "$line" == branch* ]] && branch="${line#branch refs/heads/}"
-        if [[ -z "$line" && -n "$path" ]]; then
-            local status="clean"
-            [[ -n $(git -C "$path" status --porcelain 2>/dev/null) ]] && status="dirty"
-            printf "%-30s %-20s [%s]\n" "$(basename "$path")" "$branch" "$status"
-            path="" branch=""
+        [[ "$line" == worktree* ]] && wt_path="${line#worktree }"
+        [[ "$line" == branch* ]] && wt_branch="${line#branch refs/heads/}"
+        if [[ -z "$line" && -n "$wt_path" ]]; then
+            wt_status="clean"
+            [[ -n $(git -C "$wt_path" status --porcelain 2>/dev/null) ]] && wt_status="dirty"
+            printf "%-30s %-20s [%s]\n" "$(basename "$wt_path")" "$wt_branch" "$wt_status"
+            wt_path="" wt_branch=""
         fi
     done
 }
