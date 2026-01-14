@@ -1,0 +1,1 @@
+- When producing Python code, please only add docstrings in situations where the code is particular complex and nuanced. In general, the code should read like a book so docstrings should not be needed.
