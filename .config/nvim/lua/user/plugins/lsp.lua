@@ -3,7 +3,6 @@ local M = {
   dependencies = {
     { "hrsh7th/cmp-nvim-lsp" },
     { "folke/neodev.nvim" },
-    { "jose-elias-alvarez/typescript.nvim" },
     { "rcarriga/nvim-dap-ui" },
   },
 }

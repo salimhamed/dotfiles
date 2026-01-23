@@ -3,7 +3,6 @@ local M = {
   dependencies = {
     { "nvim-lua/plenary.nvim" },
     { "lukas-reineke/lsp-format.nvim" },
-    { "jose-elias-alvarez/typescript.nvim" },
   },
 }
 
