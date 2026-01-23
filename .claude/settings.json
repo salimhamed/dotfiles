@@ -1,8 +1,5 @@
 {
   "model": "opus",
-  "permissions": {
-    "defaultMode": "bypassPermissions"
-  },
   "statusLine": {
     "type": "command",
     "command": "npx -y ccstatusline@latest",

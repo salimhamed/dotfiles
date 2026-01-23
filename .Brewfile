@@ -49,7 +49,7 @@ brew "openjdk"
 brew "openssl@1.1"
 brew "pgbouncer"
 brew "pipx"
-brew "postgresql@16", restart_service: true
+brew "postgresql@16"
 brew "prettierd"
 brew "pv"
 brew "pyenv"
