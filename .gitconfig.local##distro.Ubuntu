@@ -1,7 +1,7 @@
 # vim: set filetype=gitconfig :
 [credential]
     helper = store
-    UseHttpPath = true
+    useHttpPath = true
 [user]
     name = Salim Hamed
     email = salimhamed@gmail.com

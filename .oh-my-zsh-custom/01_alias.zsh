@@ -9,16 +9,20 @@ alias lg='lazygit'
 alias v='nvim'
 
 # defaults for standard commands
-alias cp='cp -iv'
-alias mv='mv -iv'
 alias mkdir='mkdir -pv'
 alias less='less -FSRXc'
 
 # use modern alternatives
 alias ls='eza'
 alias ll='eza -la --header --git --icons --changed --time-style=iso'
-alias cat='bat'
-alias cd='z'
+
+# only use interactive flags and modern alternatives in terminals
+if [[ -t 1 ]]; then
+    alias cp='cp -iv'
+    alias mv='mv -iv'
+    alias cat='bat'
+    alias cd='z'
+fi
 
 # Opens current directory in MacOS Finder
 alias f='open -a Finder ./'

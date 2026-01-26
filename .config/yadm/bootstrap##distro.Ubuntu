@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # prompt for system password
 sudo -v

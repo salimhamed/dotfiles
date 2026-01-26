@@ -302,6 +302,18 @@ Below is a list of CLI utilities that are installed.
 | `z`     | `cd` to a path using `zoxide`              |
 | `C-r`   | Use `fzd` to search through prior commands |
 
+### 🌳 Git Worktree Commands
+
+| Command                               | Description                                          |
+| ------------------------------------- | ---------------------------------------------------- |
+| `wt [partial]`                        | Fuzzy worktree picker (tmux: switch window, else cd) |
+| `wt-new <branch> [base] [--existing]` | Create new worktree from base branch                 |
+| `wt-here`                             | Show current worktree context (branch, status, PR)   |
+| `wt-status`                           | Dashboard of all worktrees with PR state             |
+| `wt-done [branch]`                    | Clean up merged worktree (verifies PR merged)        |
+| `wt-list`                             | List worktrees with dirty status                     |
+| `wt-cleanup`                          | Prune stale worktrees, show merged branches          |
+
 ### 🐍 Pycharm (JetBrains) Keymaps
 
 This repository contains a .ideavimrc file for configuring JetBrains IDEs, such

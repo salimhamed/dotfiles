@@ -1,7 +1,7 @@
 # vim: set filetype=gitconfig :
 [credential]
     helper = osxkeychain
-    UseHttpPath = true
+    useHttpPath = true
 [user]
     name = Salim Hamed
     email = salimhamed@gmail.com
