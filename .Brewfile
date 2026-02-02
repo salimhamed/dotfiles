@@ -88,7 +88,6 @@ brew "zoxide"
 # install casts
 cask "1password-cli"
 cask "alacritty"
-cask "codex"
 cask "font-hack-nerd-font"
 cask "font-jetbrains-mono-nerd-font"
 cask "iterm2"
