@@ -1,13 +1,6 @@
 # manually set language environment
 export LANG=en_US.UTF-8
 
-# create variable for JetBrains Toolbox scripts path
-if [ -d "${HOME}/Library/Application Support/JetBrains/Toolbox/scripts" ]; then
-    JETBRAINS_TOOLBOX_PATH="${HOME}/Library/Application Support/JetBrains/Toolbox/scripts"
-else
-    JETBRAINS_TOOLBOX_PATH=""
-fi
-
 # define custom location for configuration files
 export XDG_CONFIG_HOME="$HOME/.config"
 
@@ -24,7 +17,7 @@ if [ -f /opt/homebrew/bin/brew ]; then
 fi
 
 # append bin directories with executables to path.
-export PATH="${HOME}/go/bin:${HOME}/.local/bin:${HOME}/bin:/usr/local/bin:${JETBRAINS_TOOLBOX_PATH}:${PATH}"
+export PATH="${HOME}/go/bin:${HOME}/.local/bin:${HOME}/bin:/usr/local/bin:${PATH}"
 
 # setup pyenv
 #   this happens after configuring PATH, so utilities from pyenv environments are used before
@@ -135,15 +128,13 @@ alias nvim-chad="NVIM_APPNAME=nvchad nvim"
 
 # nordvpn info
 nordinfo() {
-  curl -s "https://api.nordvpn.com/v1/servers/recommendations?&filters\[servers_technologies\]\[identifier\]=wireguard_udp&limit=1" | \
-  jq -r '.[]|.hostname, .station, (.locations|.[]|.country|.city.name), (.locations|.[]|.country|.name), (.technologies|.[].metadata|.[].value), .load'
+    curl -s "https://api.nordvpn.com/v1/servers/recommendations?&filters\[servers_technologies\]\[identifier\]=wireguard_udp&limit=1" |
+        jq -r '.[]|.hostname, .station, (.locations|.[]|.country|.city.name), (.locations|.[]|.country|.name), (.technologies|.[].metadata|.[].value), .load'
 }
 
-
-# pnpm
-export PNPM_HOME="/Users/salim/Library/pnpm"
+# pnpm setup
+export PNPM_HOME="${HOME}/Library/pnpm"
 case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+    *":$PNPM_HOME:"*) ;;
+    *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end
