@@ -1,0 +1,28 @@
+# Theme
+theme = tokyonight
+
+# Cursor
+cursor-style = block
+cursor-style-blink = false
+
+# Terminal
+term = xterm-256color
+
+# Font
+font-family = JetBrainsMono Nerd Font Mono
+font-size = 16
+
+# Scrolling
+scrollback-limit = 10000
+
+# Selection
+copy-on-select = true
+
+# Window
+background-opacity = 1
+macos-option-as-alt = true
+window-padding-x = 10
+window-padding-y = 8
+
+# Keybindings
+keybind = shift+enter=text:\x1b\r
