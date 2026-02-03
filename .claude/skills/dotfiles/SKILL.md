@@ -6,15 +6,13 @@ allowed-tools: Read
 
 ## Home Directory Dotfiles Management (yadm)
 
-When working in the home directory (`/Users/salim`), use **yadm** for version
-control of dotfiles.
+The execution of this skill indicates you're working in the user's home
+directory and using **yadm** for version control and management of dotfiles.
 
 ### Repository Context
 
 - **Primary remote:** `origin` → `git@github.com:salimhamed/dotfiles.git`
-- **Base branch:** `sal/various-updates-from-mac`
-- **Tracked files:** 150 files
-- **Platform:** macOS (Darwin) with class=Personal
+- **Base branch:** `main`
 - **yadm version:** 3.5.0
 
 ---
@@ -23,32 +21,36 @@ control of dotfiles.
 
 #### 1. Branch Strategy
 
-- **Create feature branches** for each set of changes:
-  `sal/claude-<descriptive-name>`
-- Branch from `sal/various-updates-from-mac` (current working branch)
+- **Create feature branches** for each set of changes if a feature branch does
+  not already exist. Always ask before creating a new branch.
+- Feature branches should be created from the default `main` branch
+- Feature branch names should follow the naming convention:
+  `claude/<descriptive-name>`
 - Examples:
-  - `sal/claude-nvim-config-update`
-  - `sal/claude-zsh-aliases`
-  - `sal/claude-tmux-keybindings`
+  - `claude/nvim-config-update`
+  - `claude/zsh-aliases`
+  - `claude/tmux-keybindings`
 
 #### 2. Commit & Push Policy
 
 - **Auto-push after commit** to keep remote in sync
 - GPG signing is enabled (commits will be signed automatically)
-- Use descriptive commit messages following existing style
+- Use concise commit messages that are no more than one line of text
 
 #### 3. Platform Scope
 
-- **Darwin (macOS) only** unless explicitly requested otherwise
-- When editing alternate files, only modify `##os.Darwin` variants
-- Will note when Ubuntu variants might need corresponding updates
+- Changes should target **Darwin (macOS) only** unless explicitly requested
+  otherwise
+- When editing alternate files, only modify `##os.Darwin` variants, unless
+  explicitly requested otherwise
 
 ---
 
 ### Zsh Code Conventions
 
-Use a function-specific prefix for all local variables to avoid conflicts with
-shell builtins, environment variables, and other functions.
+You might be asked to modify `zsh` code. When doing so, use a function-specific
+prefix for all local variables to avoid conflicts with shell builtins,
+environment variables, and other functions.
 
 **Avoid these generic variable names:**
 
@@ -61,7 +63,7 @@ shell builtins, environment variables, and other functions.
 
 **Pattern:** `<prefix>_<descriptive_name>`
 
-Example for worktree functions using `wt_` prefix:
+Here's an example function following this convention:
 
 ```zsh
 wt_example() {
@@ -86,12 +88,12 @@ wt_example() {
 
 #### Editor Configuration
 
-| File                 | Purpose               |
-| -------------------- | --------------------- |
-| `~/.config/nvim/`    | Primary Neovim config |
-| `~/.config/lazyvim/` | LazyVim distribution  |
-| `~/.vimrc`           | Legacy Vim config     |
-| `~/.ideavimrc`       | JetBrains IdeaVim     |
+| File                 | Purpose                                            |
+| -------------------- | -------------------------------------------------- |
+| `~/.config/lazyvim/` | LazyVim distribution (primary terinal text editor) |
+| `~/.ideavimrc`       | JetBrains IdeaVim (primary IDE)                    |
+| `~/.config/nvim/`    | Custom Neovim config (legacy)                      |
+| `~/.vimrc`           | Vim config (legacy)                                |
 
 #### Git & Tools
 
@@ -125,7 +127,7 @@ yadm branch -a                 # Verify branch context
 #### Creating a Feature Branch
 
 ```bash
-yadm checkout -b sal/claude-<feature>
+yadm checkout -b claude/<feature-description>
 ```
 
 #### After Modifications
@@ -149,10 +151,9 @@ yadm list -a | grep <pattern>  # Filter tracked files
 ### Safety Practices
 
 1. **Always read before editing** - Use Read tool before making modifications
-2. **Stage specific files** - Avoid `yadm add -A` in home directory
+2. **Stage specific files** - Never run `yadm add -A` in home directory
 3. **Verify changes** - Run `yadm diff --staged` before committing
-4. **Test changes** - Source files or restart shell to verify
-5. **Keep commits atomic** - One logical change per commit
+4. **Keep commits atomic** - One logical change per commit
 
 ---
 
@@ -198,13 +199,3 @@ bash -n ~/.config/yadm/bootstrap  # Syntax check
 | Show current branch | `yadm branch --show-current` |
 | Diff uncommitted    | `yadm diff`                  |
 | Push current branch | `yadm push`                  |
-
----
-
-### Initial Setup Actions
-
-Before first modifications, I will:
-
-1. **Verify clean state:** `yadm status` to ensure no uncommitted changes
-2. **Confirm remote access:** `yadm remote -v` to verify push capability
-3. **Note current branch:** Track base branch for feature branching
