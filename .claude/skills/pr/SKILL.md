@@ -1,37 +1,74 @@
 ---
 name: pr
 description: Create a pull request with title and body from branch context
+disable-model-invocation: true
+allowed-tools:
+  - Bash(git *)
+  - Bash(gh *)
+  - Bash(python *)
 ---
 
 # Create Pull Request
 
-Create a PR using `gh` CLI with title and body derived from the feature branch.
+!read references/usage.md
 
-## Steps
+## Gather Context
 
-1. **Analyze the branch**:
-   ```bash
-   git log main..HEAD --oneline
-   git diff main...HEAD --stat
-   ```
+Run the gather script:
 
-2. **Generate title**: Short summary (under 70 chars) from commits/changes
+```bash
+python scripts/gather_context.py
+```
 
-3. **Generate body**: Use this format:
-   ```markdown
-   ## Description
-   <bullet points of what changed>
-   ```
+## Preconditions
 
-4. **Create PR**:
-   ```bash
-   gh pr create --title "..." --body "..."
-   ```
+Check these in the JSON output BEFORE proceeding:
 
-5. **Return the PR URL**
+1. **Not on base branch**: If `current_branch` equals `base_branch`, STOP and say:
+   "Error: Cannot create PR from the base branch. Create a feature branch first."
+2. **Has commits**: If `commits` array is empty, STOP and say:
+   "Error: No commits found. Make commits before creating a PR."
+3. **No existing PR**: If `existing_pr` is not null, STOP and say:
+   "Error: PR already exists: <url>. Use /pr-title or /pr-desc to update it."
 
-## Notes
+## Execution
 
-- Base branch: `main`
-- Push branch first if needed: `git push -u origin HEAD`
-- Run `/fix` and `/test` before creating PR
+Create the PR:
+
+```bash
+python scripts/create_pr.py --title "<title>" --body "<body>"
+```
+
+## Title Format
+
+- Under 70 characters
+- Imperative mood (e.g., "Add feature" not "Added feature")
+- No period at end
+- Summarize the main change
+
+## Body Format
+
+Use this exact structure:
+
+```
+## Summary
+
+- <bullet 1: main change, start with verb>
+- <bullet 2: supporting change or context>
+- <optional bullet 3-4 if needed>
+```
+
+Rules:
+
+- Each bullet starts with a verb (Add, Fix, Update, Remove, etc.)
+- Focus on WHAT and WHY, not HOW
+- No file paths unless the file itself is the feature
+
+## Output
+
+After creating the PR, output:
+
+```
+Created PR #<number>: <title>
+<url>
+```
