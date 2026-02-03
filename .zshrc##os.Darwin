@@ -2,8 +2,8 @@
 export LANG=en_US.UTF-8
 
 # create variable for JetBrains Toolbox scripts path
-if [ -d "${HOME}/Library/Application Support/JetBrains/Toolbox" ]; then
-    JETBRAINS_TOOLBOX_PATH="${PATH}:${HOME}/Library/Application Support/JetBrains/Toolbox/scripts"
+if [ -d "${HOME}/Library/Application Support/JetBrains/Toolbox/scripts" ]; then
+    JETBRAINS_TOOLBOX_PATH="${HOME}/Library/Application Support/JetBrains/Toolbox/scripts"
 else
     JETBRAINS_TOOLBOX_PATH=""
 fi
