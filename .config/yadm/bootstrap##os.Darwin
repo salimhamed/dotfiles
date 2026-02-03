@@ -1,7 +1,14 @@
 #!/bin/bash
+set -euo pipefail
 
 # prompt for system password
 sudo -v
+
+# install or update aws cli
+tmp_aws_dir=$(mktemp -d)
+curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "${tmp_aws_dir}/AWSCLIV2.pkg"
+sudo installer -pkg "${tmp_aws_dir}/AWSCLIV2.pkg" -target /
+rm -rf "${tmp_aws_dir}"
 
 # install homebrew if it's missing
 if ! command -v brew >/dev/null 2>&1; then
@@ -24,6 +31,10 @@ else
     echo "gh copilot is not installed. Installing..."
     gh extension install github/gh-copilot
 fi
+
+# install claude code
+echo "Installing/updating Claude Code..."
+curl -fsSL https://claude.ai/install.sh | bash
 
 # in some cases after prettierd is updated, it needs to be restarted
 prettierd restart
@@ -140,20 +151,6 @@ if [ ! -d "${HOME}/.tmux/plugins/tpm" ]; then
     mkdir -p "${HOME}/.tmux/plugins"
     git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
 fi
-
-# install or update aws cli
-tmp_aws_dir=$(mktemp -d)
-curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "${tmp_aws_dir}/AWSCLIV2.pkg"
-sudo installer -pkg "${tmp_aws_dir}/AWSCLIV2.pkg" -target /
-rm -rf "${tmp_aws_dir}"
-
-# install miniconda
-echo "Installing/updating miniconda"
-miniconda_install_dir="${HOME}/miniconda3"
-mkdir -p "${miniconda_install_dir}"
-curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -o "${miniconda_install_dir}/miniconda.sh"
-bash "${miniconda_install_dir}/miniconda.sh" -b -u -p "${miniconda_install_dir}"
-rm -rf "${miniconda_install_dir}/miniconda.sh"
 
 # update tldr cache
 echo "Updating the tldr cache..."

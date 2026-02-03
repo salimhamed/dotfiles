@@ -166,3 +166,6 @@ nmap gq <Action>(QuickImplementations)
 
 let g:WhichKeyDesc_lsp_goto_database_view = "gb  Goto Data(b)ase view"
 nmap gb <Action>(sql.SelectInDatabaseView)
+
+" Sweep AI Tab completion mapping
+map <Tab> :action dev.sweep.assistant.autocomplete.edit.AcceptEditCompletionAction<CR>
