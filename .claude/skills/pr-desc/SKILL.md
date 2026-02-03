@@ -12,12 +12,20 @@ allowed-tools:
 
 !read references/usage.md
 
+## Arguments
+
+This skill accepts an optional argument with additional instructions for the description.
+
+**Example:** `/pr-desc include a ## Usage section showing how to use each skill`
+
+If provided, incorporate these instructions into the description format below.
+
 ## Gather Context
 
 Run the gather script:
 
 ```bash
-python scripts/gather_context.py
+python /Users/salim/.claude/skills/pr-desc/scripts/gather_context.py
 ```
 
 ## Preconditions
@@ -32,12 +40,12 @@ Check these in the JSON output BEFORE proceeding:
 Update the PR body:
 
 ```bash
-python scripts/update_description.py --body "<new body>"
+python /Users/salim/.claude/skills/pr-desc/scripts/update_description.py --body "<new body>"
 ```
 
 ## Body Format
 
-Use this exact structure:
+Use this structure as a base:
 
 ```
 ## Summary
@@ -47,6 +55,8 @@ Use this exact structure:
 - <optional bullet 3-4 if needed>
 ```
 
+**If user provided additional instructions**, add the requested sections after ## Summary.
+
 Rules:
 
 - 2-4 bullets only
@@ -55,6 +65,8 @@ Rules:
 - No file paths unless the file itself is the feature
 - No implementation details
 - Derive content from commits and diff, not the old body
+- If user requested additional sections, add them after Summary
+- User instructions override the default format when they conflict
 
 ## Output
 
