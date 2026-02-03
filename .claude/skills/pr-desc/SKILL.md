@@ -14,7 +14,8 @@ allowed-tools:
 
 ## Arguments
 
-This skill accepts an optional argument with additional instructions for the description.
+This skill accepts an optional argument with additional instructions for the
+description.
 
 **Example:** `/pr-desc include a ## Usage section showing how to use each skill`
 
@@ -32,8 +33,8 @@ python /Users/salim/.claude/skills/pr-desc/scripts/gather_context.py
 
 Check these in the JSON output BEFORE proceeding:
 
-1. **PR must exist**: If `pr_number` is null, STOP and say:
-   "Error: No PR exists for this branch. Use /pr to create one first."
+1. **PR must exist**: If `pr_number` is null, STOP and say: "Error: No PR exists
+   for this branch. Use /pr to create one first."
 
 ## Execution
 
@@ -55,7 +56,8 @@ Use this structure as a base:
 - <optional bullet 3-4 if needed>
 ```
 
-**If user provided additional instructions**, add the requested sections after ## Summary.
+**If user provided additional instructions**, add the requested sections
+after ## Summary.
 
 Rules:
 

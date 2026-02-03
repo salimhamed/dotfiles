@@ -27,16 +27,16 @@ python scripts/gather_context.py
 
 ### Fields
 
-| Field | Type | Description |
-|-------|------|-------------|
-| current_branch | string | Current git branch name |
-| base_branch | string | Default branch from GitHub |
-| is_pushed | boolean | Whether branch has remote tracking |
-| existing_pr | object\|null | PR number/url if exists, null otherwise |
-| commits | string[] | Commit summaries (hash + message) |
-| diff_stat | string | Git diff stat (last 20 lines) |
-| files_changed | string[] | List of changed file paths |
-| diff | string | Full diff, truncated at ~500 lines |
+| Field          | Type         | Description                             |
+| -------------- | ------------ | --------------------------------------- |
+| current_branch | string       | Current git branch name                 |
+| base_branch    | string       | Default branch from GitHub              |
+| is_pushed      | boolean      | Whether branch has remote tracking      |
+| existing_pr    | object\|null | PR number/url if exists, null otherwise |
+| commits        | string[]     | Commit summaries (hash + message)       |
+| diff_stat      | string       | Git diff stat (last 20 lines)           |
+| files_changed  | string[]     | List of changed file paths              |
+| diff           | string       | Full diff, truncated at ~500 lines      |
 
 ---
 
@@ -52,10 +52,10 @@ python scripts/create_pr.py --title "Add feature X" --body "## Summary\n- Add ..
 
 ### Arguments
 
-| Argument | Required | Description |
-|----------|----------|-------------|
-| --title | Yes | PR title (under 70 chars, imperative mood) |
-| --body | Yes | PR body (markdown format) |
+| Argument | Required | Description                                |
+| -------- | -------- | ------------------------------------------ |
+| --title  | Yes      | PR title (under 70 chars, imperative mood) |
+| --body   | Yes      | PR body (markdown format)                  |
 
 ### Behavior
 

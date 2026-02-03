@@ -22,8 +22,8 @@ Check these in the JSON output BEFORE proceeding:
 
 1. **Not on main branch**: If `current_branch` equals "main", STOP and say:
    "Error: Cannot create PR from main. Create a feature branch first."
-2. **Has commits**: If `commits` array is empty, STOP and say:
-   "Error: No commits found. Make commits before creating a PR."
+2. **Has commits**: If `commits` array is empty, STOP and say: "Error: No
+   commits found. Make commits before creating a PR."
 
 ## Title Format
 

@@ -28,17 +28,17 @@ python scripts/gather_context.py
 
 ### Fields
 
-| Field | Type | Description |
-|-------|------|-------------|
-| current_branch | string | Current git branch name |
-| base_branch | string | Default branch from GitHub |
-| pr_number | int\|null | PR number if exists |
-| pr_url | string\|null | PR URL if exists |
-| current_title | string\|null | Current PR title |
-| commits | string[] | Commit summaries (hash + message) |
-| diff_stat | string | Git diff stat (last 20 lines) |
-| files_changed | string[] | List of changed file paths (max 30) |
-| diff | string | Full diff, truncated at ~500 lines |
+| Field          | Type         | Description                         |
+| -------------- | ------------ | ----------------------------------- |
+| current_branch | string       | Current git branch name             |
+| base_branch    | string       | Default branch from GitHub          |
+| pr_number      | int\|null    | PR number if exists                 |
+| pr_url         | string\|null | PR URL if exists                    |
+| current_title  | string\|null | Current PR title                    |
+| commits        | string[]     | Commit summaries (hash + message)   |
+| diff_stat      | string       | Git diff stat (last 20 lines)       |
+| files_changed  | string[]     | List of changed file paths (max 30) |
+| diff           | string       | Full diff, truncated at ~500 lines  |
 
 ---
 
@@ -54,9 +54,9 @@ python scripts/update_title.py --title "New title here"
 
 ### Arguments
 
-| Argument | Required | Description |
-|----------|----------|-------------|
-| --title | Yes | New PR title (under 70 chars, imperative mood) |
+| Argument | Required | Description                                    |
+| -------- | -------- | ---------------------------------------------- |
+| --title  | Yes      | New PR title (under 70 chars, imperative mood) |
 
 ### Behavior
 

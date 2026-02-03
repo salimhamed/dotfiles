@@ -24,12 +24,13 @@ python scripts/gather_context.py
 
 Check these in the JSON output BEFORE proceeding:
 
-1. **Not on base branch**: If `current_branch` equals `base_branch`, STOP and say:
-   "Error: Cannot create PR from the base branch. Create a feature branch first."
-2. **Has commits**: If `commits` array is empty, STOP and say:
-   "Error: No commits found. Make commits before creating a PR."
-3. **No existing PR**: If `existing_pr` is not null, STOP and say:
-   "Error: PR already exists: <url>. Use /pr-title or /pr-desc to update it."
+1. **Not on base branch**: If `current_branch` equals `base_branch`, STOP and
+   say: "Error: Cannot create PR from the base branch. Create a feature branch
+   first."
+2. **Has commits**: If `commits` array is empty, STOP and say: "Error: No
+   commits found. Make commits before creating a PR."
+3. **No existing PR**: If `existing_pr` is not null, STOP and say: "Error: PR
+   already exists: <url>. Use /pr-title or /pr-desc to update it."
 
 ## Execution
 
