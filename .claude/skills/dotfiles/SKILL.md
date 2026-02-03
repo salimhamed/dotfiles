@@ -1,5 +1,6 @@
 ---
 description: Load dotfiles management context for yadm work
+disable-model-invocation: true
 allowed-tools: Read
 ---
 
