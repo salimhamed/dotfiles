@@ -1,13 +1,6 @@
 # manually set language environment
 export LANG=en_US.UTF-8
 
-# create variable for JetBrains Toolbox scripts path
-if [ -d "${HOME}/Library/Application Support/JetBrains/Toolbox" ]; then
-    JETBRAINS_TOOLBOX_PATH="${PATH}:${HOME}/Library/Application Support/JetBrains/Toolbox/scripts"
-else
-    JETBRAINS_TOOLBOX_PATH=""
-fi
-
 # define custom location for configuration files
 export XDG_CONFIG_HOME="$HOME/.config"
 
@@ -24,7 +17,7 @@ if [ -f /opt/homebrew/bin/brew ]; then
 fi
 
 # append bin directories with executables to path.
-export PATH="${HOME}/go/bin:${HOME}/.local/bin:${HOME}/bin:/usr/local/bin:${JETBRAINS_TOOLBOX_PATH}:${PATH}"
+export PATH="${HOME}/go/bin:${HOME}/.local/bin:${HOME}/bin:/usr/local/bin:${PATH}"
 
 # setup pyenv
 #   this happens after configuring PATH, so utilities from pyenv environments are used before
@@ -121,6 +114,13 @@ eval "$(direnv hook zsh)"
 # starship will display the virtualenv name
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
+# Claude Code - Advanced Tool Use
+# Enables tool search for deferred/conditional tool loading
+# See: https://www.anthropic.com/engineering/advanced-tool-use
+# See: https://github.com/anthropics/claude-code/issues/12836#issuecomment-3656762362
+export ENABLE_TOOL_SEARCH=true
+export ENABLE_EXPERIMENTAL_MCP_CLI=false
+
 # alias for other nvim distributions
 alias lvim="NVIM_APPNAME=lazyvim nvim"
 alias nvim-kickstart="NVIM_APPNAME=kickstart nvim"
@@ -128,15 +128,13 @@ alias nvim-chad="NVIM_APPNAME=nvchad nvim"
 
 # nordvpn info
 nordinfo() {
-  curl -s "https://api.nordvpn.com/v1/servers/recommendations?&filters\[servers_technologies\]\[identifier\]=wireguard_udp&limit=1" | \
-  jq -r '.[]|.hostname, .station, (.locations|.[]|.country|.city.name), (.locations|.[]|.country|.name), (.technologies|.[].metadata|.[].value), .load'
+    curl -s "https://api.nordvpn.com/v1/servers/recommendations?&filters\[servers_technologies\]\[identifier\]=wireguard_udp&limit=1" |
+        jq -r '.[]|.hostname, .station, (.locations|.[]|.country|.city.name), (.locations|.[]|.country|.name), (.technologies|.[].metadata|.[].value), .load'
 }
 
-
-# pnpm
-export PNPM_HOME="$HOME/Library/pnpm"
+# pnpm setup
+export PNPM_HOME="${HOME}/Library/pnpm"
 case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+    *":$PNPM_HOME:"*) ;;
+    *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end

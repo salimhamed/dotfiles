@@ -1,3 +1,9 @@
+---
+description: Load dotfiles management context for yadm work
+disable-model-invocation: true
+allowed-tools: Read
+---
+
 ## Home Directory Dotfiles Management (yadm)
 
 When working in the home directory (`/Users/salim`), use **yadm** for version
@@ -38,6 +44,33 @@ control of dotfiles.
 - Will note when Ubuntu variants might need corresponding updates
 
 ---
+
+### Zsh Code Conventions
+
+Use a function-specific prefix for all local variables to avoid conflicts with
+shell builtins, environment variables, and other functions.
+
+**Avoid these generic variable names:**
+
+- `path` - conflicts with `$PATH`
+- `name` - common collision
+- `status` - conflicts with `$?` semantics
+- `line`, `count`, `match`, `result`, `output`
+- `default`, `root`, `dir`, `file`
+- Single-letter variables: `d`, `f`, `n`, `i`
+
+**Pattern:** `<prefix>_<descriptive_name>`
+
+Example for worktree functions using `wt_` prefix:
+
+```zsh
+wt_example() {
+    local wt_branch wt_path wt_status
+    wt_branch=$(git branch --show-current)
+    wt_path=$(git rev-parse --show-toplevel)
+    # ...
+}
+```
 
 ### Key Files Reference
 
