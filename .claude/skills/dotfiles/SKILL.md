@@ -45,6 +45,33 @@ control of dotfiles.
 
 ---
 
+### Zsh Code Conventions
+
+Use a function-specific prefix for all local variables to avoid conflicts with
+shell builtins, environment variables, and other functions.
+
+**Avoid these generic variable names:**
+
+- `path` - conflicts with `$PATH`
+- `name` - common collision
+- `status` - conflicts with `$?` semantics
+- `line`, `count`, `match`, `result`, `output`
+- `default`, `root`, `dir`, `file`
+- Single-letter variables: `d`, `f`, `n`, `i`
+
+**Pattern:** `<prefix>_<descriptive_name>`
+
+Example for worktree functions using `wt_` prefix:
+
+```zsh
+wt_example() {
+    local wt_branch wt_path wt_status
+    wt_branch=$(git branch --show-current)
+    wt_path=$(git rev-parse --show-toplevel)
+    # ...
+}
+```
+
 ### Key Files Reference
 
 #### Shell Configuration
