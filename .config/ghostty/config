@@ -1,0 +1,45 @@
+# Theme
+theme = tokyonight
+
+# Cursor
+cursor-style = block
+cursor-style-blink = false
+
+# Terminal
+term = xterm-256color
+
+# Font
+font-family = JetBrainsMono Nerd Font Mono
+font-size = 16
+font-thicken = true
+
+# Scrolling
+scrollback-limit = 10000
+
+# Selection
+copy-on-select = true
+
+# Clipboard
+clipboard-paste-protection = true
+
+# Mouse
+mouse-hide-while-typing = true
+focus-follows-mouse = true
+
+# Window
+background-opacity = 1
+macos-option-as-alt = true
+macos-titlebar-style = tabs
+window-save-state = always
+window-padding-x = 10
+window-padding-y = 8
+window-padding-balance = true
+
+# Splits
+unfocused-split-opacity = 0.85
+
+# Accessibility
+minimum-contrast = 4.5
+
+# Keybindings
+keybind = shift+enter=text:\x1b\r
