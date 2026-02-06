@@ -1,4 +1,8 @@
 {
+  "env": {
+    "NVIM_APPNAME": "lazyvim",
+    "EDITOR": "/Users/salim/.local/bin/lazyvim"
+  },
   "model": "opus",
   "hooks": {
     "Notification": [
@@ -30,6 +34,6 @@
     "padding": 0
   },
   "enabledPlugins": {
-    "superpowers@claude-plugins-official": true
+    "superpowers@claude-plugins-official": false
   }
 }
