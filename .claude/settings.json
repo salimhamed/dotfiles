@@ -1,10 +1,9 @@
 {
-  "model": "opus",
-  "statusLine": {
-    "type": "command",
-    "command": "npx -y ccstatusline@latest",
-    "padding": 0
+  "env": {
+    "NVIM_APPNAME": "lazyvim",
+    "EDITOR": "/Users/salim/.local/bin/lazyvim"
   },
+  "model": "opus",
   "hooks": {
     "Notification": [
       {
@@ -28,5 +27,13 @@
         ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y ccstatusline@latest",
+    "padding": 0
+  },
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": false
   }
 }
