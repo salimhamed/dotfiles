@@ -136,11 +136,8 @@ export NVM_DIR="$HOME/.nvm"
 nvm install "${NODE_VERSION}"
 nvm alias default "${NODE_VERSION}"
 
-# install pnpm
-curl -fsSL https://get.pnpm.io/install.sh | sh -
-
 # install node applications
-npm install -g @taplo/cli prettier yarn neovim tree-sitter-cli aws-cdk@latest
+npm install -g @taplo/cli pnpm prettier yarn neovim tree-sitter-cli aws-cdk@latest
 
 # install go packages
 go install github.com/google/yamlfmt/cmd/yamlfmt@latest

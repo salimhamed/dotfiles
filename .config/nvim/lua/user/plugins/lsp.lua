@@ -8,29 +8,34 @@ local M = {
 }
 
 function M.config()
-  -- folke/neodev.nvim must be setup before lspconfig
+  -- folke/neodev.nvim must be setup before lsp config
   -- this gives better lsp experience for lua
   -- https://github.com/folke/neodev.nvim
   require("neodev").setup({
     library = { plugins = { "nvim-dap-ui" }, types = true },
   })
-  local lspconfig = require("lspconfig")
-  local server_options = require("user.utils.servers").servers_options
-  local server_setup = require("user.utils.servers").server_setup
+  local servers = require("user.utils.servers")
   local cmp_nvim_lsp = require("cmp_nvim_lsp")
   local lsp_utils = require("user.utils.lsp")
 
+  -- set default capabilities for all servers
+  vim.lsp.config("*", {
+    capabilities = cmp_nvim_lsp.default_capabilities(),
+  })
+
   -- configure lsp servers
-  for _, server_name in pairs(require("user.utils.servers").get_server_names()) do
-    local required_options = { capabilities = cmp_nvim_lsp.default_capabilities() }
-    local merged_options = vim.tbl_extend("error", required_options, server_options[server_name])
-    local setup_function = server_setup[server_name]
+  local server_names = servers.get_server_names()
+  for _, server_name in pairs(server_names) do
+    local setup_function = servers.server_setup[server_name]
     if setup_function == nil then
-      lspconfig[server_name].setup(merged_options)
+      vim.lsp.config(server_name, servers.servers_options[server_name])
     else
-      setup_function(merged_options)
+      setup_function(servers.servers_options[server_name])
     end
   end
+
+  -- enable all configured servers
+  vim.lsp.enable(server_names)
 
   -- define icons for diagnostics
   vim.fn.sign_define("DiagnosticSignError", { text = "", texthl = "DiagnosticSignError" })
