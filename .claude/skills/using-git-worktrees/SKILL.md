@@ -1,76 +1,84 @@
 ---
-name: using-git-worktrees
-description: Use when starting feature work that needs isolation from current workspace or before executing implementation plans - creates isolated git worktrees with smart directory selection and safety verification
+name: create-git-worktree
+description:
+  Use when starting feature work that needs isolation from current workspace or
+  before executing implementation plans - creates isolated git worktrees with
+  smart directory selection and safety verification
+disable-model-invocation: true
+allowed-tools:
+  - Bash(git *)
 ---
 
-# Using Git Worktrees
+# Create Git Worktree
 
 ## Overview
 
-Git worktrees create isolated workspaces sharing the same repository, allowing work on multiple branches simultaneously without switching.
+Git worktrees create isolated workspaces sharing the same repository, allowing
+work on multiple branches simultaneously without switching.
 
-**Core principle:** Systematic directory selection + safety verification = reliable isolation.
+**Core principle:** Systematic directory selection + safety verification =
+reliable isolation.
 
-**Announce at start:** "I'm using the using-git-worktrees skill to set up an isolated workspace."
+**Announce at start:** "I'm using the create-git-worktree skill to set up an
+isolated workspace."
 
 ## Directory Selection Process
 
-Follow this priority order:
+### 1. Worktree Directories Location
 
-### 1. Check Existing Directories
+Worktree directories should be created in the parent directory of the primary
+git repository, not inside it. This prevents pollution of the main workspace.
+
+For example, if the current repository is at
+`/Users/jesse/Code/myproject/myproject`, the new worktree directory should be
+created in `/Users/jesse/Code/myproject/<worktree-dir-name>`.
+
+### 2. Ask User
+
+If following the convention outlined above will result in a new worktree
+directory that is outside of the project, ask the user where they would like to
+create worktree directory.
+
+For example:
+
+```text
+Creating a worktree diretory at <path> does not confirm to worktree dirctory conventions because <reason>.
+
+Where should I create worktrees?
+```
+
+## Prerequisites
+
+This skill accepts a **branch name** as its argument.
+
+### 1. Verify Default Branch
+
+The worktree must be created from the default branch. Detect and verify:
 
 ```bash
-# Check in priority order
-ls -d .worktrees 2>/dev/null     # Preferred (hidden)
-ls -d worktrees 2>/dev/null      # Alternative
+default_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's|refs/remotes/origin/||')
+current_branch=$(git branch --show-current)
+
+if [ "$current_branch" != "$default_branch" ]; then
+  echo "Current branch is '$current_branch', not '$default_branch'."
+  echo "Switch to '$default_branch' before creating a worktree, or abort."
+fi
 ```
 
-**If found:** Use that directory. If both exist, `.worktrees` wins.
+### 2. Check Freshness
 
-### 2. Check CLAUDE.md
+Compare the local default branch with origin. If behind, prompt the user to
+pull before proceeding:
 
 ```bash
-grep -i "worktree.*director" CLAUDE.md 2>/dev/null
+git fetch origin "$default_branch" --quiet
+local_sha=$(git rev-parse "$default_branch")
+remote_sha=$(git rev-parse "origin/$default_branch")
+
+if [ "$local_sha" != "$remote_sha" ]; then
+  echo "'$default_branch' is behind origin. Pull latest changes before creating worktree?"
+fi
 ```
-
-**If preference specified:** Use it without asking.
-
-### 3. Ask User
-
-If no directory exists and no CLAUDE.md preference:
-
-```
-No worktree directory found. Where should I create worktrees?
-
-1. .worktrees/ (project-local, hidden)
-2. ~/.config/superpowers/worktrees/<project-name>/ (global location)
-
-Which would you prefer?
-```
-
-## Safety Verification
-
-### For Project-Local Directories (.worktrees or worktrees)
-
-**MUST verify directory is ignored before creating worktree:**
-
-```bash
-# Check if directory is ignored (respects local, global, and system gitignore)
-git check-ignore -q .worktrees 2>/dev/null || git check-ignore -q worktrees 2>/dev/null
-```
-
-**If NOT ignored:**
-
-Per Jesse's rule "Fix broken things immediately":
-1. Add appropriate line to .gitignore
-2. Commit the change
-3. Proceed with worktree creation
-
-**Why critical:** Prevents accidentally committing worktree contents to repository.
-
-### For Global Directory (~/.config/superpowers/worktrees)
-
-No .gitignore verification needed - outside project entirely.
 
 ## Creation Steps
 
@@ -83,6 +91,8 @@ project=$(basename "$(git rev-parse --show-toplevel)")
 ### 2. Create Worktree
 
 ```bash
+# TODO: I don't understand this part
+
 # Determine full path
 case $LOCATION in
   .worktrees|worktrees)
@@ -143,15 +153,15 @@ Ready to implement <feature-name>
 
 ## Quick Reference
 
-| Situation | Action |
-|-----------|--------|
-| `.worktrees/` exists | Use it (verify ignored) |
-| `worktrees/` exists | Use it (verify ignored) |
-| Both exist | Use `.worktrees/` |
-| Neither exists | Check CLAUDE.md → Ask user |
-| Directory not ignored | Add to .gitignore + commit |
-| Tests fail during baseline | Report failures + ask |
-| No package.json/Cargo.toml | Skip dependency install |
+| Situation                  | Action                     |
+| -------------------------- | -------------------------- |
+| `.worktrees/` exists       | Use it (verify ignored)    |
+| `worktrees/` exists        | Use it (verify ignored)    |
+| Both exist                 | Use `.worktrees/`          |
+| Neither exists             | Check CLAUDE.md → Ask user |
+| Directory not ignored      | Add to .gitignore + commit |
+| Tests fail during baseline | Report failures + ask      |
+| No package.json/Cargo.toml | Skip dependency install    |
 
 ## Common Mistakes
 
@@ -194,6 +204,7 @@ Ready to implement auth feature
 ## Red Flags
 
 **Never:**
+
 - Create worktree without verifying it's ignored (project-local)
 - Skip baseline test verification
 - Proceed with failing tests without asking
@@ -201,6 +212,7 @@ Ready to implement auth feature
 - Skip CLAUDE.md check
 
 **Always:**
+
 - Follow directory priority: existing > CLAUDE.md > ask
 - Verify directory is ignored for project-local
 - Auto-detect and run project setup
@@ -209,10 +221,13 @@ Ready to implement auth feature
 ## Integration
 
 **Called by:**
-- **brainstorming** (Phase 4) - REQUIRED when design is approved and implementation follows
+
+- **brainstorming** (Phase 4) - REQUIRED when design is approved and
+  implementation follows
 - **subagent-driven-development** - REQUIRED before executing any tasks
 - **executing-plans** - REQUIRED before executing any tasks
 - Any skill needing isolated workspace
 
 **Pairs with:**
+
 - **finishing-a-development-branch** - REQUIRED for cleanup after work complete
