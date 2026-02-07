@@ -17,7 +17,7 @@ allowed-tools:
 Run the gather script:
 
 ```bash
-python ~/.claude/skills/pr/scripts/gather_context.py
+python scripts/gather_context.py
 ```
 
 ## Preconditions
@@ -37,7 +37,7 @@ Check these in the JSON output BEFORE proceeding:
 Create the PR:
 
 ```bash
-python ~/.claude/skills/pr/scripts/create_pr.py --title "<title>" --body "<body>"
+python scripts/create_pr.py --title "<title>" --body "<body>"
 ```
 
 ## Title Format
