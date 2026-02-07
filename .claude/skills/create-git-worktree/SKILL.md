@@ -6,7 +6,6 @@ description:
   smart directory selection and safety verification
 disable-model-invocation: true
 allowed-tools:
-  - Bash(git *)
   - Bash(python *)
 ---
 
@@ -17,9 +16,6 @@ allowed-tools:
 Git worktrees create isolated workspaces sharing the same repository, allowing
 work on multiple branches simultaneously without switching.
 
-**Core principle:** Systematic directory selection + safety verification =
-reliable isolation.
-
 **Announce at start:** "I'm using the create-git-worktree skill to set up an
 isolated workspace."
 
@@ -27,34 +23,11 @@ isolated workspace."
 
 This skill accepts a **branch name** as its argument.
 
-### 1. Verify Default Branch
-
-The worktree must be created from the default branch. Detect and verify:
-
-```bash
-default_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's|refs/remotes/origin/||')
-current_branch=$(git branch --show-current)
-
-if [ "$current_branch" != "$default_branch" ]; then
-  echo "Current branch is '$current_branch', not '$default_branch'."
-  echo "Switch to '$default_branch' before creating a worktree, or abort."
-fi
-```
-
-### 2. Check Freshness
-
-Compare the local default branch with origin. If behind, prompt the user to pull
-before proceeding:
-
-```bash
-git fetch origin "$default_branch" --quiet
-local_sha=$(git rev-parse "$default_branch")
-remote_sha=$(git rev-parse "origin/$default_branch")
-
-if [ "$local_sha" != "$remote_sha" ]; then
-  echo "'$default_branch' is behind origin. Pull latest changes before creating worktree?"
-fi
-```
+All prerequisite checks (default branch detection, branch verification, and
+freshness against origin) are handled by the `setup_worktree.py` script. The
+script detects the default branch via `git symbolic-ref refs/remotes/origin/HEAD`
+with an automatic fallback to `git remote show origin` for repos where the
+symbolic ref isn't set.
 
 ## Directory Selection Process
 
@@ -83,41 +56,34 @@ Where should I create worktrees?
 
 ## Creation Steps
 
-### 1. Detect Project Name
+### 1. Setup & Create Worktree
 
 ```bash
-project=$(basename "$(git rev-parse --show-toplevel)")
+python ~/.claude/skills/create-git-worktree/scripts/setup_worktree.py <BRANCH_NAME>
 ```
 
-### 2. Create Worktree
+The script outputs JSON to stdout. Parse the result and handle accordingly:
 
-```bash
-repo_root=$(git rev-parse --show-toplevel)
-parent_dir=$(dirname "$repo_root")
+| `status`       | Meaning                                  | Action                                                        |
+| -------------- | ---------------------------------------- | ------------------------------------------------------------- |
+| `success`      | Worktree created                         | Continue to step 2. Use `worktree_path` from the output.      |
+| `wrong_branch` | Not on the default branch                | Ask user to switch to `default_branch`, then re-run step 1.   |
+| `behind_origin`| Default branch is behind origin          | Ask user to pull latest changes, then re-run step 1.          |
+| `error`        | Something else went wrong                | Show `message` to the user and stop.                          |
 
-# Sanitize branch name: replace / with -
-sanitized=$(echo "$BRANCH_NAME" | tr '/' '-')
+### 2. Sync Worktree Config
 
-path="$parent_dir/$sanitized"
-
-git worktree add "$path" -b "$BRANCH_NAME"
-cd "$path"
-```
-
-### 3. Sync Worktree Config
-
-If the main worktree has a `.worktreerc` file, sync matching files into the new
-worktree. This copies config files (e.g., `.env`, IDE settings) that are
-gitignored but needed for the project to function.
+Run from inside the new worktree directory:
 
 ```bash
 python ~/.claude/skills/create-git-worktree/scripts/sync_worktreerc.py
 ```
 
-This step is safe to skip if there is no `.worktreerc` — the script handles
-that gracefully.
+If the main worktree has a `.worktreerc` file, this copies matching config files
+(e.g., `.env`, IDE settings) that are gitignored but needed for the project.
+Safe to skip if there is no `.worktreerc` — the script handles that gracefully.
 
-### 4. Run Project Setup
+### 3. Run Project Setup
 
 Auto-detect and run appropriate setup:
 
@@ -136,7 +102,7 @@ if [ -f pyproject.toml ]; then poetry install; fi
 if [ -f go.mod ]; then go mod download; fi
 ```
 
-### 5. Verify Clean Baseline
+### 4. Verify Clean Baseline
 
 Run tests to ensure worktree starts clean:
 
@@ -152,7 +118,7 @@ go test ./...
 
 **If tests pass:** Report ready.
 
-### 6. Report Location
+### 5. Report Location
 
 ```
 Worktree ready at <full-path>
@@ -162,28 +128,27 @@ Ready to implement <feature-name>
 
 ## Quick Reference
 
-| Situation                    | Action                             |
-| ---------------------------- | ---------------------------------- |
-| Not on default branch        | Switch to default branch or abort  |
-| Default branch behind origin | Prompt user to pull latest changes |
-| Branch name has slashes      | Sanitize: replace `/` with `-`     |
-| Tests fail during baseline   | Report failures + ask              |
-| No package.json/Cargo.toml   | Skip dependency install            |
-| `.worktreerc` exists         | Sync matching files before project setup |
-| `.worktreerc` not found      | Skip sync (script exits gracefully)      |
+| Situation                    | Action                                            |
+| ---------------------------- | ------------------------------------------------- |
+| Not on default branch        | Script returns `wrong_branch` — ask user to switch|
+| Default branch behind origin | Script returns `behind_origin` — ask user to pull |
+| Branch name has slashes      | Script sanitizes: replaces `/` with `-` in path   |
+| Tests fail during baseline   | Report failures + ask                             |
+| No package.json/Cargo.toml   | Skip dependency install                           |
+| `.worktreerc` exists         | Sync matching files before project setup          |
+| `.worktreerc` not found      | Skip sync (script exits gracefully)               |
 
 ## Common Mistakes
 
 ### Creating worktree from non-default branch
 
 - **Problem:** Worktree diverges from a stale base, not the latest mainline
-- **Fix:** Always verify you're on the default branch before creating a worktree
+- **Fix:** The setup script enforces this — handle `wrong_branch` status
 
 ### Not pulling latest changes
 
 - **Problem:** Worktree starts from outdated code, leading to merge conflicts
-  later
-- **Fix:** Check if default branch is behind origin and prompt to pull
+- **Fix:** The setup script enforces this — handle `behind_origin` status
 
 ### Proceeding with failing tests
 
@@ -192,7 +157,8 @@ Ready to implement <feature-name>
 
 ### Running project setup before syncing worktreerc
 
-- **Problem:** Setup commands fail because config files (`.env`, etc.) are missing
+- **Problem:** Setup commands fail because config files (`.env`, etc.) are
+  missing
 - **Fix:** Always run the worktreerc sync step before project setup
 
 ### Hardcoding setup commands
@@ -205,11 +171,7 @@ Ready to implement <feature-name>
 ```
 You: I'm using the create-git-worktree skill to set up an isolated workspace.
 
-[Verify on default branch (main) - confirmed]
-[Fetch origin, compare SHAs - local main is up to date]
-[Determine parent dir: /Users/jesse/Code/myproject]
-[Sanitize branch name: feature/auth → feature-auth]
-[Create worktree: git worktree add /Users/jesse/Code/myproject/feature-auth -b feature/auth]
+[Run setup_worktree.py feature/auth → success, path: /Users/jesse/Code/myproject/feature-auth]
 [Sync worktreerc: copied .env, copied .env.local]
 [Run npm install]
 [Run npm test - 47 passing]
@@ -223,18 +185,14 @@ Ready to implement auth feature
 
 **Never:**
 
-- Create worktree from a non-default branch
-- Skip freshness check against origin
+- Ignore `wrong_branch` or `behind_origin` status from the setup script
 - Run project setup before syncing `.worktreerc` files
 - Skip baseline test verification
 - Proceed with failing tests without asking
-- Leave slashes unsanitized in worktree directory names
 
 **Always:**
 
-- Verify on default branch before creating worktree
-- Check if default branch is behind origin
-- Sanitize branch names (replace `/` with `-`) for directory paths
+- Use `setup_worktree.py` for creation (handles branch verification + freshness)
 - Sync `.worktreerc` files before running project setup
 - Auto-detect and run project setup
 - Verify clean test baseline
