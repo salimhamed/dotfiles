@@ -7,7 +7,7 @@ Collects all context needed for creating a pull request.
 ### Usage
 
 ```bash
-python ~/.claude/skills/pr/scripts/gather_context.py
+python scripts/gather_context.py
 ```
 
 ### Output Schema
@@ -47,7 +47,7 @@ Creates a pull request using the GitHub CLI.
 ### Usage
 
 ```bash
-python ~/.claude/skills/pr/scripts/create_pr.py --title "Add feature X" --body "## Summary\n- Add ..."
+python scripts/create_pr.py --title "Add feature X" --body "## Summary\n- Add ..."
 ```
 
 ### Arguments

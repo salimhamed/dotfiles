@@ -26,7 +26,7 @@ If provided, incorporate these instructions into the description format below.
 Run the gather script:
 
 ```bash
-python /Users/salim/.claude/skills/pr-desc/scripts/gather_context.py
+python scripts/gather_context.py
 ```
 
 ## Preconditions
@@ -41,7 +41,7 @@ Check these in the JSON output BEFORE proceeding:
 Update the PR body:
 
 ```bash
-python /Users/salim/.claude/skills/pr-desc/scripts/update_description.py --body "<new body>"
+python scripts/update_description.py --body "<new body>"
 ```
 
 ## Body Format
