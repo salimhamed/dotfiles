@@ -94,6 +94,36 @@ The `status` field determines which additional fields are present.
 | `0`  | `success` — worktree created                                  |
 | `1`  | Any other status (`wrong_branch`, `behind_origin`, `error`)   |
 
+## `setup`
+
+### Usage
+
+```bash
+uv run scripts/worktree.py setup <WORKTREE_PATH>
+```
+
+| Argument         | Required | Description                        |
+| ---------------- | -------- | ---------------------------------- |
+| `WORKTREE_PATH`  | Yes      | Target worktree directory to set up |
+
+### Behavior
+
+Runs sync then post-create hooks in one invocation:
+
+1. Finds the main worktree via `git worktree list --porcelain`
+2. Syncs config files (same as `sync` — see below)
+3. Runs post-create hooks (same as `run-hooks` — see below)
+
+Resolves the main worktree root once and passes it to both operations,
+avoiding redundant git calls.
+
+### Exit Codes
+
+| Code | Meaning                                                        |
+| ---- | -------------------------------------------------------------- |
+| `0`  | Both sync and hooks succeeded (or were graceful no-ops)        |
+| `1`  | Sync or hook failure, not in git repo, or malformed YAML       |
+
 ## `sync`
 
 ### Usage
@@ -202,7 +232,7 @@ worktree:
 
 | Case                          | Handling                                              |
 | ----------------------------- | ----------------------------------------------------- |
-| No `.worktreerc.yml`/`.yaml`  | `sync` and `run-hooks` print no-op message, exit 0    |
+| No `.worktreerc.yml`/`.yaml`  | `setup`, `sync`, and `run-hooks` print no-op message, exit 0 |
 | Empty `copy`/`post_create`   | Same as missing — graceful no-op                      |
 | Malformed YAML                | `click.ClickException` with parse error, exit 1       |
 | Hook command not found        | Shell returns exit 127, caught by stop-on-fail logic  |

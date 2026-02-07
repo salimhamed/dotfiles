@@ -11,6 +11,7 @@ allowed-tools:
   - Bash(ls *)
   - Bash(pwd)
   - Bash(python *)
+  - Bash(git *)
 ---
 
 # Create Git Worktree
@@ -31,18 +32,22 @@ This skill uses a single unified CLI script for all worktree operations:
 | --------------------- | ----------------------------------------------------------------- | ------------------------ |
 | `scripts/worktree.py` | Creates worktrees, syncs config files, and runs post-create hooks | `references/worktree.md` |
 
-Read the reference file when you need specifics about a subcommand's arguments,
-output format, or error handling.
+This script must be run with `uv` because it requires extra dependencies.
+
+```bash
+uv run scripts/worktree.py <subcommand> [args...]
+```
+
+You should read the reference file for specifics about a subcommand's arguments,
+output format, and error handling.
 
 ## Prerequisites
 
-This skill accepts a **branch name** as its argument.
+This skill accepts a **branch name** as the only argument.
 
 All prerequisite checks (default branch detection, branch verification, and
-freshness against origin) are handled by the `worktree.py create` subcommand.
-The script detects the default branch via
-`git symbolic-ref refs/remotes/origin/HEAD` with an automatic fallback to
-`git remote show origin` for repos where the symbolic ref isn't set.
+freshness against origin) are handled by the `scripts/worktree.py create`
+subcommand.
 
 The `create` subcommand must be run as the first step in the process of creating
 a worktree.
@@ -61,10 +66,9 @@ created in `/Users/jesse/Code/myproject/<worktree-dir-name>`.
 ### 2. Ask User If New Directory Doesn't Follow Conventions
 
 If following the convention outlined above will result in a new worktree
-directory that is outside of the project, ask the user where they would like to
-create the worktree directory, then pass their choice via `--parent-dir`.
-
-For example:
+directory that is outside of the project or in a directory that does not seem
+right, prompt the user with information about your concern and ask where they
+would like to create the worktree directory. For example:
 
 ```text
 Creating a worktree directory at <path> does not conform to worktree directory conventions because <reason>.
@@ -72,11 +76,14 @@ Creating a worktree directory at <path> does not conform to worktree directory c
 Where should I create worktrees?
 ```
 
+The directory is specified with the `--parent-dir` argument to the `create`
+subcommand.
+
 ## Creation Steps
 
 **Important:** Do not run any git commands directly (e.g., `git rev-parse`,
-`git branch`). The script handles all git operations internally and its JSON
-output provides everything needed (worktree path, branch, base SHA, etc.).
+`git branch`). The `scripts/worktree.py` script handles all git operations
+internally and its JSON output provides everything needed for this skill.
 
 ### 1. Setup & Create Worktree
 
@@ -93,31 +100,26 @@ The script outputs JSON to stdout. Parse the result and handle accordingly:
 | `behind_origin` | Default branch is behind origin | Ask user to pull latest changes, then re-run step 1.        |
 | `error`         | Something else went wrong       | Show `message` to the user and stop.                        |
 
-### 2. Sync Worktree Config
+### 2. Setup Worktree (Sync + Hooks)
 
 ```bash
-uv run scripts/worktree.py sync <worktree_path>
+uv run scripts/worktree.py setup <worktree_path>
 ```
 
 Where `<worktree_path>` is the `worktree_path` value from step 1's JSON output.
 
-Reads the `copy` list from `.worktreerc.yml` (or `.worktreerc.yaml`) in the main
-worktree and copies matching config files (e.g., `.env`, IDE settings) that are
-gitignored but needed for the project. Safe to skip if there is no
-`.worktreerc.yml`/`.yaml` — the script handles that gracefully.
+Combines sync and post-create hooks into one invocation:
 
-### 3. Run Post-Create Hooks
+1. Reads the `copy` list from `.worktreerc.yml` (or `.worktreerc.yaml`) in the
+   main worktree and copies matching files (e.g., `.env`, IDE settings) that are
+   gitignored but needed for the project.
+2. Reads the `post_create` list and executes each command in the new worktree
+   directory. Stops on first failure.
 
-```bash
-uv run scripts/worktree.py run-hooks <worktree_path>
-```
+Safe to skip if there is no `.worktreerc.yml`/`.yaml` — the script handles that
+gracefully.
 
-Reads the `post_create` list from `.worktreerc.yml` (or `.worktreerc.yaml`) and
-executes each command in the new worktree directory. Stops on first failure.
-Safe to skip if there is no `.worktreerc.yml`/`.yaml` or no `post_create`
-section — the script handles that gracefully.
-
-### 4. Report Location
+### 3. Report Location
 
 ```text
 Worktree ready at <full-path>
@@ -153,10 +155,11 @@ Branch: <branch> (based on <default_branch> at <base_sha>)
 
 - Ignore `wrong_branch` or `behind_origin` status from the setup script
 - Run git commands directly — the script handles all git operations
+- Run `scripts/worktree.py sync` with `python` directly — it requires `uv` for
+  dependencies
 
 **Always:**
 
 - Use `scripts/worktree.py create` for creation (handles branch verification +
   freshness)
-- Run `scripts/worktree.py sync` after creating the worktree
-- Run `scripts/worktree.py run-hooks` after syncing config files
+- Run `scripts/worktree.py setup` after creating the worktree

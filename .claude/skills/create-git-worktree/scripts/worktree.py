@@ -33,12 +33,18 @@ def get_default_branch() -> str:
 
     result = run(["git", "remote", "show", "origin"])
     if result.returncode != 0:
-        json_output("error", message="Cannot determine default branch: no remote 'origin' found.")
+        json_output(
+            "error",
+            message="Cannot determine default branch: no remote 'origin' found.",
+        )
     for line in result.stdout.splitlines():
         if "HEAD branch:" in line:
             return line.split(":")[-1].strip()
 
-    json_output("error", message="Cannot determine default branch from 'git remote show origin'.")
+    json_output(
+        "error",
+        message="Cannot determine default branch from 'git remote show origin'.",
+    )
 
 
 def get_main_worktree() -> Path:
@@ -92,11 +98,16 @@ def create(branch_name: str, parent_dir: Path | None):
     result = run(["git", "branch", "--show-current"])
     current_branch = result.stdout.strip()
     if current_branch != default_branch:
-        json_output("wrong_branch", current_branch=current_branch, default_branch=default_branch)
+        json_output(
+            "wrong_branch", current_branch=current_branch, default_branch=default_branch
+        )
 
     result = run(["git", "fetch", "origin", default_branch, "--quiet"])
     if result.returncode != 0:
-        json_output("error", message=f"Failed to fetch origin/{default_branch}. Check your network connection.")
+        json_output(
+            "error",
+            message=f"Failed to fetch origin/{default_branch}. Check your network connection.",
+        )
 
     local_sha = run(["git", "rev-parse", default_branch]).stdout.strip()
     remote_sha = run(["git", "rev-parse", f"origin/{default_branch}"]).stdout.strip()
@@ -125,15 +136,7 @@ def create(branch_name: str, parent_dir: Path | None):
     )
 
 
-@cli.command()
-@click.argument("worktree_path", type=click.Path(exists=True, file_okay=False, path_type=Path))
-def sync(worktree_path: Path):
-    """Copy config files from main worktree into WORKTREE_PATH."""
-    try:
-        main_root = get_main_worktree()
-    except (subprocess.CalledProcessError, IndexError):
-        raise click.ClickException("Could not determine main worktree. Are you in a git repository?")
-
+def _sync_files(main_root: Path, worktree_path: Path):
     if main_root.resolve() == worktree_path.resolve():
         click.echo("Already in main worktree, nothing to sync.")
         return
@@ -162,15 +165,7 @@ def sync(worktree_path: Path):
     click.echo("Done.")
 
 
-@cli.command("run-hooks")
-@click.argument("worktree_path", type=click.Path(exists=True, file_okay=False, path_type=Path))
-def run_hooks(worktree_path: Path):
-    """Run post-create hook commands in WORKTREE_PATH."""
-    try:
-        main_root = get_main_worktree()
-    except (subprocess.CalledProcessError, IndexError):
-        raise click.ClickException("Could not determine main worktree. Are you in a git repository?")
-
+def _run_post_hooks(main_root: Path, worktree_path: Path):
     config = load_worktreerc(main_root)
     commands = config.get("post_create", []) or []
     if not commands:
@@ -187,6 +182,44 @@ def run_hooks(worktree_path: Path):
             sys.exit(1)
 
     click.echo("All hooks completed successfully.")
+
+
+def _resolve_main_root() -> Path:
+    try:
+        return get_main_worktree()
+    except (subprocess.CalledProcessError, IndexError):
+        raise click.ClickException(
+            "Could not determine main worktree. Are you in a git repository?"
+        )
+
+
+@cli.command()
+@click.argument(
+    "worktree_path", type=click.Path(exists=True, file_okay=False, path_type=Path)
+)
+def sync(worktree_path: Path):
+    """Copy config files from main worktree into WORKTREE_PATH."""
+    _sync_files(_resolve_main_root(), worktree_path)
+
+
+@cli.command("run-hooks")
+@click.argument(
+    "worktree_path", type=click.Path(exists=True, file_okay=False, path_type=Path)
+)
+def run_hooks(worktree_path: Path):
+    """Run post-create hook commands in WORKTREE_PATH."""
+    _run_post_hooks(_resolve_main_root(), worktree_path)
+
+
+@cli.command()
+@click.argument(
+    "worktree_path", type=click.Path(exists=True, file_okay=False, path_type=Path)
+)
+def setup(worktree_path: Path):
+    """Sync config files and run post-create hooks in WORKTREE_PATH."""
+    main_root = _resolve_main_root()
+    _sync_files(main_root, worktree_path)
+    _run_post_hooks(main_root, worktree_path)
 
 
 if __name__ == "__main__":
