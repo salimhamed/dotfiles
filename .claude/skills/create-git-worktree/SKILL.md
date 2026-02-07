@@ -2,7 +2,7 @@
 name: create-git-worktree
 description:
   Use when starting feature work that needs isolation from current workspace or
-  before executing implementation plans - creates isolated git worktrees with
+  before executing implementation plans - creates an isolated git worktree with
   smart directory selection and safety verification
 disable-model-invocation: true
 allowed-tools:
@@ -21,31 +21,6 @@ reliable isolation.
 
 **Announce at start:** "I'm using the create-git-worktree skill to set up an
 isolated workspace."
-
-## Directory Selection Process
-
-### 1. Worktree Directories Location
-
-Worktree directories should be created in the parent directory of the primary
-git repository, not inside it. This prevents pollution of the main workspace.
-
-For example, if the current repository is at
-`/Users/jesse/Code/myproject/myproject`, the new worktree directory should be
-created in `/Users/jesse/Code/myproject/<worktree-dir-name>`.
-
-### 2. Ask User
-
-If following the convention outlined above will result in a new worktree
-directory that is outside of the project, ask the user where they would like to
-create worktree directory.
-
-For example:
-
-```text
-Creating a worktree diretory at <path> does not confirm to worktree dirctory conventions because <reason>.
-
-Where should I create worktrees?
-```
 
 ## Prerequisites
 
@@ -67,8 +42,8 @@ fi
 
 ### 2. Check Freshness
 
-Compare the local default branch with origin. If behind, prompt the user to
-pull before proceeding:
+Compare the local default branch with origin. If behind, prompt the user to pull
+before proceeding:
 
 ```bash
 git fetch origin "$default_branch" --quiet
@@ -78,6 +53,31 @@ remote_sha=$(git rev-parse "origin/$default_branch")
 if [ "$local_sha" != "$remote_sha" ]; then
   echo "'$default_branch' is behind origin. Pull latest changes before creating worktree?"
 fi
+```
+
+## Directory Selection Process
+
+### 1. Worktree Directories Location
+
+Worktree directories should be created in the parent directory of the primary
+git repository, not inside it. This prevents pollution of the main workspace.
+
+For example, if the current repository is at
+`/Users/jesse/Code/myproject/myproject`, the new worktree directory should be
+created in `/Users/jesse/Code/myproject/<worktree-dir-name>`.
+
+### 2. Ask User If New Directory Doesn't Follow Conventions
+
+If following the convention outlined above will result in a new worktree
+directory that is outside of the project, ask the user where they would like to
+create worktree directory.
+
+For example:
+
+```text
+Creating a worktree diretory at <path> does not confirm to worktree dirctory conventions because <reason>.
+
+Where should I create worktrees?
 ```
 
 ## Creation Steps
@@ -148,13 +148,13 @@ Ready to implement <feature-name>
 
 ## Quick Reference
 
-| Situation                    | Action                              |
-| ---------------------------- | ----------------------------------- |
-| Not on default branch        | Switch to default branch or abort   |
-| Default branch behind origin | Prompt user to pull latest changes  |
-| Branch name has slashes      | Sanitize: replace `/` with `-`      |
-| Tests fail during baseline   | Report failures + ask               |
-| No package.json/Cargo.toml   | Skip dependency install             |
+| Situation                    | Action                             |
+| ---------------------------- | ---------------------------------- |
+| Not on default branch        | Switch to default branch or abort  |
+| Default branch behind origin | Prompt user to pull latest changes |
+| Branch name has slashes      | Sanitize: replace `/` with `-`     |
+| Tests fail during baseline   | Report failures + ask              |
+| No package.json/Cargo.toml   | Skip dependency install            |
 
 ## Common Mistakes
 
@@ -165,7 +165,8 @@ Ready to implement <feature-name>
 
 ### Not pulling latest changes
 
-- **Problem:** Worktree starts from outdated code, leading to merge conflicts later
+- **Problem:** Worktree starts from outdated code, leading to merge conflicts
+  later
 - **Fix:** Check if default branch is behind origin and prompt to pull
 
 ### Proceeding with failing tests
