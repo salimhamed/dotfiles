@@ -8,7 +8,6 @@ disable-model-invocation: true
 allowed-tools:
   - Read
   - Bash(python *)
-  - Bash(ls *)
 ---
 
 # Create Git Worktree
@@ -62,12 +61,12 @@ created in `/Users/jesse/Code/myproject/<worktree-dir-name>`.
 
 If following the convention outlined above will result in a new worktree
 directory that is outside of the project, ask the user where they would like to
-create worktree directory.
+create the worktree directory, then pass their choice via `--parent-dir`.
 
 For example:
 
 ```text
-Creating a worktree diretory at <path> does not confirm to worktree dirctory conventions because <reason>.
+Creating a worktree directory at <path> does not conform to worktree directory conventions because <reason>.
 
 Where should I create worktrees?
 ```
@@ -81,7 +80,7 @@ JSON output provides everything needed (worktree path, branch, base SHA, etc.).
 ### 1. Setup & Create Worktree
 
 ```bash
-python scripts/setup_worktree.py <BRANCH_NAME>
+python scripts/setup_worktree.py <BRANCH_NAME> [--parent-dir <path>]
 ```
 
 The script outputs JSON to stdout. Parse the result and handle accordingly:

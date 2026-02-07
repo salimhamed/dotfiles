@@ -3,7 +3,7 @@
 ## Usage
 
 ```bash
-python ~/.claude/skills/create-git-worktree/scripts/sync_worktreerc.py <worktree-path>
+python scripts/sync_worktreerc.py <worktree-path>
 ```
 
 `<worktree-path>` is the target worktree directory. If omitted, defaults to

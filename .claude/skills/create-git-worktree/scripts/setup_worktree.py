@@ -30,8 +30,8 @@ def get_default_branch() -> str:
 
 
 def main():
-    if len(sys.argv) != 2 or not sys.argv[1].strip():
-        output("error", message="Usage: setup_worktree.py <branch-name>")
+    if len(sys.argv) < 2 or not sys.argv[1].strip():
+        output("error", message="Usage: setup_worktree.py <branch-name> [--parent-dir <path>]")
 
     branch_name = sys.argv[1].strip()
 
@@ -51,7 +51,9 @@ def main():
         output("wrong_branch", current_branch=current_branch, default_branch=default_branch)
 
     # Fetch and check freshness
-    run(["git", "fetch", "origin", default_branch, "--quiet"])
+    result = run(["git", "fetch", "origin", default_branch, "--quiet"])
+    if result.returncode != 0:
+        output("error", message=f"Failed to fetch origin/{default_branch}. Check your network connection.")
 
     local_sha = run(["git", "rev-parse", default_branch]).stdout.strip()
     remote_sha = run(["git", "rev-parse", f"origin/{default_branch}"]).stdout.strip()
@@ -60,6 +62,10 @@ def main():
 
     # Compute worktree path
     parent_dir = repo_root.parent
+    for i, arg in enumerate(sys.argv[2:], start=2):
+        if arg == "--parent-dir" and i + 1 < len(sys.argv):
+            parent_dir = Path(sys.argv[i + 1])
+            break
     sanitized = branch_name.replace("/", "-")
     worktree_path = parent_dir / sanitized
 

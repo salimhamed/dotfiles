@@ -3,8 +3,13 @@
 ## Usage
 
 ```bash
-python ~/.claude/skills/create-git-worktree/scripts/setup_worktree.py <branch-name>
+python scripts/setup_worktree.py <branch-name> [--parent-dir <path>]
 ```
+
+| Argument        | Required | Description                                                  |
+| --------------- | -------- | ------------------------------------------------------------ |
+| `<branch-name>` | Yes      | Name for the new worktree branch                             |
+| `--parent-dir`  | No       | Directory in which to create the worktree (default: parent of repo root) |
 
 ## What It Does
 
@@ -19,9 +24,9 @@ is on a fresh default branch.
 3. **Branch verification** — ensures the current branch is the default branch
 4. **Fetch + freshness check** — fetches `origin/<default>` and compares local
    vs remote SHA; rejects if local is behind
-5. **Path computation** — places the worktree in the parent of the repo root,
-   sanitizing `/` to `-` in the branch name (e.g. `feature/auth` becomes
-   `feature-auth`)
+5. **Path computation** — places the worktree in the parent of the repo root
+   (or the directory given by `--parent-dir`), sanitizing `/` to `-` in the
+   branch name (e.g. `feature/auth` becomes `feature-auth`)
 6. **Collision check** — errors if the computed path already exists
 7. **`git worktree add`** — creates the worktree with a new branch (`-b`)
 
