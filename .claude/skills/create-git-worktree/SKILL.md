@@ -7,6 +7,7 @@ description:
 disable-model-invocation: true
 allowed-tools:
   - Bash(git *)
+  - Bash(python *)
 ---
 
 # Create Git Worktree
@@ -103,7 +104,20 @@ git worktree add "$path" -b "$BRANCH_NAME"
 cd "$path"
 ```
 
-### 3. Run Project Setup
+### 3. Sync Worktree Config
+
+If the main worktree has a `.worktreerc` file, sync matching files into the new
+worktree. This copies config files (e.g., `.env`, IDE settings) that are
+gitignored but needed for the project to function.
+
+```bash
+python ~/.claude/skills/create-git-worktree/scripts/sync_worktreerc.py
+```
+
+This step is safe to skip if there is no `.worktreerc` — the script handles
+that gracefully.
+
+### 4. Run Project Setup
 
 Auto-detect and run appropriate setup:
 
@@ -122,7 +136,7 @@ if [ -f pyproject.toml ]; then poetry install; fi
 if [ -f go.mod ]; then go mod download; fi
 ```
 
-### 4. Verify Clean Baseline
+### 5. Verify Clean Baseline
 
 Run tests to ensure worktree starts clean:
 
@@ -138,7 +152,7 @@ go test ./...
 
 **If tests pass:** Report ready.
 
-### 5. Report Location
+### 6. Report Location
 
 ```
 Worktree ready at <full-path>
@@ -155,6 +169,8 @@ Ready to implement <feature-name>
 | Branch name has slashes      | Sanitize: replace `/` with `-`     |
 | Tests fail during baseline   | Report failures + ask              |
 | No package.json/Cargo.toml   | Skip dependency install            |
+| `.worktreerc` exists         | Sync matching files before project setup |
+| `.worktreerc` not found      | Skip sync (script exits gracefully)      |
 
 ## Common Mistakes
 
@@ -174,6 +190,11 @@ Ready to implement <feature-name>
 - **Problem:** Can't distinguish new bugs from pre-existing issues
 - **Fix:** Report failures, get explicit permission to proceed
 
+### Running project setup before syncing worktreerc
+
+- **Problem:** Setup commands fail because config files (`.env`, etc.) are missing
+- **Fix:** Always run the worktreerc sync step before project setup
+
 ### Hardcoding setup commands
 
 - **Problem:** Breaks on projects using different tools
@@ -189,6 +210,7 @@ You: I'm using the create-git-worktree skill to set up an isolated workspace.
 [Determine parent dir: /Users/jesse/Code/myproject]
 [Sanitize branch name: feature/auth → feature-auth]
 [Create worktree: git worktree add /Users/jesse/Code/myproject/feature-auth -b feature/auth]
+[Sync worktreerc: copied .env, copied .env.local]
 [Run npm install]
 [Run npm test - 47 passing]
 
@@ -203,6 +225,7 @@ Ready to implement auth feature
 
 - Create worktree from a non-default branch
 - Skip freshness check against origin
+- Run project setup before syncing `.worktreerc` files
 - Skip baseline test verification
 - Proceed with failing tests without asking
 - Leave slashes unsanitized in worktree directory names
@@ -212,6 +235,7 @@ Ready to implement auth feature
 - Verify on default branch before creating worktree
 - Check if default branch is behind origin
 - Sanitize branch names (replace `/` with `-`) for directory paths
+- Sync `.worktreerc` files before running project setup
 - Auto-detect and run project setup
 - Verify clean test baseline
 
