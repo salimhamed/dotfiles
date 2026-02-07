@@ -91,19 +91,14 @@ project=$(basename "$(git rev-parse --show-toplevel)")
 ### 2. Create Worktree
 
 ```bash
-# TODO: I don't understand this part
+repo_root=$(git rev-parse --show-toplevel)
+parent_dir=$(dirname "$repo_root")
 
-# Determine full path
-case $LOCATION in
-  .worktrees|worktrees)
-    path="$LOCATION/$BRANCH_NAME"
-    ;;
-  ~/.config/superpowers/worktrees/*)
-    path="~/.config/superpowers/worktrees/$project/$BRANCH_NAME"
-    ;;
-esac
+# Sanitize branch name: replace / with -
+sanitized=$(echo "$BRANCH_NAME" | tr '/' '-')
 
-# Create worktree with new branch
+path="$parent_dir/$sanitized"
+
 git worktree add "$path" -b "$BRANCH_NAME"
 cd "$path"
 ```
@@ -153,27 +148,25 @@ Ready to implement <feature-name>
 
 ## Quick Reference
 
-| Situation                  | Action                     |
-| -------------------------- | -------------------------- |
-| `.worktrees/` exists       | Use it (verify ignored)    |
-| `worktrees/` exists        | Use it (verify ignored)    |
-| Both exist                 | Use `.worktrees/`          |
-| Neither exists             | Check CLAUDE.md → Ask user |
-| Directory not ignored      | Add to .gitignore + commit |
-| Tests fail during baseline | Report failures + ask      |
-| No package.json/Cargo.toml | Skip dependency install    |
+| Situation                    | Action                              |
+| ---------------------------- | ----------------------------------- |
+| Not on default branch        | Switch to default branch or abort   |
+| Default branch behind origin | Prompt user to pull latest changes  |
+| Branch name has slashes      | Sanitize: replace `/` with `-`      |
+| Tests fail during baseline   | Report failures + ask               |
+| No package.json/Cargo.toml   | Skip dependency install             |
 
 ## Common Mistakes
 
-### Skipping ignore verification
+### Creating worktree from non-default branch
 
-- **Problem:** Worktree contents get tracked, pollute git status
-- **Fix:** Always use `git check-ignore` before creating project-local worktree
+- **Problem:** Worktree diverges from a stale base, not the latest mainline
+- **Fix:** Always verify you're on the default branch before creating a worktree
 
-### Assuming directory location
+### Not pulling latest changes
 
-- **Problem:** Creates inconsistency, violates project conventions
-- **Fix:** Follow priority: existing > CLAUDE.md > ask
+- **Problem:** Worktree starts from outdated code, leading to merge conflicts later
+- **Fix:** Check if default branch is behind origin and prompt to pull
 
 ### Proceeding with failing tests
 
@@ -188,15 +181,17 @@ Ready to implement <feature-name>
 ## Example Workflow
 
 ```
-You: I'm using the using-git-worktrees skill to set up an isolated workspace.
+You: I'm using the create-git-worktree skill to set up an isolated workspace.
 
-[Check .worktrees/ - exists]
-[Verify ignored - git check-ignore confirms .worktrees/ is ignored]
-[Create worktree: git worktree add .worktrees/auth -b feature/auth]
+[Verify on default branch (main) - confirmed]
+[Fetch origin, compare SHAs - local main is up to date]
+[Determine parent dir: /Users/jesse/Code/myproject]
+[Sanitize branch name: feature/auth → feature-auth]
+[Create worktree: git worktree add /Users/jesse/Code/myproject/feature-auth -b feature/auth]
 [Run npm install]
 [Run npm test - 47 passing]
 
-Worktree ready at /Users/jesse/myproject/.worktrees/auth
+Worktree ready at /Users/jesse/Code/myproject/feature-auth
 Tests passing (47 tests, 0 failures)
 Ready to implement auth feature
 ```
@@ -205,16 +200,17 @@ Ready to implement auth feature
 
 **Never:**
 
-- Create worktree without verifying it's ignored (project-local)
+- Create worktree from a non-default branch
+- Skip freshness check against origin
 - Skip baseline test verification
 - Proceed with failing tests without asking
-- Assume directory location when ambiguous
-- Skip CLAUDE.md check
+- Leave slashes unsanitized in worktree directory names
 
 **Always:**
 
-- Follow directory priority: existing > CLAUDE.md > ask
-- Verify directory is ignored for project-local
+- Verify on default branch before creating worktree
+- Check if default branch is behind origin
+- Sanitize branch names (replace `/` with `-`) for directory paths
 - Auto-detect and run project setup
 - Verify clean test baseline
 
