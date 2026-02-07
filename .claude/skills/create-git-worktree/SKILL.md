@@ -7,6 +7,9 @@ description:
 disable-model-invocation: true
 allowed-tools:
   - Read
+  - Bash(uv *)
+  - Bash(ls *)
+  - Bash(pwd)
   - Bash(python *)
 ---
 
@@ -22,15 +25,13 @@ isolated workspace."
 
 ## Script Reference
 
-This skill has access to the following scripts to facilitate worktree creation
-and configuration:
+This skill uses a single unified CLI script for all worktree operations:
 
-| Script                       | Description                                                      | Reference                       |
-| ---------------------------- | ---------------------------------------------------------------- | ------------------------------- |
-| `scripts/setup_worktree.py`  | Creates worktree with branch verification and freshness checks   | `references/setup-worktree.md`  |
-| `scripts/sync_worktreerc.py` | Copies gitignored config files (`.env`, etc.) from main worktree | `references/sync-worktreerc.md` |
+| Script                | Description                                                       | Reference                |
+| --------------------- | ----------------------------------------------------------------- | ------------------------ |
+| `scripts/worktree.py` | Creates worktrees, syncs config files, and runs post-create hooks | `references/worktree.md` |
 
-Read the reference file when you need specifics about a script's arguments,
+Read the reference file when you need specifics about a subcommand's arguments,
 output format, or error handling.
 
 ## Prerequisites
@@ -38,12 +39,12 @@ output format, or error handling.
 This skill accepts a **branch name** as its argument.
 
 All prerequisite checks (default branch detection, branch verification, and
-freshness against origin) are handled by the `setup_worktree.py` script. The
-script detects the default branch via
+freshness against origin) are handled by the `worktree.py create` subcommand.
+The script detects the default branch via
 `git symbolic-ref refs/remotes/origin/HEAD` with an automatic fallback to
 `git remote show origin` for repos where the symbolic ref isn't set.
 
-The `setup_worktree.py` must be run as the first step in the process of creating
+The `create` subcommand must be run as the first step in the process of creating
 a worktree.
 
 ## Directory Selection Process
@@ -74,13 +75,13 @@ Where should I create worktrees?
 ## Creation Steps
 
 **Important:** Do not run any git commands directly (e.g., `git rev-parse`,
-`git branch`). The setup script handles all git operations internally and its
-JSON output provides everything needed (worktree path, branch, base SHA, etc.).
+`git branch`). The script handles all git operations internally and its JSON
+output provides everything needed (worktree path, branch, base SHA, etc.).
 
 ### 1. Setup & Create Worktree
 
 ```bash
-python scripts/setup_worktree.py <BRANCH_NAME> [--parent-dir <path>]
+uv run scripts/worktree.py create <BRANCH_NAME> [--parent-dir <path>]
 ```
 
 The script outputs JSON to stdout. Parse the result and handle accordingly:
@@ -95,16 +96,28 @@ The script outputs JSON to stdout. Parse the result and handle accordingly:
 ### 2. Sync Worktree Config
 
 ```bash
-python scripts/sync_worktreerc.py <worktree_path>
+uv run scripts/worktree.py sync <worktree_path>
 ```
 
 Where `<worktree_path>` is the `worktree_path` value from step 1's JSON output.
 
-If the main worktree has a `.worktreerc` file, this copies matching config files
-(e.g., `.env`, IDE settings) that are gitignored but needed for the project.
-Safe to skip if there is no `.worktreerc` — the script handles that gracefully.
+Reads the `copy` list from `.worktreerc.yml` (or `.worktreerc.yaml`) in the main
+worktree and copies matching config files (e.g., `.env`, IDE settings) that are
+gitignored but needed for the project. Safe to skip if there is no
+`.worktreerc.yml`/`.yaml` — the script handles that gracefully.
 
-### 3. Report Location
+### 3. Run Post-Create Hooks
+
+```bash
+uv run scripts/worktree.py run-hooks <worktree_path>
+```
+
+Reads the `post_create` list from `.worktreerc.yml` (or `.worktreerc.yaml`) and
+executes each command in the new worktree directory. Stops on first failure.
+Safe to skip if there is no `.worktreerc.yml`/`.yaml` or no `post_create`
+section — the script handles that gracefully.
+
+### 4. Report Location
 
 ```text
 Worktree ready at <full-path>
@@ -113,13 +126,14 @@ Branch: <branch> (based on <default_branch> at <base_sha>)
 
 ## Quick Reference
 
-| Situation                    | Action                                             |
-| ---------------------------- | -------------------------------------------------- |
-| Not on default branch        | Script returns `wrong_branch` — ask user to switch |
-| Default branch behind origin | Script returns `behind_origin` — ask user to pull  |
-| Branch name has slashes      | Script sanitizes: replaces `/` with `-` in path    |
-| `.worktreerc` exists         | Sync matching files to new worktree                |
-| `.worktreerc` not found      | Skip sync (script exits gracefully)                |
+| Situation                           | Action                                             |
+| ----------------------------------- | -------------------------------------------------- |
+| Not on default branch               | Script returns `wrong_branch` — ask user to switch |
+| Default branch behind origin        | Script returns `behind_origin` — ask user to pull  |
+| Branch name has slashes             | Script sanitizes: replaces `/` with `-` in path    |
+| `.worktreerc.yml`/`.yaml` exists    | Sync matching files and run post-create hooks      |
+| `.worktreerc.yml`/`.yaml` not found | Sync and hooks skip gracefully (exit 0)            |
+| Hook command fails                  | Stops immediately, reports which command failed    |
 
 ## Common Mistakes
 
@@ -138,11 +152,11 @@ Branch: <branch> (based on <default_branch> at <base_sha>)
 **Never:**
 
 - Ignore `wrong_branch` or `behind_origin` status from the setup script
-- Run git commands directly — the setup script handles all git operations
+- Run git commands directly — the script handles all git operations
 
 **Always:**
 
-- Use `scripts/setup_worktree.py` for creation (handles branch verification +
+- Use `scripts/worktree.py create` for creation (handles branch verification +
   freshness)
-- Sync `.worktreerc` files after creating the worktree with the
-  `scripts/sync_worktreerc.py` script
+- Run `scripts/worktree.py sync` after creating the worktree
+- Run `scripts/worktree.py run-hooks` after syncing config files
