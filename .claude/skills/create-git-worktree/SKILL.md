@@ -29,6 +29,15 @@ script detects the default branch via `git symbolic-ref refs/remotes/origin/HEAD
 with an automatic fallback to `git remote show origin` for repos where the
 symbolic ref isn't set.
 
+## Script Reference
+
+Detailed documentation for each script lives in the `references/` directory.
+Read the relevant reference file when you need specifics about a script's
+arguments, output format, or error handling.
+
+- `references/setup-worktree.md` — setup & worktree creation script
+- `references/sync-worktreerc.md` — worktree config sync script
+
 ## Directory Selection Process
 
 ### 1. Worktree Directories Location
