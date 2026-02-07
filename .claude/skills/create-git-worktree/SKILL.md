@@ -6,6 +6,7 @@ description:
   smart directory selection and safety verification
 disable-model-invocation: true
 allowed-tools:
+  - Read
   - Bash(python *)
   - Bash(ls *)
 ---
@@ -94,11 +95,11 @@ The script outputs JSON to stdout. Parse the result and handle accordingly:
 
 ### 2. Sync Worktree Config
 
-Run from inside the new worktree directory:
-
 ```bash
-python scripts/sync_worktreerc.py
+python scripts/sync_worktreerc.py <worktree_path>
 ```
+
+Where `<worktree_path>` is the `worktree_path` value from step 1's JSON output.
 
 If the main worktree has a `.worktreerc` file, this copies matching config files
 (e.g., `.env`, IDE settings) that are gitignored but needed for the project.

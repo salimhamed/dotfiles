@@ -3,12 +3,11 @@
 ## Usage
 
 ```bash
-cd <new-worktree-directory>
-python ~/.claude/skills/create-git-worktree/scripts/sync_worktreerc.py
+python ~/.claude/skills/create-git-worktree/scripts/sync_worktreerc.py <worktree-path>
 ```
 
-Run from inside the new worktree directory — the script uses `cwd` to determine
-the target.
+`<worktree-path>` is the target worktree directory. If omitted, defaults to
+the current working directory.
 
 ## What It Does
 

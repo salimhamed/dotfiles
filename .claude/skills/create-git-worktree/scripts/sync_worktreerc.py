@@ -53,7 +53,7 @@ def main():
         print("Error: Could not determine main worktree. Are you in a git repository?")
         sys.exit(1)
 
-    target = Path.cwd()
+    target = Path(sys.argv[1]) if len(sys.argv) > 1 else Path.cwd()
 
     if main_root.resolve() == target.resolve():
         print("Already in main worktree, nothing to sync.")
