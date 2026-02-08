@@ -4,6 +4,7 @@ description:
   Use when starting feature work that needs isolation from current workspace or
   before executing implementation plans - creates an isolated git worktree with
   smart directory selection and safety verification
+argument-hint: "<branch-name>"
 disable-model-invocation: true
 allowed-tools:
   - Read

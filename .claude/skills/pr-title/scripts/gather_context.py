@@ -3,7 +3,6 @@
 
 import json
 import subprocess
-import sys
 
 
 def run(cmd: list[str], check: bool = False) -> str:

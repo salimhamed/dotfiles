@@ -1,6 +1,7 @@
 ---
 name: y-pr-title
 description: Generate PR title for yadm branch
+disable-model-invocation: true
 allowed-tools:
   - Bash(yadm *)
   - Bash(python *)
