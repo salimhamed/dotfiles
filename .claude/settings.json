@@ -34,8 +34,9 @@
     "padding": 0
   },
   "enabledPlugins": {
-    "superpowers@claude-plugins-official": false,
+    "superpowers@claude-plugins-official": true,
     "ralph-loop@claude-plugins-official": true,
-    "plugin-dev@claude-plugins-official": true
+    "plugin-dev@claude-plugins-official": true,
+    "flow@claude-code-flow": true
   }
 }
