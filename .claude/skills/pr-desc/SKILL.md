@@ -1,6 +1,7 @@
 ---
 name: pr-desc
 description: Update PR description from current branch context
+argument-hint: "[additional instructions]"
 disable-model-invocation: true
 allowed-tools:
   - Bash(git *)
@@ -15,11 +16,12 @@ allowed-tools:
 ## Arguments
 
 This skill accepts an optional argument with additional instructions for the
-description.
+description: $ARGUMENTS
 
 **Example:** `/pr-desc include a ## Usage section showing how to use each skill`
 
-If provided, incorporate these instructions into the description format below.
+If arguments were provided, incorporate those instructions into the description
+format below.
 
 ## Gather Context
 
