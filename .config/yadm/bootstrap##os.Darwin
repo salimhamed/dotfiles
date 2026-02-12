@@ -62,7 +62,7 @@ fi
 
 # install global version of python
 echo "Installing/updating global version of python..."
-PY_VERSION=3.11.3
+PY_VERSION=3.13.12
 pyenv install --skip-existing "${PY_VERSION}"
 pyenv global "${PY_VERSION}"
 pyenv exec pip install --upgrade pip
