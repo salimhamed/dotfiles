@@ -137,7 +137,7 @@ nvm install "${NODE_VERSION}"
 nvm alias default "${NODE_VERSION}"
 
 # install node applications
-npm install -g @taplo/cli pnpm prettier yarn neovim tree-sitter-cli aws-cdk@latest
+npm install -g --force @taplo/cli pnpm prettier yarn neovim tree-sitter-cli aws-cdk@latest
 
 # install go packages
 go install github.com/google/yamlfmt/cmd/yamlfmt@latest
