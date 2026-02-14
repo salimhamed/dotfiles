@@ -62,7 +62,7 @@ fi
 
 # install global version of python
 echo "Installing/updating global version of python..."
-PY_VERSION=3.11.3
+PY_VERSION=3.13.12
 pyenv install --skip-existing "${PY_VERSION}"
 pyenv global "${PY_VERSION}"
 pyenv exec pip install --upgrade pip
@@ -137,7 +137,7 @@ nvm install "${NODE_VERSION}"
 nvm alias default "${NODE_VERSION}"
 
 # install node applications
-npm install -g @taplo/cli pnpm prettier yarn neovim tree-sitter-cli aws-cdk@latest
+npm install -g --force @taplo/cli pnpm prettier yarn neovim tree-sitter-cli aws-cdk@latest
 
 # install go packages
 go install github.com/google/yamlfmt/cmd/yamlfmt@latest

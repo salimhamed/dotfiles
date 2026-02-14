@@ -35,7 +35,10 @@
   },
   "enabledPlugins": {
     "superpowers@claude-plugins-official": false,
-    "ralph-loop@claude-plugins-official": true,
-    "plugin-dev@claude-plugins-official": true
-  }
+    "ralph-loop@claude-plugins-official": false,
+    "plugin-dev@claude-plugins-official": false,
+    "example-skills@anthropic-agent-skills": false,
+    "flow@claude-code-flow": true
+  },
+  "skipDangerousModePermissionPrompt": true
 }
