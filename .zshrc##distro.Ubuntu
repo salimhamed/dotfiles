@@ -102,7 +102,7 @@ autoload -U bashcompinit && bashcompinit
 # shell completions for installed tools
 command -v gh &>/dev/null && eval "$(gh completion -s zsh)"
 command -v docker &>/dev/null && eval "$(docker completion zsh)"
-command -v aws_completer &>/dev/null && complete -C "$(which aws_completer)" aws
+command -v aws_completer &>/dev/null && complete -C "$(command -v aws_completer)" aws
 command -v pip &>/dev/null && eval "$(pip completion --zsh)"
 command -v npm &>/dev/null && eval "$(npm completion)"
 command -v uv &>/dev/null && eval "$(uv generate-shell-completion zsh)"

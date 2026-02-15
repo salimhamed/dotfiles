@@ -223,7 +223,11 @@ install_delta
 install_nvim() {
     local inv_temp_dir inv_version inv_url inv_archive inv_extracted
     inv_temp_dir=$(mktemp -d)
-    inv_version=$(curl -s "https://api.github.com/repos/neovim/neovim/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
+    inv_version=$(curl -s "https://api.github.com/repos/neovim/neovim/releases/latest" | jq -r '.tag_name | ltrimstr("v")')
+    if [[ -z "${inv_version}" ]]; then
+        echo "Error: failed to determine latest nvim version" >&2
+        return 1
+    fi
     inv_url="https://github.com/neovim/neovim/releases/download/v${inv_version}/nvim-linux-x86_64.tar.gz"
     inv_archive="${inv_temp_dir}/nvim.tar.gz"
 
@@ -233,6 +237,10 @@ install_nvim() {
 
     # Find the extracted directory (name varies by version)
     inv_extracted=$(find "${inv_temp_dir}" -maxdepth 1 -type d -name 'nvim-*' | head -1)
+    if [[ -z "${inv_extracted}" ]]; then
+        echo "Error: failed to find extracted nvim directory in ${inv_temp_dir}" >&2
+        return 1
+    fi
 
     sudo rm -rf /opt/nvim /opt/nvim-linux64
     sudo mv "${inv_extracted}" /opt/nvim
