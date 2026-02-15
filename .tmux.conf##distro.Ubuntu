@@ -1,0 +1,128 @@
+# Set colors
+# https://github.com/neovim/neovim/wiki/FAQ#colors-arent-displayed-correctly
+set -g default-terminal "xterm-256color"
+
+# Fix colors
+# https://stackoverflow.com/a/60313682/3112403
+set-option -ga terminal-overrides ",xterm-256color:Tc"
+
+# increase time allowed to repeat commands
+set -g repeat-time 1500 # default 500
+
+# Enable mouse support
+set -g mouse on
+
+# fix delay in exiting insert mode in neovim
+# https://github.com/neovim/neovim/wiki/FAQ#esc-in-tmux-or-gnu-screen-is-delayed
+set -sg escape-time 10
+
+# Increase scrollback buffer size from 2000 to 50000 lines
+set -g history-limit 50000
+
+# Increase tmux messages display duration from 750ms to 4s
+set -g display-time 4000
+
+# Refresh 'status-left' and 'status-right' more often, from every 15s to 5s
+set -g status-interval 5
+
+# Focus events enabled for terminals that support them
+set -g focus-events on
+
+# Super useful when using "grouped sessions" and multi-monitor setup
+setw -g aggressive-resize on
+
+# Reload tmux config with Prefix + r
+bind r source-file ~/.tmux.conf \; display "Reloaded tmux config"
+
+# select next window
+unbind n
+bind -r C-] next-window
+
+# select previous window
+unbind p
+bind -r C-[ previous-window
+
+# vi style keybindings
+setw -g mode-keys vi
+bind-key h select-pane -L
+bind-key j select-pane -D
+bind-key k select-pane -U
+bind-key l select-pane -R
+
+# bind "v" to enter visual mode, matching vim
+bind -T copy-mode-vi v send -X begin-selection
+
+# bind "y" to yank (i.e., copy), matching vim
+bind -T copy-mode-vi y send-keys -X copy-pipe "xclip -selection clipboard"
+
+# allow copying text highlighted with the mouse
+bind -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe "xclip -selection clipboard"
+
+# setup tmux vim-tmux-navigator
+# See: https://github.com/christoomey/vim-tmux-navigator
+is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
+    | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|l?n?vim?x?)(diff)?$'"
+bind-key -n 'C-h' if-shell "$is_vim" 'send-keys C-h' 'select-pane -L'
+bind-key -n 'C-j' if-shell "$is_vim" 'send-keys C-j' 'select-pane -D'
+bind-key -n 'C-k' if-shell "$is_vim" 'send-keys C-k' 'select-pane -U'
+bind-key -n 'C-l' if-shell "$is_vim" 'send-keys C-l' 'select-pane -R'
+
+bind-key -T copy-mode-vi 'C-h' select-pane -L
+bind-key -T copy-mode-vi 'C-j' select-pane -D
+bind-key -T copy-mode-vi 'C-k' select-pane -U
+bind-key -T copy-mode-vi 'C-l' select-pane -R
+
+# Mapping for clear screen, since vim-tmux-navigator hijacks the default C-L
+bind C-l send-keys 'C-l'
+
+# rebind vertical split windows
+unbind %
+unbind v
+unbind C-v
+bind C-v split-window -h -c "#{pane_current_path}"
+
+# rebind horizontal split windows
+unbind '"'
+unbind _
+unbind C-_
+bind C-_ split-window -v -c "#{pane_current_path}"
+
+# rebind resizing panes to match neovim
+
+# resize 5 rows up
+unbind M-Up
+bind-key -r -T prefix S-Up resize-pane -U 5
+
+# resize 5 rows down
+unbind M-Down
+bind-key -r -T prefix S-Down resize-pane -D 5
+
+# resize 5 rows right
+unbind M-Right
+bind-key -r -T prefix S-Right resize-pane -R 5
+
+# resize 5 rows left
+unbind M-Left
+bind-key -r -T prefix S-Left resize-pane -L 5
+
+# List of plugins
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'dracula/tmux'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+
+# configure theme
+set -g @dracula-show-powerline true
+set -g @dracula-plugins " "
+set -g @dracula-show-flags true
+set -g @dracula-show-left-icon session
+set -g @dracula-left-icon-padding 0
+set -g status-position top
+
+# enable pane titles and configure colors to match the Dracula theme
+set-option -g pane-border-status top
+set-option -g pane-border-format "#{pane_index}: #{pane_title}"
+set-option -g pane-border-style fg=colour238
+set-option -g pane-active-border-style fg=colour141  # Dracula purple
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run '~/.tmux/plugins/tpm/tpm'

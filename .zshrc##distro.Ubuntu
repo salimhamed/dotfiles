@@ -1,5 +1,31 @@
 #!/usr/bin/env zsh
 
+# manually set language environment
+export LANG=en_US.UTF-8
+
+# define custom location for configuration files
+export XDG_CONFIG_HOME="$HOME/.config"
+
+# define preferred editor
+if command -v nvim &>/dev/null; then
+    export EDITOR='nvim'
+else
+    export EDITOR='vim'
+fi
+
+# use lazyvim as the default neovim configuration
+export NVIM_APPNAME="lazyvim"
+
+# define custom path for starship configuration
+export STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
+
+# prevent virtualenv from changing the prompt
+# starship will display the virtualenv name
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+# Claude Code - Advanced Tool Use
+export ENABLE_TOOL_SEARCH=true
+
 # enable zsh history
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -14,6 +40,33 @@ export NVM_DIR="$HOME/.nvm"
 # add default nvm node to path
 NODE_VERSION=$(nvm version)
 export PATH="$NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH"
+
+# pnpm setup
+export PNPM_HOME="${HOME}/.local/share/pnpm"
+case ":$PATH:" in
+    *":$PNPM_HOME:"*) ;;
+    *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# add cargo to path
+if [[ ! "$PATH" == *$HOME/.cargo/bin* ]]; then
+    export PATH="$HOME/.cargo/bin:$PATH"
+fi
+
+# add nvim to path
+if [[ ! "$PATH" == */opt/nvim/bin* ]]; then
+    export PATH="/opt/nvim/bin:$PATH"
+fi
+
+# add local bin to path
+if [[ ! "$PATH" == *$HOME/.local/bin* ]]; then
+    export PATH="$PATH:$HOME/.local/bin"
+fi
+
+# setup pyenv
+if command -v pyenv &>/dev/null; then
+    eval "$(pyenv init --path)"
+fi
 
 # initialize starship
 eval "$(starship init zsh)"
@@ -42,19 +95,25 @@ if [[ ! "$PATH" == *$HOME/.fzf/bin* ]]; then
 fi
 source <(fzf --zsh)
 
-# add cargo to path
-if [[ ! "$PATH" == *$HOME/.cargo/bin* ]]; then
-    export PATH="$HOME/.cargo/bin:$PATH"
-fi
+# initialize completions
+autoload -U compinit && compinit
+autoload -U bashcompinit && bashcompinit
 
-# add nvim to path
-if [[ ! "$PATH" == */opt/nvim-linux64/bin* ]]; then
-    export PATH="/opt/nvim-linux64/bin:$PATH"
-fi
+# shell completions for installed tools
+command -v gh &>/dev/null && eval "$(gh completion -s zsh)"
+command -v docker &>/dev/null && eval "$(docker completion zsh)"
+command -v aws_completer &>/dev/null && complete -C "$(command -v aws_completer)" aws
+command -v pip &>/dev/null && eval "$(pip completion --zsh)"
+command -v npm &>/dev/null && eval "$(npm completion)"
+command -v uv &>/dev/null && eval "$(uv generate-shell-completion zsh)"
+command -v uvx &>/dev/null && eval "$(uvx --generate-shell-completion zsh)"
 
-# add local bin to path
-if [[ ! "$PATH" == *$HOME/.local/bin* ]]; then
-    export PATH="$PATH:$HOME/.local/bin"
+# setup direnv
+eval "$(direnv hook zsh)"
+
+# setup zoxide
+if command -v zoxide &>/dev/null; then
+    eval "$(zoxide init zsh)"
 fi
 
 # source secrets
@@ -86,4 +145,9 @@ nordinfo() {
 # use modern alternatives
 alias ls='eza'
 alias ll='eza -la --header --git --icons --changed --time-style=iso'
+
+# bat alias (Ubuntu package installs as batcat)
+if command -v batcat &>/dev/null; then
+    alias bat='batcat'
+fi
 
