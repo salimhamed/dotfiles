@@ -221,17 +221,24 @@ install_delta
 
 # install nvim
 install_nvim() {
-    local temp_dir
-    temp_dir=$(mktemp -d)
-    local nvim_version="0.10.3"
-    local nvim_url="https://github.com/neovim/neovim/releases/download/v${nvim_version}/nvim-linux64.tar.gz"
-    local temp_file="${temp_dir}/nvim-linux64.tar.gz"
+    local inv_temp_dir inv_version inv_url inv_archive inv_extracted
+    inv_temp_dir=$(mktemp -d)
+    inv_version=$(curl -s "https://api.github.com/repos/neovim/neovim/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
+    inv_url="https://github.com/neovim/neovim/releases/download/v${inv_version}/nvim-linux-x86_64.tar.gz"
+    inv_archive="${inv_temp_dir}/nvim.tar.gz"
 
-    curl -Lo "${temp_file}" "${nvim_url}"
-    sudo rm -rf /opt/nvim
-    sudo tar -C /opt -xzf "${temp_file}"
+    echo "Installing nvim v${inv_version}..."
+    curl -Lo "${inv_archive}" "${inv_url}"
+    tar xzf "${inv_archive}" -C "${inv_temp_dir}"
 
-    echo "nvim has been installed successfully."
+    # Find the extracted directory (name varies by version)
+    inv_extracted=$(find "${inv_temp_dir}" -maxdepth 1 -type d -name 'nvim-*' | head -1)
+
+    sudo rm -rf /opt/nvim /opt/nvim-linux64
+    sudo mv "${inv_extracted}" /opt/nvim
+    rm -rf "${inv_temp_dir}"
+
+    echo "nvim v${inv_version} has been installed successfully."
 }
 install_nvim
 

@@ -51,8 +51,8 @@ if [[ ! "$PATH" == *$HOME/.cargo/bin* ]]; then
 fi
 
 # add nvim to path
-if [[ ! "$PATH" == */opt/nvim-linux64/bin* ]]; then
-    export PATH="/opt/nvim-linux64/bin:$PATH"
+if [[ ! "$PATH" == */opt/nvim/bin* ]]; then
+    export PATH="/opt/nvim/bin:$PATH"
 fi
 
 # add local bin to path
