@@ -1,7 +1,7 @@
 {
   "env": {
     "NVIM_APPNAME": "lazyvim",
-    "EDITOR": "/opt/nvim-linux64/bin/nvim"
+    "EDITOR": "/opt/nvim/bin/nvim"
   },
   "model": "opus",
   "statusLine": {
