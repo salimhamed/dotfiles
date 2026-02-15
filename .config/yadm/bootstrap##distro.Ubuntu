@@ -105,7 +105,7 @@ source "$HOME/.nvm/nvm.sh"
 
 # install global version of node
 install_node() {
-    local node_version="v20.18.0"
+    local node_version="v22.22.0"
 
     echo "Installing/updating global version of node..."
 
