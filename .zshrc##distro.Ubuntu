@@ -13,6 +13,9 @@ else
     export EDITOR='vim'
 fi
 
+# use lazyvim as the default neovim configuration
+export NVIM_APPNAME="lazyvim"
+
 # define custom path for starship configuration
 export STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
 
