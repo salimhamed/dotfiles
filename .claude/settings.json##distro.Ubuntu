@@ -1,0 +1,20 @@
+{
+  "env": {
+    "NVIM_APPNAME": "lazyvim",
+    "EDITOR": "/opt/nvim-linux64/bin/nvim"
+  },
+  "model": "opus",
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y ccstatusline@latest",
+    "padding": 0
+  },
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": false,
+    "ralph-loop@claude-plugins-official": false,
+    "plugin-dev@claude-plugins-official": false,
+    "example-skills@anthropic-agent-skills": false,
+    "flow@claude-code-flow": true
+  },
+  "skipDangerousModePermissionPrompt": true
+}
