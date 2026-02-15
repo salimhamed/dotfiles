@@ -1,6 +1,6 @@
 # vim: set filetype=gitconfig :
 [credential]
-    helper = store
+    helper = !/usr/bin/gh auth git-credential
     useHttpPath = true
 [user]
     name = Salim Hamed
