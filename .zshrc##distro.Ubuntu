@@ -102,6 +102,8 @@ command -v docker &>/dev/null && eval "$(docker completion zsh)"
 command -v aws_completer &>/dev/null && complete -C "$(which aws_completer)" aws
 command -v pip &>/dev/null && eval "$(pip completion --zsh)"
 command -v npm &>/dev/null && eval "$(npm completion)"
+command -v uv &>/dev/null && eval "$(uv generate-shell-completion zsh)"
+command -v uvx &>/dev/null && eval "$(uvx --generate-shell-completion zsh)"
 
 # setup direnv
 eval "$(direnv hook zsh)"
