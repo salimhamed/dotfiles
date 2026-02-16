@@ -1,153 +1,39 @@
 #!/usr/bin/env zsh
 
-# manually set language environment
-export LANG=en_US.UTF-8
-
-# define custom location for configuration files
-export XDG_CONFIG_HOME="$HOME/.config"
-
-# define preferred editor
-if command -v nvim &>/dev/null; then
-    export EDITOR='nvim'
-else
-    export EDITOR='vim'
+# Antidote plugin manager
+if [[ ! -d "${HOME}/.config/zsh/antidote" ]]; then
+    git clone --depth=1 https://github.com/mattmc3/antidote.git "${HOME}/.config/zsh/antidote"
 fi
+source "${HOME}/.config/zsh/antidote/antidote.zsh"
+antidote load "${HOME}/.config/zsh/.zsh_plugins.txt"
 
-# use lazyvim as the default neovim configuration
-export NVIM_APPNAME="lazyvim"
+# Modular config (order matters: environment before aliases/completions)
+zsh_lib="${HOME}/.config/zsh/lib"
+source "${zsh_lib}/environment-platform.zsh"
+source "${zsh_lib}/environment.zsh"
+source "${zsh_lib}/history.zsh"
+source "${zsh_lib}/completion.zsh"
+source "${zsh_lib}/aliases.zsh"
+unset zsh_lib
 
-# define custom path for starship configuration
-export STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
+# Source secrets
+[ -f ~/.secrets.sh ] && . ~/.secrets.sh
 
-# prevent virtualenv from changing the prompt
-# starship will display the virtualenv name
-export VIRTUAL_ENV_DISABLE_PROMPT=1
+# Source work helpers
+[ -f ~/.setup.zsh ] && . ~/.setup.zsh
 
-# Claude Code - Advanced Tool Use
-export ENABLE_TOOL_SEARCH=true
-
-# enable zsh history
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-setopt appendhistory
-
-# nvm setup
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-
-# add default nvm node to path
-NODE_VERSION=$(nvm version)
-export PATH="$NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH"
-
-# pnpm setup
-export PNPM_HOME="${HOME}/.local/share/pnpm"
-case ":$PATH:" in
-    *":$PNPM_HOME:"*) ;;
-    *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-
-# add cargo to path
-if [[ ! "$PATH" == *$HOME/.cargo/bin* ]]; then
-    export PATH="$HOME/.cargo/bin:$PATH"
-fi
-
-# add nvim to path
-if [[ ! "$PATH" == */opt/nvim/bin* ]]; then
-    export PATH="/opt/nvim/bin:$PATH"
-fi
-
-# add local bin to path
-if [[ ! "$PATH" == *$HOME/.local/bin* ]]; then
-    export PATH="$PATH:$HOME/.local/bin"
-fi
-
-# setup pyenv
-if command -v pyenv &>/dev/null; then
-    eval "$(pyenv init --path)"
-fi
-
-# initialize starship
-eval "$(starship init zsh)"
-
-# install plugins with zsh_unplugged
-ZPLUGINDIR="${HOME}/.config/zsh/plugins"
-
-if [[ ! -d $ZPLUGINDIR/zsh_unplugged ]]; then
-    git clone --quiet https://github.com/mattmc3/zsh_unplugged $ZPLUGINDIR/zsh_unplugged
-fi
-
-source $ZPLUGINDIR/zsh_unplugged/zsh_unplugged.zsh
-
-plugin_repos=(
-    zsh-users/zsh-completions
-    zsh-users/zsh-syntax-highlighting
-    zsh-users/zsh-autosuggestions
-    softmoth/zsh-vim-mode
-)
-
-plugin-load $plugin_repos
-
-# configure fzf shortcuts
+# Direct tool init
 if [[ ! "$PATH" == *$HOME/.fzf/bin* ]]; then
     PATH="${PATH:+${PATH}:}$HOME/.fzf/bin"
 fi
 source <(fzf --zsh)
-
-# initialize completions
-autoload -U compinit && compinit
-autoload -U bashcompinit && bashcompinit
-
-# shell completions for installed tools
-command -v gh &>/dev/null && eval "$(gh completion -s zsh)"
-command -v docker &>/dev/null && eval "$(docker completion zsh)"
-command -v aws_completer &>/dev/null && complete -C "$(command -v aws_completer)" aws
-command -v pip &>/dev/null && eval "$(pip completion --zsh)"
-command -v npm &>/dev/null && eval "$(npm completion)"
-command -v uv &>/dev/null && eval "$(uv generate-shell-completion zsh)"
-command -v uvx &>/dev/null && eval "$(uvx --generate-shell-completion zsh)"
-
-# setup direnv
-eval "$(direnv hook zsh)"
-
-# setup zoxide
 if command -v zoxide &>/dev/null; then
     eval "$(zoxide init zsh)"
 fi
-
-# source secrets
-# shellcheck source=/dev/null
-[ -f ~/.secrets.sh ] && . ~/.secrets.sh
-
-# source work helpers
-# shellcheck source=/dev/null
-[ -f ~/.setup.zsh ] && . ~/.setup.zsh
-
-# alias for other nvim distributions
-alias lvim="NVIM_APPNAME=lazyvim nvim"
-alias nvim-kickstart="NVIM_APPNAME=kickstart nvim"
-alias nvim-chad="NVIM_APPNAME=nvchad nvim"
-
-# open yadm files with lazygit
-alias lazyyadm='lazygit --use-config-file "${HOME}/.config/yadm/lazygit.yml,${HOME}/.config/lazygit/config.yml" --work-tree "${HOME}" --git-dir "${HOME}/.local/share/yadm/repo.git"'
-
-# lazygit aliases
-alias ly='lazyyadm'
-alias lg='lazygit'
-
-# nordvpn info
-nordinfo() {
-  curl -s "https://api.nordvpn.com/v1/servers/recommendations?&filters\[servers_technologies\]\[identifier\]=wireguard_udp&limit=1" | \
-  jq -r '.[]|.hostname, .station, (.locations|.[]|.country|.city.name), (.locations|.[]|.country|.name), (.technologies|.[].metadata|.[].value), .load'
-}
-
-# use modern alternatives
-alias ls='eza'
-alias ll='eza -la --header --git --icons --changed --time-style=iso'
-
-# bat alias (Ubuntu package installs as batcat)
-if command -v batcat &>/dev/null; then
-    alias bat='batcat'
+if command -v mise &>/dev/null; then
+    eval "$(mise activate zsh)"
 fi
+eval "$(direnv hook zsh)"
 
+# Starship prompt (must be last)
+eval "$(starship init zsh)"

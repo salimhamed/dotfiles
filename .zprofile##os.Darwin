@@ -1,11 +1,9 @@
-# setup pyenv in .zprofile for use in non-interactive shells
-
-# pyenv is installed with homebrew, so homebrew must be setup first
+# Homebrew (must be first — other tools depend on brew PATH)
 if [ -f /opt/homebrew/bin/brew ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-# setup pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
+# mise shims for non-interactive shells (scripts, SSH, cron)
+if command -v mise &>/dev/null; then
+    eval "$(mise activate zsh --shims)"
+fi

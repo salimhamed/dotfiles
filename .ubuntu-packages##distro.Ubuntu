@@ -16,7 +16,6 @@ gettext
 gh
 git
 gnupg
-golang
 jq
 keychain
 libbz2-dev

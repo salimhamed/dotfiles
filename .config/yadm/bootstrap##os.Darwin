@@ -39,12 +39,6 @@ curl -fsSL https://claude.ai/install.sh | bash
 # in some cases after prettierd is updated, it needs to be restarted
 prettierd restart
 
-# install nvm
-if [ ! -d "$HOME/.nvm" ]; then
-    echo "Installing nvm..."
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-fi
-
 # install luacheck
 echo "Installing luacheck..."
 luarocks install luacheck
@@ -54,27 +48,34 @@ luarocks install luacheck
 echo "Turn off default Mac support for accents..."
 defaults write -g ApplePressAndHoldEnabled -bool false
 
-# install oh-my-zsh if it's missing
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    echo "Installing oh-my-zsh..."
-    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc
+# install mise (if not already via brew)
+if ! command -v mise >/dev/null 2>&1; then
+    curl https://mise.run | sh
+    export PATH="$HOME/.local/bin:$PATH"
 fi
+eval "$(mise activate bash --shims)"
 
-# install global version of python
-echo "Installing/updating global version of python..."
-PY_VERSION=3.13.12
-pyenv install --skip-existing "${PY_VERSION}"
-pyenv global "${PY_VERSION}"
-pyenv exec pip install --upgrade pip
+# configure mise to read legacy version files
+mise settings add idiomatic_version_file_enable_tools node
+mise settings add idiomatic_version_file_enable_tools ruby
+
+# install global tool versions
+mise use --global node@22.22.0
+mise use --global python@3.13.12
+mise use --global go@1.22.2
+mise use --global shfmt@latest
+mise use --global yamlfmt@latest
+
+mise install
 
 # install python applications
 install_or_update_app_with_pipx() {
-    local pyenv_python
-    pyenv_python="$(pyenv which python)"
+    local mise_python
+    mise_python="$(mise which python)"
 
     for package in "$@"; do
         echo "Installing ${package} with pipx"
-        pipx install --python "${pyenv_python}" "${package}"
+        pipx install --python "${mise_python}" "${package}"
     done
 }
 
@@ -96,51 +97,25 @@ install_or_update_app_with_pipx "black" \
     "tox" \
     "poetry"
 
-# define helpers for managing zsh plugins
-zsh_custom_dir="${HOME}/.oh-my-zsh-custom"
-install_oh_my_zsh_plugin() {
-    _clone_if_not_exists_repo_url="$1"
-    _clone_if_not_exists_plugin_name="$2"
-    _clone_if_not_exists_target_dir="${zsh_custom_dir}/plugins/${_clone_if_not_exists_plugin_name}"
+# update completions
+completions_dir="${HOME}/.config/zsh/completions"
+mkdir -p "${completions_dir}"
 
-    if [ ! -d "${_clone_if_not_exists_target_dir}" ]; then
-        echo "Installing ${_clone_if_not_exists_plugin_name}..."
-        git clone "${_clone_if_not_exists_repo_url}.git" "${_clone_if_not_exists_target_dir}"
-    fi
-}
-
-# install custom zsh plugins
-install_oh_my_zsh_plugin "https://github.com/zsh-users/zsh-autosuggestions" "zsh-autosuggestions"
-install_oh_my_zsh_plugin "https://github.com/zsh-users/zsh-completions" "zsh-completions"
-install_oh_my_zsh_plugin "https://github.com/zsh-users/zsh-syntax-highlighting" "zsh-syntax-highlighting"
-
-# update yadm auto completion script
 echo "Installing/updating yadm completion..."
-curl --location --silent https://raw.githubusercontent.com/TheLocehiliosan/yadm/master/completion/zsh/_yadm --output "${zsh_custom_dir}/completions/_yadm"
+curl --location --silent https://raw.githubusercontent.com/TheLocehiliosan/yadm/master/completion/zsh/_yadm --output "${completions_dir}/_yadm"
 
-# update luarocks auto completion script
-echo "Installing/updating luarocks completion..."
-luarocks completion zsh >"${zsh_custom_dir}/completions/_luarocks"
-
-# update poetry auto completion script
-echo "Installing/updating poetry completion..."
-poetry completions zsh >"${zsh_custom_dir}/completions/_poetry"
-
-# install global version of node
-echo "Installing/updating global version of node..."
-NODE_VERSION="v22.14.0"
-
-export NVM_DIR="$HOME/.nvm"
-# shellcheck source=/dev/null
-[ -s "$NVM_DIR/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"
-nvm install "${NODE_VERSION}"
-nvm alias default "${NODE_VERSION}"
+command -v gh &>/dev/null && echo "Installing/updating gh completion..." && gh completion -s zsh >"${completions_dir}/_gh"
+command -v docker &>/dev/null && echo "Installing/updating docker completion..." && docker completion zsh >"${completions_dir}/_docker"
+command -v pip &>/dev/null && echo "Installing/updating pip completion..." && pip completion --zsh >"${completions_dir}/_pip"
+command -v npm &>/dev/null && echo "Installing/updating npm completion..." && npm completion >"${completions_dir}/_npm"
+command -v uv &>/dev/null && echo "Installing/updating uv completion..." && uv generate-shell-completion zsh >"${completions_dir}/_uv"
+command -v uvx &>/dev/null && echo "Installing/updating uvx completion..." && uvx --generate-shell-completion zsh >"${completions_dir}/_uvx"
+command -v poetry &>/dev/null && echo "Installing/updating poetry completion..." && poetry completions zsh >"${completions_dir}/_poetry"
+command -v luarocks &>/dev/null && echo "Installing/updating luarocks completion..." && luarocks completion zsh >"${completions_dir}/_luarocks"
+command -v mise &>/dev/null && echo "Installing/updating mise completion..." && mise completion zsh >"${completions_dir}/_mise"
 
 # install node applications
 npm install -g --force @taplo/cli pnpm prettier yarn neovim tree-sitter-cli aws-cdk@latest
-
-# install go packages
-go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 
 # install tmux plugin manager
 if [ ! -d "${HOME}/.tmux/plugins/tpm" ]; then

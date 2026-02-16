@@ -1,146 +1,35 @@
-# manually set language environment
-export LANG=en_US.UTF-8
-
-# define custom location for configuration files
-export XDG_CONFIG_HOME="$HOME/.config"
-
-# define preferred editor
-if command -v nvim &>/dev/null; then
-    export EDITOR='nvim'
-else
-    export EDITOR='vim'
+# Antidote plugin manager
+if [[ ! -d "${HOME}/.config/zsh/antidote" ]]; then
+    git clone --depth=1 https://github.com/mattmc3/antidote.git "${HOME}/.config/zsh/antidote"
 fi
+source "${HOME}/.config/zsh/antidote/antidote.zsh"
+antidote load "${HOME}/.config/zsh/.zsh_plugins.txt"
 
-# pyenv is installed with homebrew, so homebrew must be setup first
-if [ -f /opt/homebrew/bin/brew ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
+# Modular config (order matters: environment before aliases/completions)
+zsh_lib="${HOME}/.config/zsh/lib"
+source "${zsh_lib}/environment-platform.zsh"
+source "${zsh_lib}/environment.zsh"
+source "${zsh_lib}/history.zsh"
+source "${zsh_lib}/completion-platform.zsh"
+source "${zsh_lib}/completion.zsh"
+source "${zsh_lib}/aliases-platform.zsh"
+source "${zsh_lib}/aliases.zsh"
+source "${zsh_lib}/ssh-agent.zsh"
+unset zsh_lib
 
-# append bin directories with executables to path.
-export PATH="${HOME}/go/bin:${HOME}/.local/bin:${HOME}/bin:/usr/local/bin:${PATH}"
-
-# setup pyenv
-#   this happens after configuring PATH, so utilities from pyenv environments are used before
-#   global utilities (and pipx utilities)
-eval "$(pyenv init --path)"
-
-# define custom path for starship configuration
-export STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
-
-# path to oh-my-zsh installation.
-export ZSH="${HOME}/.oh-my-zsh"
-
-# disable theme because prompt is managed by starship
-# shellcheck disable=SC2034
-ZSH_THEME=""
-
-# define custom folder (default is `$ZSH/custom`)
-ZSH_CUSTOM="$HOME/.oh-my-zsh-custom"
-
-# source secrets
-# shellcheck source=/dev/null
+# Source secrets
 [ -f ~/.secrets.sh ] && . ~/.secrets.sh
 
-# source work helpers
-# shellcheck source=/dev/null
+# Source work helpers
 [ -f ~/.work.zsh ] && . ~/.work.zsh
 
-# Specify oh-my-zsh plugins
-# shellcheck disable=SC2034
-plugins=(
-    # order matters!
-    aws
-    git
-    cp
-    history
-    docker
-    nvm
-    npm
-    colorize
-    colored-man-pages
-    copypath
-    web-search
-    jump
-    pyenv
-    gh
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-    vi-mode
-    fzf
-    pip
-    zoxide
-    starship
-)
-
-# Define directories for "function search path", which contain files
-# that can be marked to be loaded automatically when the function they
-# contain is needed for the first time.
-# See https://unix.stackexchange.com/a/33898/521611 for more info on $fpath
-fpath_dirs=(
-    "${ZSH_CUSTOM}/plugins/zsh-completions/src"
-    "${ZSH_CUSTOM}/completions"
-)
-
-# conditionally add brew
-if command -v brew &>/dev/null; then
-    fpath_dirs+=("$(brew --prefix)/share/zsh/site-functions")
+# Direct tool init
+source <(fzf --zsh)
+eval "$(zoxide init zsh)"
+if command -v mise &>/dev/null; then
+    eval "$(mise activate zsh)"
 fi
-
-# append to fpath
-fpath=("${fpath_dirs[@]}" "${fpath[@]}")
-
-# install oh-my-zsh
-# this will call `compinit` to initialize the zsh completion system
-# shellcheck source=/dev/null
-source "${ZSH}/oh-my-zsh.sh"
-
-# https://superuser.com/a/1447349
-unset LESS
-
-# load bash completion compatibility layer
-autoload -U bashcompinit
-bashcompinit
-
-# configure auto completion for pipx
-eval "$(register-python-argcomplete pipx)"
-
-# configure auto completion for pipenv
-eval "$(_PIPENV_COMPLETE=zsh_source pipenv)"
-
-# setup direnv
 eval "$(direnv hook zsh)"
 
-# prevent virtualenv from changing the prompt
-# starship will display the virtualenv name
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-
-# Claude Code - Advanced Tool Use
-# Enables tool search for deferred/conditional tool loading
-# See: https://www.anthropic.com/engineering/advanced-tool-use
-# See: https://github.com/anthropics/claude-code/issues/12836#issuecomment-3656762362
-export ENABLE_TOOL_SEARCH=true
-export ENABLE_EXPERIMENTAL_MCP_CLI=false
-
-# alias for other nvim distributions
-alias lvim="NVIM_APPNAME=lazyvim nvim"
-alias nvim-kickstart="NVIM_APPNAME=kickstart nvim"
-alias nvim-chad="NVIM_APPNAME=nvchad nvim"
-
-# nordvpn info
-nordinfo() {
-    curl -s "https://api.nordvpn.com/v1/servers/recommendations?&filters\[servers_technologies\]\[identifier\]=wireguard_udp&limit=1" |
-        jq -r '.[]|.hostname, .station, (.locations|.[]|.country|.city.name), (.locations|.[]|.country|.name), (.technologies|.[].metadata|.[].value), .load'
-}
-
-# pnpm setup
-export PNPM_HOME="${HOME}/Library/pnpm"
-case ":$PATH:" in
-    *":$PNPM_HOME:"*) ;;
-    *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f "${HOME}/Downloads/google-cloud-sdk/path.zsh.inc" ]; then . "${HOME}/Downloads/google-cloud-sdk/path.zsh.inc"; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f "${HOME}/Downloads/google-cloud-sdk/completion.zsh.inc" ]; then . "${HOME}/Downloads/google-cloud-sdk/completion.zsh.inc"; fi
+# Starship prompt (must be last)
+eval "$(starship init zsh)"

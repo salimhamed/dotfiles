@@ -39,10 +39,11 @@ directory and using **yadm** for version control and management of dotfiles.
 
 #### 3. Platform Scope
 
-- Changes should target **Darwin (macOS) only** unless explicitly requested
-  otherwise
-- When editing alternate files, only modify `##os.Darwin` variants, unless
-  explicitly requested otherwise
+- Both **Darwin (macOS)** and **Ubuntu** are supported
+- Use yadm alternate file suffixes: `##os.Darwin`, `##distro.Ubuntu`
+- When making changes, consider whether they should apply to both platforms or
+  just one. Shared logic goes in unsuffixed files; platform-specific logic goes
+  in alternate files
 
 ---
 
@@ -78,13 +79,21 @@ wt_example() {
 
 #### Shell Configuration
 
-| File                                          | Purpose                      |
-| --------------------------------------------- | ---------------------------- |
-| `~/.zshrc##os.Darwin`                         | Main zsh config              |
-| `~/.zprofile##os.Darwin`                      | Login shell profile          |
-| `~/.oh-my-zsh-custom/01_alias.zsh`            | Command aliases              |
-| `~/.oh-my-zsh-custom/06_helper_functions.zsh` | Helper functions             |
-| `~/.profile`                                  | POSIX shell profile (shared) |
+| File                                              | Purpose                                  |
+| ------------------------------------------------- | ---------------------------------------- |
+| `~/.zshrc##os.Darwin`                             | Main zsh config (macOS)                  |
+| `~/.zshrc##distro.Ubuntu`                         | Main zsh config (Ubuntu)                 |
+| `~/.zprofile##os.Darwin`                          | Login shell profile (macOS)              |
+| `~/.zprofile##distro.Ubuntu`                      | Login shell profile (Ubuntu)             |
+| `~/.config/zsh/lib/environment.zsh`               | Shared env vars (editor, lang, starship) |
+| `~/.config/zsh/lib/environment-platform.zsh##*`   | Platform-specific PATH and env vars      |
+| `~/.config/zsh/lib/aliases.zsh`                   | Shared aliases                           |
+| `~/.config/zsh/lib/aliases-platform.zsh##*`       | Platform-specific aliases (Darwin only)  |
+| `~/.config/zsh/lib/completion.zsh`                | Completion system init                   |
+| `~/.config/zsh/lib/completion-platform.zsh##*`    | Platform-specific completions            |
+| `~/.config/zsh/lib/history.zsh`                   | History settings                         |
+| `~/.config/zsh/lib/ssh-agent.zsh`                 | SSH agent (Darwin only)                  |
+| `~/.config/zsh/.zsh_plugins.txt`                  | Antidote plugin list                     |
 
 #### Editor Configuration
 
@@ -107,10 +116,12 @@ wt_example() {
 
 #### Bootstrap & Packages
 
-| File                                  | Purpose            |
-| ------------------------------------- | ------------------ |
-| `~/.config/yadm/bootstrap##os.Darwin` | macOS setup script |
-| `~/.Brewfile`                         | Homebrew packages  |
+| File                                      | Purpose                     |
+| ----------------------------------------- | --------------------------- |
+| `~/.config/yadm/bootstrap##os.Darwin`     | macOS setup script          |
+| `~/.config/yadm/bootstrap##distro.Ubuntu` | Ubuntu setup script         |
+| `~/.Brewfile`                             | Homebrew packages (macOS)   |
+| `~/.ubuntu-packages`                      | apt packages (Ubuntu)       |
 
 ---
 
@@ -145,6 +156,30 @@ yadm push -u origin HEAD       # Push and set upstream
 yadm list -a                   # All tracked files
 yadm list -a | grep <pattern>  # Filter tracked files
 ```
+
+---
+
+### Using `gh` CLI with yadm
+
+yadm stores its git data in a non-standard location (`~/.local/share/yadm/repo.git`
+with `$HOME` as the work tree). The `gh` CLI cannot auto-detect the repo, so
+commands like `gh pr view` or `gh pr create` will fail with
+`fatal: not a git repository`.
+
+**Always set these env vars when running `gh` commands:**
+
+```bash
+GIT_DIR="$HOME/.local/share/yadm/repo.git" GIT_WORK_TREE="$HOME" gh pr view
+```
+
+Alternatively, use `--repo salimhamed/dotfiles` to bypass local repo detection
+(works for commands that accept it, but not all do):
+
+```bash
+gh pr list --repo salimhamed/dotfiles
+```
+
+**Prefer the env var approach** — it works universally with all `gh` subcommands.
 
 ---
 

@@ -1,17 +1,7 @@
-# setup pyenv in .zprofile for use in non-interactive shells
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
+# mise shims for non-interactive shells
+if command -v mise &>/dev/null; then
+    eval "$(mise activate zsh --shims)"
+fi
 
-# Add pipx to path
-export PATH="${PATH}:/home/ubuntu/.local/bin"
-
-# add snaps bin to path
+# snap
 export PATH="/snap/bin:$PATH"
-
-# add go script to path
-GO_BIN_PATH=$(go env GOPATH)
-export PATH=$PATH:${GO_BIN_PATH}/bin
-
-# Created by `pipx` on 2025-02-24 06:13:32
-export PATH="$PATH:$HOME/.local/bin"
