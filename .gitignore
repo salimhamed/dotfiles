@@ -20,6 +20,7 @@
 .zprofile.bak
 .zsh_history
 .zsh_sessions
+.config/zsh/completions/
 myVim.log
 package-lock.json
 work.zsh

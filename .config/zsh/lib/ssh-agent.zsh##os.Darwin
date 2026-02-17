@@ -1,4 +1,4 @@
-# Start SSH agent
+# SSH agent startup (Ubuntu uses systemd user agent)
 if [ ! -S "${HOME}/.ssh/ssh_auth_sock" ]; then
     eval "$(ssh-agent -s)"
     ln -sf "$SSH_AUTH_SOCK" "${HOME}/.ssh/ssh_auth_sock"
