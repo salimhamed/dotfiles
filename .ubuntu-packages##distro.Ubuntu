@@ -7,6 +7,7 @@ cmake
 containerd.io
 curl
 direnv
+fd-find
 docker-buildx-plugin
 docker-ce
 docker-ce-cli

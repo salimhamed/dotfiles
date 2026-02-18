@@ -1,0 +1,38 @@
+[settings]
+idiomatic_version_file_enable_tools = ["node", "ruby"]
+
+[tools]
+go = "1.22.2"
+node = "22.22.0"
+python = "3.13.12"
+shfmt = "latest"
+yamlfmt = "latest"
+
+# Python CLI tools (installed via pipx/uvx backend)
+"pipx:argcomplete" = "latest"
+"pipx:black" = "latest"
+"pipx:codespell" = "latest"
+"pipx:flake8" = "latest"
+"pipx:hatch" = "latest"
+"pipx:isort" = "latest"
+"pipx:mypy" = "latest"
+"pipx:parquet-tools" = "latest"
+"pipx:pipenv" = "latest"
+"pipx:poetry" = "latest"
+"pipx:pycodestyle" = "latest"
+"pipx:pylint" = "latest"
+"pipx:tox" = "latest"
+"pipx:virtualenv" = "latest"
+
+# Node CLI tools (installed via npm backend)
+"npm:aws-cdk" = "latest"
+"npm:neovim" = "latest"
+"npm:prettier" = "latest"
+"npm:@taplo/cli" = "latest"
+"npm:tree-sitter-cli" = "latest"
+pnpm = "latest"
+yarn = "latest"
+
+# Rust CLI tools (installed via aqua — prebuilt binaries)
+eza = "latest"
+ripgrep = "latest"

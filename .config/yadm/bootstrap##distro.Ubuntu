@@ -71,62 +71,17 @@ if ! command -v mise >/dev/null 2>&1; then
 fi
 eval "$(~/.local/bin/mise activate bash --shims)"
 
-# configure mise to read legacy version files
-mise settings add idiomatic_version_file_enable_tools node
-mise settings add idiomatic_version_file_enable_tools ruby
-
-# install global tool versions
-mise use --global node@22.22.0
-mise use --global python@3.13.12
-mise use --global go@1.22.2
-mise use --global shfmt@latest
-mise use --global yamlfmt@latest
-
 mise install
-
-# install global node applications
-npm install -g @taplo/cli prettier yarn neovim tree-sitter-cli
+mise prune --yes
 
 # install rust and cargo
 curl https://sh.rustup.rs -sSf | sh -s -- -y
-
-# install rust tools
-cargo install fd-find ripgrep eza
 
 # install lua tools
 sudo luarocks install luacheck
 
 # install starship
 curl -sS https://starship.rs/install.sh | sh -s -- -y
-
-# install python applications
-install_or_update_app_with_pipx() {
-    local mise_python
-    mise_python="$(mise which python)"
-
-    for package in "$@"; do
-        echo "Installing ${package} with pipx"
-        pipx install --python "${mise_python}" "${package}"
-    done
-}
-
-# first, uninstall all applications managed by pipx
-pipx uninstall-all
-
-install_or_update_app_with_pipx "black" \
-    "codespell" \
-    "flake8" \
-    "isort" \
-    "mypy" \
-    "pycodestyle" \
-    "pylint" \
-    "virtualenv" \
-    "parquet-tools" \
-    "pipenv" \
-    "hatch" \
-    "argcomplete" \
-    "tox" \
-    "poetry"
 
 # update completions
 completions_dir="${HOME}/.config/zsh/completions"
