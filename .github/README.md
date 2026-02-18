@@ -3,8 +3,7 @@
 # 🗄️ Dotfiles
 
 Dotfiles managed with [yadm](https://yadm.io/). These dotfiles have been tested
-on `macos`. The plan is to eventually test and support severael `linux`
-distributions as well. This detailed README helps me remember the setup :joy:
+on `macOS` and `Ubuntu`.
 
 ## 📦 Installation
 
@@ -43,7 +42,13 @@ split screens, and easily switch between them. The
 [dracula/tmux](https://github.com/dracula/tmux) plugin is installed for a better
 status bar and dark mode. The
 [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect) plugin is
-installed to save and restore tmux sessions after system restart.
+installed to save and restore tmux sessions after system restart. The
+[tmux-yank](https://github.com/tmux-plugins/tmux-yank) plugin enables copying to
+the system clipboard from tmux copy mode.
+
+The status bar is positioned at the top. When connecting via
+[mosh](https://mosh.org/), the prefix automatically switches back to `C-b` so it
+doesn't conflict with nested tmux sessions.
 
 #### Tmux Keymaps
 
@@ -98,7 +103,7 @@ The `<Prefix>` Keybinding has been remapped to `C-a`, replacing the default
 | Keybinding     | Description     |
 | -------------- | --------------- |
 | `<Prefix> C-s` | Save session    |
-| `<Prefix> C-r` | Restory session |
+| `<Prefix> C-r` | Restore session |
 
 ##### Entering Command Prompt Mode and Running Tmux Commands
 
@@ -113,206 +118,177 @@ enter. Here are some command commands.
 | `respawn-pane -k`  | Restarts a pane with its initial command           |
 | `swap-window -t 2` | Swap the current window with the window at index 2 |
 
-### 🚀 Neovim
+### 🚀 Neovim (LazyVim)
 
-[Neovim](https://neovim.io) is a extensible, fast, and powerful text editor that
-extends the capabilities of Vim. The coding editing experience configured in
-these dotfiles is specifically optimized for Python, JavaScript/TypeScript,
-React (`jsx`), and lua, but should be easily extendable to other languages as
-well.
+[Neovim](https://neovim.io) is configured using
+[LazyVim](https://github.com/LazyVim/LazyVim) as the base distribution. See the
+[LazyVim keymaps reference](https://www.lazyvim.org/keymaps) for all default
+keybindings. Only custom overrides and additions are documented below.
 
-#### Nvim Keymaps
+The `<Leader>` key is `Space`.
 
-The `<Leader>` key has been remapped to `" "` (i.e., space).
+#### Enabled LazyVim Extras
 
-##### Using the Jumplist
+- `ai.copilot` — GitHub Copilot integration
+- `coding.mini-surround` — Add/change/delete surroundings
 
-| Keybinding | Description                    |
-| ---------- | ------------------------------ |
-| `C-o`      | Travel backwards through jumps |
-| `C-i`      | Travel forwards through jumps  |
-| `:jumps`   | View the jumplist              |
+#### Notable Configuration
 
-##### Window Management and Navigation
+- **Picker**: Telescope (via `vim.g.lazyvim_picker`)
+- **Python LSP**: pyright + ruff
+- **Flash `s`**: Disabled (restores default `s` behavior)
+- **nvim-notify**: Minimal rendering, static stages
+- **shfmt**: 4-space indent (`-i 4 -ci`)
+- **exrc**: Enabled (`.exrc`, `.nvimrc`, `.nvim.lua` sourced per-project)
+- **neo-tree**: Uses [nvim-window-picker](https://github.com/s1n7ax/nvim-window-picker) for split target selection
 
-| Keybinding | Description                                      |
-| ---------- | ------------------------------------------------ |
-| `S-Right`  | Increase window width                            |
-| `S-Left`   | Decrease window width                            |
-| `S-Up`     | Increase window height                           |
-| `S-Down`   | Decrease window height                           |
-| `C-w =`    | Equalize the width and height of visible windows |
-| `C-w _`    | Maximize the current window's height             |
-| `C-w \|`   | Maximize the current window's width              |
-| `C-w q`    | Close the current window                         |
-| `C-h`      | Navigate window left or send C-h to tmux         |
-| `C-j`      | Navigate window down or send C-j to tmux         |
-| `C-k`      | Navigate window up or send C-k to tmux           |
-| `C-l`      | Navigate window right or send C-l to tmux        |
+#### Custom Keymaps
 
-##### Buffer Management and Navigation
+| Key | Mode | Action |
+| --- | --- | --- |
+| `<S-Arrow>` | Normal | Window resize (replaces `<C-Arrow>`) |
+| `<F12>` | Normal/Terminal | Toggle terminal (replaces `<C-/>`) |
+| `<C-d>` / `<C-u>` | Normal | Half-page scroll + center cursor |
+| `n` / `N` | Normal | Search next/prev + center + open folds |
+| `p` | Visual | Paste without yanking replaced text |
+| `<C-h/j/k/l>` | Normal | Tmux-aware split navigation |
+| `<leader>fyf` | Normal | Find yadm files (Telescope) |
+| `<leader>fyp` | Normal | Grep yadm files (Telescope) |
 
-_Use `<Leader>b` to activate `WhichKey` help._
+### 🔧 IdeaVim (JetBrains)
 
-| Keybinding       | Description                     |
-| ---------------- | ------------------------------- |
-| `S-l`            | Switch to buffer to the right   |
-| `S-h`            | Switch to buffer to the left    |
-| `C-^`            | Switch to alternate file        |
-| `<Leader>b<C-v>` | Vertical split current buffer   |
-| `<Leader>b<C-_>` | Horizontal split current buffer |
-| `<Leader>bd`     | Delete buffer                   |
-| `<Leader>bp`     | Pin buffer                      |
-| `<Leader>ba`     | Close all bug current buffer    |
-| `<Leader>bl`     | Close buffers to the left       |
-| `<Leader>br`     | Close buffers to the right      |
+[IdeaVim](https://github.com/JetBrains/ideavim) provides Vim emulation in
+JetBrains IDEs. The `<Leader>` key is `Space`.
 
-##### Harpoon Navigation
+#### IdeaVim Plugins
 
-| Keybinding   | Description                |
-| ------------ | -------------------------- |
-| `<Leader>hh` | Harpoon a file             |
-| `<Leader>hv` | View Harpoon list          |
-| `<Leader>hn` | Next Harpooned file        |
-| `<Leader>hp` | Previous Harpooned file    |
-| `<Leader>h1` | Open first Harpooned file  |
-| `<Leader>h2` | Open second Harpooned file |
-| `<Leader>h3` | Open third Harpooned file  |
-| `<Leader>h4` | Open fourth Harpooned file |
-| `<Leader>h5` | Open fifth Harpooned file  |
+`easymotion`, `surround`, `commentary`, `paragraph-motion`, `nerdtree`,
+`which-key`
 
-##### Markdown Preview
+#### Navigation
 
-| Keybinding   | Description            |
-| ------------ | ---------------------- |
-| `<Leader>mp` | Start markdown preview |
-| `<Leader>ms` | Stop markdown preview  |
+| Key | Description |
+| --- | --- |
+| `<leader>j` | EasyMotion forward search |
+| `<leader>J` | EasyMotion backward search |
+| `C-h/j/k/l` | Navigate between splits |
+| `S-l` / `S-h` | Next / previous tab |
+| `C-d` / `C-u` | Half-page scroll + center |
+| `n` / `N` | Search next/prev + center + open folds |
+| `C-n` | Clear search highlight |
 
-##### Saving Sessions
+#### Window Management
 
-| Keybinding   | Description                           |
-| ------------ | ------------------------------------- |
-| `<Leader>qs` | Restore session for current directory |
-| `<Leader>ql` | Restore last session                  |
-| `<Leader>qd` | Do not save current session           |
+| Key | Description |
+| --- | --- |
+| `S-Up/Down/Left/Right` | Stretch split in direction |
+| `C-w q` | Close all editors |
 
-See [folke/persistence.nvim](https://github.com/folke/persistence.nvim) for more
-details.
+#### File Explorer and Find
 
-##### Neotree (File Explorer)
+| Key | Description |
+| --- | --- |
+| `<leader>e` | Toggle NERDTree (project tool window) |
+| `<leader>fe` | Search Everywhere |
+| `<leader>fr` | Recent Files |
+| `<leader>fc` | Find Class |
+| `<leader>fa` | Search Actions |
+| `<leader>ff` | Find File |
+| `<leader>fs` | Find Symbol |
+| `<leader>fp` | Search Within Files (Find in Path) |
 
-| Keybinding                 | Description                                         |
-| -------------------------- | --------------------------------------------------- |
-| `<Leader>e`                | Toggle Neotree                                      |
-| `<C-v>`                    | (Within Neotree) Open file in vsplit                |
-| `<C-_>`                    | (Within Neotree) Open file in split                 |
-| `o` or `<CR>` or `<Right>` | (Within Neotree) Toggle directory node or open file |
-| `Left`                     | (Within Neotree) Close directory node               |
-| `y`                        | (Within Neotree) Copy relative path                 |
-| `Y`                        | (Within Neotree) Copy absolute path                 |
+#### Buffer Management
 
-##### Telescope (Search)
+| Key | Description |
+| --- | --- |
+| `<leader>bd` | Delete buffer |
+| `<leader>br` | Close buffers to the right |
+| `<leader>bl` | Close buffers to the left |
+| `<leader>ba` | Close all but current buffer |
+| `<leader>bm` | Move to opposite tab group |
+| `<leader>b<C-v>` | Split and move right |
+| `<leader>b<C-->` | Split and move down |
 
-| Keybinding  | Description                            |
-| ----------- | -------------------------------------- |
-| `<Leader>f` | See "Which Key" options for searches   |
-| `<C-v>`     | (Within Telescope) Open file in vsplit |
-| `<C-_>`     | (Within Telescope) Open file in split  |
+#### LSP
 
-##### Surround
+| Key | Description |
+| --- | --- |
+| `gr` | Goto references (Find Usages) |
+| `go` | Goto type definition |
+| `gq` | Quick implementations |
+| `gb` | Goto database view |
 
-| Keybinding         | Description                                 |
-| ------------------ | ------------------------------------------- |
-| `ys<motion><char>` | Create a surrounding (i.e., "you surround") |
-| `cs<char><char>`   | Change a surrounding. For example, `cs'"`   |
-| `ds<char>`         | Delete a surrounding. For example, `ds"`    |
+#### Other
 
-Examples:
+| Key | Description |
+| --- | --- |
+| `C-\` | Toggle terminal tool window |
+| `C-S` | Save current buffer |
+| `p` (visual) | Paste without yanking replaced text |
+| `<` / `>` (visual) | Indent block and reselect |
 
-```text
-yssf - Surround sentence with a function
-yswf - Surround word with a function
-ysst - Surround sentence with a tag
-yswt - Surround word with a tag
-```
+### 🐚 Shell (Zsh)
 
-##### Toggle Terminal
+Zsh is configured with [antidote](https://github.com/mattmc3/antidote) as the
+plugin manager and [Starship](https://starship.rs/) as the prompt.
 
-[toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) is used to manage
-various terminals within Neovim.
+#### Zsh Plugins
 
-| Keybinding   | Description                                 |
-| ------------ | ------------------------------------------- |
-| `C-\`        | Toggle Terminal Open/Close                  |
-| `<Leader>gl` | Toggle Terminal with lazygit                |
-| `<Leader>gy` | Toggle Terminal with lazygit for yadm files |
+- [zsh-completions](https://github.com/zsh-users/zsh-completions) — Additional
+  completion definitions
+- [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) —
+  Fish-like autosuggestions
+- [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) —
+  Syntax highlighting at the prompt
+- [zsh-vim-mode](https://github.com/softmoth/zsh-vim-mode) — Vim keybindings
+  for the command line
 
-##### Hop for Navigation
+#### Tool Integrations
 
-[hop.nvim](https://github.com/smoka7/hop.nvim) is used to quickly and easily
-"hop" around a buffer.
+| Tool | Description |
+| --- | --- |
+| [fzf](https://github.com/junegunn/fzf) | Fuzzy finder (`C-r` for history search) |
+| [zoxide](https://github.com/ajeetdsouza/zoxide) | Smarter `cd` (aliased to `cd`) |
+| [mise](https://github.com/jdx/mise) | Runtime version management |
+| [direnv](https://direnv.net/) | Directory-scoped environment variables |
+| [Starship](https://starship.rs/) | Cross-shell prompt |
 
-| Keybinding  | Description                               |
-| ----------- | ----------------------------------------- |
-| `<Leader>j` | Jump forward to a location in the buffer  |
-| `<Leader>J` | Jump backward to a location in the buffer |
+#### Key Aliases
 
-##### Comments
-
-| Keybinding          | Description                                                                        |
-| ------------------- | ---------------------------------------------------------------------------------- |
-| `gcc`               | Comment out a line                                                                 |
-| `gc` in visual mode | Comment out selection                                                              |
-| `gc` + motion       | Comment out using the target of a motion (e.g., `gcap` to comment out a paragraph) |
-
-##### Misc Vim Tricks
-
-- `<C-f>` while in command mode will open a window with command line history.
-  Close this window with `<C-c>`.
-- `<C-w>x` will swap windows.
-- `:messages` will show you messages that appeared during startup.
+| Alias | Expands To |
+| --- | --- |
+| `v` | `nvim` |
+| `lg` | `lazygit` |
+| `ly` | `lazyyadm` (lazygit for yadm files) |
+| `ls` | `eza` |
+| `ll` | `eza -la --header --git --icons --changed --time-style=iso` |
+| `cat` | `bat` (interactive terminals only) |
+| `cd` | `z` (zoxide, interactive terminals only) |
+| `f` | `open -a Finder ./` (macOS only) |
 
 ### 🔧 CLI Utilities
 
 Below is a list of CLI utilities that are installed.
 
-| Utility       | Description                                                          | Link                                                |
-| ------------- | -------------------------------------------------------------------- | --------------------------------------------------- |
-| `pyenv`       | Python version management.                                           | [Link](https://github.com/pyenv/pyenv)              |
-| `rbenv`       | Ruby version management.                                             | [Link](https://github.com/rbenv/rbenv)              |
-| `nvm`         | Node version management.                                             | [Link](https://github.com/nvm-sh/nvm)               |
-| `bat`         | A `cat` clone with syntax highlighting and Git integration.          | [Link](https://github.com/sharkdp/bat)              |
-| `fd`          | A simple, fast, and user-friendly alternative to `find`.             | [Link](https://github.com/sharkdp/fd)               |
-| `fzd`         | A general-purpose command-line fuzzy finder.                         | [Link](https://github.com/junegunn/fzf)             |
-| `gh`          | GitHub's official CLI tool for managing repositories.                | [Link](https://cli.github.com)                      |
-| `git-delta`   | A viewer for git and diff output with syntax highlighting.           | [Link](https://github.com/dandavison/delta)         |
-| `lazygit`     | A simple terminal UI for git commands.                               | [Link](https://github.com/jesseduffield/lazygit)    |
-| `jq`          | A lightweight and flexible command-line JSON processor.              | [Link](https://github.com/stedolan/jq)              |
+| Utility     | Description                                                          | Link                                                |
+| ----------- | -------------------------------------------------------------------- | --------------------------------------------------- |
+| `mise`      | Runtime version management (replaces pyenv/rbenv/nvm).               | [Link](https://github.com/jdx/mise)                |
+| `uv`        | Python package and project manager.                                  | [Link](https://github.com/astral-sh/uv)            |
+| `direnv`    | Directory-scoped environment variables.                              | [Link](https://direnv.net/)                         |
+| `starship`  | Cross-shell prompt.                                                  | [Link](https://starship.rs/)                        |
+| `bat`       | A `cat` clone with syntax highlighting and Git integration.          | [Link](https://github.com/sharkdp/bat)              |
+| `fd`        | A simple, fast, and user-friendly alternative to `find`.             | [Link](https://github.com/sharkdp/fd)               |
+| `fzf`       | A general-purpose command-line fuzzy finder.                         | [Link](https://github.com/junegunn/fzf)             |
+| `gh`        | GitHub's official CLI tool for managing repositories.                | [Link](https://cli.github.com)                      |
+| `git-delta` | A viewer for git and diff output with syntax highlighting.           | [Link](https://github.com/dandavison/delta)         |
+| `lazygit`   | A simple terminal UI for git commands.                               | [Link](https://github.com/jesseduffield/lazygit)    |
+| `jq`        | A lightweight and flexible command-line JSON processor.              | [Link](https://github.com/stedolan/jq)              |
 | `macos-trash` | A command-line interface to the macOS trash (e.g, `trash file.txt`). | [Link](https://github.com/sindresorhus/macos-trash) |
-| `ripgrep`     | A fast line-oriented search tool, like `grep` with steroids.         | [Link](https://github.com/BurntSushi/ripgrep)       |
-| `tealdeer`    | More readable `man` pages (e.g., `tldr grep`)                        | [Link](https://github.com/dbrgn/tealdeer)           |
-| `tree`        | A recursive directory listing command with tree-like output.         | [Link](http://mama.indstate.edu/users/ice/tree)     |
-| `eza`         | Modern replacement for `ls`.                                         | [Link](https://github.com/eza-community/eza)        |
-| `zoxide`      | A smarter `cd` command.                                              | [Link](https://github.com/ajeetdsouza/zoxide)       |
-
-### 🔧 Terminal Keymaps
-
-| Utility | Description                                |
-| ------- | ------------------------------------------ |
-| `z`     | `cd` to a path using `zoxide`              |
-| `C-r`   | Use `fzd` to search through prior commands |
-
-### 🐍 Pycharm (JetBrains) Keymaps
-
-This repository contains a .ideavimrc file for configuring JetBrains IDEs, such
-as PyCharm, with Neovim-like keybindings via
-[ideavim](https://github.com/JetBrains/ideavim). The keymaps below are
-JetBrains-specific and provided here for my own reference.
-
-| Utility   | Description                                                           |
-| --------- | --------------------------------------------------------------------- |
-| `S-Alt-]` | Go to next editor tab (works for switching between terminal tabs)     |
-| `S-Alt-[` | Go to previous editor tab (works for switching between terminal tabs) |
+| `ripgrep`   | A fast line-oriented search tool, like `grep` with steroids.         | [Link](https://github.com/BurntSushi/ripgrep)       |
+| `tealdeer`  | More readable `man` pages (e.g., `tldr grep`)                        | [Link](https://github.com/dbrgn/tealdeer)           |
+| `tree`      | A recursive directory listing command with tree-like output.         | [Link](http://mama.indstate.edu/users/ice/tree)     |
+| `eza`       | Modern replacement for `ls`.                                         | [Link](https://github.com/eza-community/eza)        |
+| `zoxide`    | A smarter `cd` command.                                              | [Link](https://github.com/ajeetdsouza/zoxide)       |
 
 ## 📦 Acknowledgements
 
