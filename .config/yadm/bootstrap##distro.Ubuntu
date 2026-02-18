@@ -72,6 +72,7 @@ fi
 eval "$(~/.local/bin/mise activate bash --shims)"
 
 mise install
+mise prune --yes
 
 # install rust and cargo
 curl https://sh.rustup.rs -sSf | sh -s -- -y
