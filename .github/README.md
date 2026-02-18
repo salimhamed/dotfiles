@@ -3,7 +3,7 @@
 # 🗄️ Dotfiles
 
 Dotfiles managed with [yadm](https://yadm.io/). These dotfiles have been tested
-on `macOS` and `Ubuntu`. This detailed README helps me remember the setup :joy:
+on `macOS` and `Ubuntu`.
 
 ## 📦 Installation
 
