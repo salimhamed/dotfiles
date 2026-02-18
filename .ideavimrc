@@ -98,8 +98,8 @@ let g:WhichKeyDesc_find = "<leader>f  Find or Search"
 let g:WhichKeyDesc_find_everywhere = "<leader>fe  Search Everywhere"
 nmap <leader>fe <Action>(SearchEverywhere)
 
-let g:WhichKeyDesc_find_everywhere = "<leader>fr  Find recent"
-nmap <leader>fe <Action>(RecentFiles)
+let g:WhichKeyDesc_find_recent = "<leader>fr  Find recent"
+nmap <leader>fr <Action>(RecentFiles)
 
 let g:WhichKeyDesc_find_class = "<leader>fc  Find Class"
 nmap <leader>fc <Action>(GotoClass)
