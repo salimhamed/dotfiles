@@ -1,9 +1,0 @@
-# Homebrew (must be first — other tools depend on brew PATH)
-if [ -f /opt/homebrew/bin/brew ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-
-# mise shims for non-interactive shells (scripts, SSH, cron)
-if command -v mise &>/dev/null; then
-    eval "$(mise activate zsh --shims)"
-fi

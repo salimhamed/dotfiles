@@ -55,47 +55,7 @@ if ! command -v mise >/dev/null 2>&1; then
 fi
 eval "$(mise activate bash --shims)"
 
-# configure mise to read legacy version files
-mise settings add idiomatic_version_file_enable_tools node
-mise settings add idiomatic_version_file_enable_tools ruby
-
-# install global tool versions
-mise use --global node@22.22.0
-mise use --global python@3.13.12
-mise use --global go@1.22.2
-mise use --global shfmt@latest
-mise use --global yamlfmt@latest
-
 mise install
-
-# install python applications
-install_or_update_app_with_pipx() {
-    local mise_python
-    mise_python="$(mise which python)"
-
-    for package in "$@"; do
-        echo "Installing ${package} with pipx"
-        pipx install --python "${mise_python}" "${package}"
-    done
-}
-
-# first, uninstall all applications managed by pipx
-pipx uninstall-all
-
-install_or_update_app_with_pipx "black" \
-    "codespell" \
-    "flake8" \
-    "isort" \
-    "mypy" \
-    "pycodestyle" \
-    "pylint" \
-    "virtualenv" \
-    "parquet-tools" \
-    "pipenv" \
-    "hatch" \
-    "argcomplete" \
-    "tox" \
-    "poetry"
 
 # update completions
 completions_dir="${HOME}/.config/zsh/completions"
@@ -113,9 +73,6 @@ command -v uvx &>/dev/null && echo "Installing/updating uvx completion..." && uv
 command -v poetry &>/dev/null && echo "Installing/updating poetry completion..." && poetry completions zsh >"${completions_dir}/_poetry"
 command -v luarocks &>/dev/null && echo "Installing/updating luarocks completion..." && luarocks completion zsh >"${completions_dir}/_luarocks"
 command -v mise &>/dev/null && echo "Installing/updating mise completion..." && mise completion zsh >"${completions_dir}/_mise"
-
-# install node applications
-npm install -g --force @taplo/cli pnpm prettier yarn neovim tree-sitter-cli aws-cdk@latest
 
 # install tmux plugin manager
 if [ ! -d "${HOME}/.tmux/plugins/tpm" ]; then

@@ -52,3 +52,12 @@ count_lines_of_code() {
         cloc /tmp/temp-linecount-repo &&
         rm -rf /tmp/temp-linecount-repo
 }
+
+# --- Tmux ---
+
+tclean() {
+    local current=$(tmux display-message -p '#{client_name}')
+    tmux list-clients -F '#{client_name}' | while read -r client; do
+        [ "$client" != "$current" ] && tmux detach-client -t "$client"
+    done
+}
