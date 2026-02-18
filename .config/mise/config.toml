@@ -35,5 +35,4 @@ yarn = "latest"
 
 # Rust CLI tools (installed via aqua — prebuilt binaries)
 eza = "latest"
-fd = "latest"
 ripgrep = "latest"
