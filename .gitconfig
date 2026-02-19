@@ -1,6 +1,25 @@
 [core]
-    editor = vim
+    editor = nvim
     autocrlf = input
+    pager = delta
+[credential]
+    helper = !gh auth git-credential
+    useHttpPath = true
+[user]
+    name = Salim Hamed
+[commit]
+    gpgsign = true
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true
+    light = false
+    theme = Dracula
+    side-by-side = true
+[merge]
+    conflictstyle = diff3
+[diff]
+    colorMoved = default
 [filter "lfs"]
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f

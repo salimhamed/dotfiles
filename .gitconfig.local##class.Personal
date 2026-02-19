@@ -1,0 +1,4 @@
+# vim: set filetype=gitconfig :
+[user]
+    email = salimhamed@gmail.com
+    signingkey = F89A322CE1D7967A

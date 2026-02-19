@@ -1,0 +1,4 @@
+# vim: set filetype=gitconfig :
+[user]
+    email = salim@junglescout.com
+    signingkey = 8FB0DA6800BC4F99
