@@ -20,9 +20,6 @@ map("n", "<S-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Wi
 vim.keymap.del("n", "<C-Right>")
 map("n", "<S-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
 
--- Better paste
-map("v", "p", '"_dP')
-
 -- Keep cursor centered when moving 1/2 pages
 map("n", "<C-d>", "<C-d>zz")
 map("n", "<C-u>", "<C-u>zz")
