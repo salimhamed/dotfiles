@@ -14,3 +14,6 @@ vim.g.lazyvim_picker = "telescope"
 vim.g.lazyvim_python_lsp = "pyright"
 -- Set to "ruff_lsp" to use the old LSP implementation version.
 vim.g.lazyvim_python_ruff = "ruff"
+
+-- Enable clipboard over SSH via OSC 52
+vim.opt.clipboard = "unnamedplus"
