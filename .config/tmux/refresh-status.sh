@@ -1,17 +1,27 @@
 #!/usr/bin/env bash
-# If any attached client is via mosh, switch prefix to C-b and hide CPU/RAM.
-# To restore: tmux source ~/.tmux.conf
+# Adapt tmux for remote connections:
+#   mosh  → switch prefix to C-b (C-a conflicts with readline)
+#   SSH   → move status bar to bottom
+
+rs_is_mosh=false
 
 while IFS= read -r pid; do
-    p=$pid
-    while [ "${p:-0}" -gt 1 ] 2>/dev/null; do
-        if [ "$(ps -o comm= -p "$p" 2>/dev/null)" = "mosh-server" ]; then
-            tmux set -g prefix C-b
-            tmux unbind C-a
-            tmux bind C-b send-prefix
-            tmux set -g status-right ""
-            exit 0
+    rs_p=$pid
+    while [ "${rs_p:-0}" -gt 1 ] 2>/dev/null; do
+        if [ "$(ps -o comm= -p "$rs_p" 2>/dev/null)" = "mosh-server" ]; then
+            rs_is_mosh=true
+            break 2
         fi
-        p=$(ps -o ppid= -p "$p" 2>/dev/null | tr -d ' ')
+        rs_p=$(ps -o ppid= -p "$rs_p" 2>/dev/null | tr -d ' ')
     done
 done < <(tmux list-clients -F '#{client_pid}')
+
+if $rs_is_mosh; then
+    tmux set -g prefix C-b
+    tmux unbind C-a
+    tmux bind C-b send-prefix
+fi
+
+if [ -n "$SSH_CONNECTION" ] || [ -n "$SSH_CLIENT" ]; then
+    tmux set -g status-position bottom
+fi
