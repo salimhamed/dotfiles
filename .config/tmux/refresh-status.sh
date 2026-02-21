@@ -9,9 +9,7 @@ while IFS= read -r pid; do
             tmux set -g prefix C-b
             tmux unbind C-a
             tmux bind C-b send-prefix
-            # Clear Dracula's CPU/RAM widgets but preserve the nested-session
-            # OFF indicator (see ~/.tmux.conf). When key-table is normal, #()
-            # outputs nothing so status-right appears empty (same as before).
+            # Hide Dracula widgets but keep nested-session OFF indicator (see ~/.tmux.conf)
             tmux set -g status-right "#[fg=#f8f8f2,bg=#ff5555,bold]#([ \$(tmux show-option -qv key-table) = 'off' ] && echo ' OFF ')#[default]"
             exit 0
         fi
