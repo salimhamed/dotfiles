@@ -22,6 +22,3 @@ if $rs_is_mosh; then
     tmux bind C-b send-prefix
 fi
 
-if [ -n "$SSH_CONNECTION" ] || [ -n "$SSH_CLIENT" ]; then
-    tmux set -g status-position bottom
-fi
