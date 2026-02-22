@@ -26,14 +26,28 @@ yadm bootstrap
 ### 🚀 Alacritty
 
 [Alacritty](https://github.com/alacritty/alacritty) is a terminal emulator that
-comes with sensible defaults and is configured with `yaml` files, which can be
+comes with sensible defaults and is configured with `toml` files, which can be
 more easily managed with version control systems.
+
+- `option_as_alt = "Both"` on macOS (treat Option as Alt)
 
 #### Alacritty Keymaps
 
-| Keybinding  | Description                                                                                  |
-| ----------- | -------------------------------------------------------------------------------------------- |
-| `C-S-Space` | Enter [Vi Mode](https://github.com/alacritty/alacritty/blob/master/docs/features.md#vi-mode) |
+| Keybinding      | Description                                          |
+| --------------- | ---------------------------------------------------- |
+| `Shift+Return`  | Send `ESC` + `CR` (for Shift-Enter in terminal apps) |
+
+### 👻 Ghostty
+
+[Ghostty](https://ghostty.org/) is a GPU-accelerated terminal emulator.
+
+- `macos-option-as-alt = true` (treat Option as Alt on macOS)
+
+#### Ghostty Keymaps
+
+| Keybinding     | Description                                          |
+| -------------- | ---------------------------------------------------- |
+| `Shift+Enter`  | Send `ESC` + `CR` (for Shift-Enter in terminal apps) |
 
 ### 💻 Tmux
 
@@ -43,7 +57,7 @@ Tmux plugins installed via [TPM](https://github.com/tmux-plugins/tpm):
 | ------ | ----------- |
 | [dracula/tmux](https://github.com/dracula/tmux) | Status bar theme with powerline and system info |
 | [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect) | Save and restore tmux sessions across restarts |
-| [tmux-yank](https://github.com/tmux-plugins/tmux-yank) | Copy to system clipboard from tmux copy mode |
+| [tmux-yank](https://github.com/tmux-plugins/tmux-yank) | Copy to system clipboard from tmux copy mode (stays in copy mode after yank) |
 | [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator) | Seamless navigation between tmux panes and Vim splits |
 | [tmux-fuzzback](https://github.com/roosta/tmux-fuzzback) | Fuzzy search scrollback buffer via fzf popup |
 | [extrakto](https://github.com/laktak/extrakto) | Extract and select tokens (URLs, paths, hashes) from scrollback |
@@ -62,6 +76,7 @@ The `<Prefix>` Keybinding has been remapped to `C-a`, replacing the default
 | Keybinding                | Description                                              |
 | ------------------------- | -------------------------------------------------------- |
 | `<Prefix> [`              | Enter "Copy Mode" or "Select Mode"                       |
+| `v` (copy mode)           | Begin selection (vim-style visual)                       |
 | `<Prefix> C-L`            | Clear screen                                             |
 | `<Prefix> c`              | Create new window                                        |
 | `<Prefix> &`              | Kill current window                                      |
@@ -79,10 +94,11 @@ The `<Prefix>` Keybinding has been remapped to `C-a`, replacing the default
 | `<Prefix> S-Left`         | Resize pane 5 rows left                                  |
 | `<Prefix> z`              | Toggle zooom on current pane                             |
 | `<Prefix> x`              | Kill current pane                                        |
-| `C-h`                     | Navigate panes left or send C-h to Vim                   |
-| `C-j`                     | Navigate panes down or send C-j to Vim                   |
-| `C-k`                     | Navigate panes up or send C-k to Vim                     |
-| `C-l`                     | Navigate panes right or send C-l to Vim                  |
+| `<Prefix> h/j/k/l`       | Select pane (vi-style, with prefix)                      |
+| `C-h`                     | Navigate panes left or send C-h to Vim (also works in copy-mode-vi) |
+| `C-j`                     | Navigate panes down or send C-j to Vim (also works in copy-mode-vi) |
+| `C-k`                     | Navigate panes up or send C-k to Vim (also works in copy-mode-vi) |
+| `C-l`                     | Navigate panes right or send C-l to Vim (also works in copy-mode-vi) |
 | `<Prefix> s`              | Show and select other tmux sessions                      |
 | `<Prefix> w`              | Show and select other tmux windows in current session    |
 | `<Prefix> >`              | Pane show action menu                                    |
@@ -137,10 +153,18 @@ keybindings. Only custom overrides and additions are documented below.
 
 The `<Leader>` key is `Space`.
 
-#### Enabled LazyVim Extras
+#### Enabled LazyVim Extras (31)
 
-- `ai.copilot` — GitHub Copilot integration
-- `coding.mini-surround` — Add/change/delete surroundings
+**AI**: `copilot`, `copilot-chat`
+**Coding**: `mini-surround`, `yanky`
+**DAP**: `core`
+**Editor**: `aerial`, `dial`, `harpoon2`, `inc-rename`, `mini-move`, `overseer`, `telescope`
+**Formatting**: `prettier`
+**Linting**: `eslint`
+**Lang**: `ansible`, `docker`, `git`, `json`, `markdown`, `python`, `sql`, `tailwind`, `toml`, `typescript`, `yaml`
+**Test**: `core`
+**UI**: `mini-indentscope`, `treesitter-context`
+**Util**: `dot`, `mini-hipatterns`, `project`
 
 #### Notable Configuration
 
@@ -160,8 +184,8 @@ The `<Leader>` key is `Space`.
 | `<F12>` | Normal/Terminal | Toggle terminal (replaces `<C-/>`) |
 | `<C-d>` / `<C-u>` | Normal | Half-page scroll + center cursor |
 | `n` / `N` | Normal | Search next/prev + center + open folds |
-| `p` | Visual | Paste without yanking replaced text |
 | `<C-h/j/k/l>` | Normal | Tmux-aware split navigation |
+| `<cr>` | neo-tree | Open file with window-picker target selection |
 | `<leader>fyf` | Normal | Find yadm files (Telescope) |
 | `<leader>fyp` | Normal | Grep yadm files (Telescope) |
 
@@ -228,10 +252,18 @@ JetBrains IDEs. The `<Leader>` key is `Space`.
 | `gq` | Quick implementations |
 | `gb` | Goto database view |
 
+#### Folding
+
+| Key | Description |
+| --- | --- |
+| `zC` | Close all folds under cursor (recursive) |
+| `zO` | Open all folds under cursor (recursive) |
+
 #### Other
 
 | Key | Description |
 | --- | --- |
+| `Tab` | Accept Sweep AI autocomplete suggestion |
 | `C-\` | Toggle terminal tool window |
 | `C-S` | Save current buffer |
 | `p` (visual) | Paste without yanking replaced text |
@@ -268,13 +300,46 @@ plugin manager and [Starship](https://starship.rs/) as the prompt.
 | Alias | Expands To |
 | --- | --- |
 | `v` | `nvim` |
+| `lvim` | `NVIM_APPNAME=lazyvim nvim` |
+| `nvim-kickstart` | `NVIM_APPNAME=kickstart nvim` |
+| `nvim-chad` | `NVIM_APPNAME=nvchad nvim` |
 | `lg` | `lazygit` |
 | `ly` | `lazyyadm` (lazygit for yadm files) |
+| `lazyyadm` | `lazygit --use-config-file ... --work-tree ~ --git-dir ~/.local/share/yadm/repo.git` |
 | `ls` | `eza` |
 | `ll` | `eza -la --header --git --icons --changed --time-style=iso` |
 | `cat` | `bat` (interactive terminals only) |
 | `cd` | `z` (zoxide, interactive terminals only) |
+| `cp` / `mv` | `cp -iv` / `mv -iv` (interactive terminals only) |
+| `mkdir` | `mkdir -pv` |
+| `less` | `less -FSRXc` |
+| `git-count` | `git ls-files \| xargs wc -l` (count lines in tracked files) |
 | `f` | `open -a Finder ./` (macOS only) |
+
+#### Helper Functions
+
+| Function | Description |
+| --- | --- |
+| `listening_on_port <port>` | Show processes listening on a specific port |
+| `listening_on_ports` | Show all processes in LISTEN state |
+| `ssm <instance-id>` | Start an AWS SSM session |
+| `count_lines_of_code <url>` | Clone a repo and count lines with `cloc` |
+| `tclean` | Detach all other tmux clients |
+
+### 🌿 Git
+
+Git is configured with [delta](https://github.com/dandavison/delta) as the
+pager (side-by-side diffs, Dracula theme).
+
+#### Git Aliases
+
+| Alias | Command |
+| --- | --- |
+| `co` | `checkout` |
+| `ci` | `commit` |
+| `st` | `status` |
+| `br` | `branch` |
+| `lg` | `log --oneline --decorate --all --graph` |
 
 ### 🔧 CLI Utilities
 
