@@ -37,14 +37,16 @@ more easily managed with version control systems.
 
 ### 💻 Tmux
 
-Tmux is used as a terminal multiplexer to manage multiple terminal sessions,
-split screens, and easily switch between them. The
-[dracula/tmux](https://github.com/dracula/tmux) plugin is installed for a better
-status bar and dark mode. The
-[tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect) plugin is
-installed to save and restore tmux sessions after system restart. The
-[tmux-yank](https://github.com/tmux-plugins/tmux-yank) plugin enables copying to
-the system clipboard from tmux copy mode.
+Tmux plugins installed via [TPM](https://github.com/tmux-plugins/tpm):
+
+| Plugin | Description |
+| ------ | ----------- |
+| [dracula/tmux](https://github.com/dracula/tmux) | Status bar theme with powerline and system info |
+| [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect) | Save and restore tmux sessions across restarts |
+| [tmux-yank](https://github.com/tmux-plugins/tmux-yank) | Copy to system clipboard from tmux copy mode |
+| [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator) | Seamless navigation between tmux panes and Vim splits |
+| [tmux-fuzzback](https://github.com/roosta/tmux-fuzzback) | Fuzzy search scrollback buffer via fzf popup |
+| [extrakto](https://github.com/laktak/extrakto) | Extract and select tokens (URLs, paths, hashes) from scrollback |
 
 The status bar is positioned at the top. When connecting via
 [mosh](https://mosh.org/), the prefix automatically switches back to `C-b` so it
@@ -88,6 +90,8 @@ The `<Prefix>` Keybinding has been remapped to `C-a`, replacing the default
 | `<Prefix> :new -s <name>` | Create a new session, within a tmux session, with a name |
 | `<Prefix> )`              | Goto next session                                        |
 | `<Prefix> (`              | Goto previous session                                    |
+| `<Prefix> ?`              | Fuzzy search scrollback buffer (tmux-fuzzback)           |
+| `<Prefix> Tab`            | Extract and select tokens from scrollback (extrakto)     |
 
 ##### Updating Configuration and Managing Plugins
 
@@ -104,6 +108,12 @@ The `<Prefix>` Keybinding has been remapped to `C-a`, replacing the default
 | -------------- | --------------- |
 | `<Prefix> C-s` | Save session    |
 | `<Prefix> C-r` | Restore session |
+
+##### Nested Session Toggle
+
+| Keybinding | Description                                             |
+| ---------- | ------------------------------------------------------- |
+| `F12`      | Toggle outer session off/on for nested tmux sessions    |
 
 ##### Entering Command Prompt Mode and Running Tmux Commands
 
