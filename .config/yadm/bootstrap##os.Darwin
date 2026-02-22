@@ -76,10 +76,10 @@ command -v luarocks &>/dev/null && echo "Installing/updating luarocks completion
 command -v mise &>/dev/null && echo "Installing/updating mise completion..." && mise completion zsh >"${completions_dir}/_mise"
 
 # install tmux plugin manager
-if [ ! -d "${HOME}/.tmux/plugins/tpm" ]; then
+if [ ! -d "${HOME}/.config/tmux/plugins/tpm" ]; then
     echo "Installing tmux plugin manager..."
-    mkdir -p "${HOME}/.tmux/plugins"
-    git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
+    mkdir -p "${HOME}/.config/tmux/plugins"
+    git clone https://github.com/tmux-plugins/tpm "${HOME}/.config/tmux/plugins/tpm"
 fi
 
 # update tldr cache
