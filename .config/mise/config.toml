@@ -1,6 +1,10 @@
 [settings]
 idiomatic_version_file_enable_tools = ["node", "ruby"]
 
+[settings.status]
+show_tools = true
+show_env = true
+
 [tools]
 go = "1.22.2"
 node = "22.22.0"
