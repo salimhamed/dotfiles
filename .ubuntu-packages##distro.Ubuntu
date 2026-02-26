@@ -1,4 +1,5 @@
 apt-transport-https
+bat
 build-essential
 bzip2
 ca-certificates
