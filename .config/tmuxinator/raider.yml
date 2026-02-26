@@ -1,0 +1,7 @@
+name: <%= File.basename(@args[0]) %>
+root: <%= @args[0] %>
+
+windows:
+  - claude:
+  - editor: nvim
+  - shell:
