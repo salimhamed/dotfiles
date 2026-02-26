@@ -37,7 +37,9 @@ more easily managed with version control systems.
 
 ### 💻 Tmux
 
-Tmux plugins installed via [TPM](https://github.com/tmux-plugins/tpm):
+Tmux plugins installed via [TPM](https://github.com/tmux-plugins/tpm), plus
+[tmuxinator](https://github.com/tmuxinator/tmuxinator) as a companion tool for
+session layouts:
 
 | Plugin | Description |
 | ------ | ----------- |
@@ -47,6 +49,8 @@ Tmux plugins installed via [TPM](https://github.com/tmux-plugins/tpm):
 | [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator) | Seamless navigation between tmux panes and Vim splits |
 | [tmux-fuzzback](https://github.com/roosta/tmux-fuzzback) | Fuzzy search scrollback buffer via fzf popup |
 | [extrakto](https://github.com/laktak/extrakto) | Extract and select tokens (URLs, paths, hashes) from scrollback |
+| [tmux-sessionx](https://github.com/omerxx/tmux-sessionx) | Fuzzy session picker with zoxide and tmuxinator integration |
+| [tmuxinator](https://github.com/tmuxinator/tmuxinator) | Define and manage tmux session layouts via YAML |
 
 The status bar is positioned at the top. When connecting via
 [mosh](https://mosh.org/), the prefix automatically switches back to `C-b` so it
@@ -92,6 +96,7 @@ The `<Prefix>` Keybinding has been remapped to `C-a`, replacing the default
 | `<Prefix> (`              | Goto previous session                                    |
 | `<Prefix> ?`              | Fuzzy search scrollback buffer (tmux-fuzzback)           |
 | `<Prefix> Tab`            | Extract and select tokens from scrollback (extrakto)     |
+| `<Prefix> O`              | Fuzzy session picker with zoxide integration (sessionx)  |
 
 ##### Updating Configuration and Managing Plugins
 
@@ -296,6 +301,7 @@ Below is a list of CLI utilities that are installed.
 | `macos-trash` | A command-line interface to the macOS trash (e.g, `trash file.txt`). | [Link](https://github.com/sindresorhus/macos-trash) |
 | `ripgrep`   | A fast line-oriented search tool, like `grep` with steroids.         | [Link](https://github.com/BurntSushi/ripgrep)       |
 | `tealdeer`  | More readable `man` pages (e.g., `tldr grep`)                        | [Link](https://github.com/dbrgn/tealdeer)           |
+| `tmuxinator` | Define and manage tmux session layouts via YAML.                     | [Link](https://github.com/tmuxinator/tmuxinator)    |
 | `tree`      | A recursive directory listing command with tree-like output.         | [Link](http://mama.indstate.edu/users/ice/tree)     |
 | `eza`       | Modern replacement for `ls`.                                         | [Link](https://github.com/eza-community/eza)        |
 | `zoxide`    | A smarter `cd` command.                                              | [Link](https://github.com/ajeetdsouza/zoxide)       |
