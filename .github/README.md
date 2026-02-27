@@ -35,14 +35,12 @@ plugin manager and [Starship](https://starship.rs/) as the prompt.
 
 ### Zsh Plugins
 
-- [zsh-completions](https://github.com/zsh-users/zsh-completions) — Additional
-  completion definitions
-- [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) —
-  Fish-like autosuggestions
-- [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
-  — Syntax highlighting at the prompt
-- [zsh-vim-mode](https://github.com/softmoth/zsh-vim-mode) — Vim keybindings for
-  the command line
+| Plugin                                                                          | Description                          |
+| ------------------------------------------------------------------------------- | ------------------------------------ |
+| [zsh-completions](https://github.com/zsh-users/zsh-completions)                | Additional completion definitions    |
+| [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)         | Fish-like autosuggestions            |
+| [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) | Syntax highlighting at the prompt    |
+| [zsh-vim-mode](https://github.com/softmoth/zsh-vim-mode)                       | Vim keybindings for the command line |
 
 ### Tool Integrations
 
@@ -128,56 +126,39 @@ The `<Leader>` key is `Space`.
 
 ### Enabled LazyVim Extras
 
-**AI**:
-`ai.copilot`,
-`ai.copilot-chat`
-
-**Coding**:
-`coding.mini-surround`,
-`coding.yanky`
-
-**DAP**:
-`dap.core`
-
-**Editor**:
-`editor.aerial`,
-`editor.dial`,
-`editor.harpoon2`,
-`editor.inc-rename`,
-`editor.mini-move`,
-`editor.overseer`,
-`editor.telescope`
-
-**Formatting**:
-`formatting.prettier`
-
-**Lang**:
-`lang.ansible`,
-`lang.docker`,
-`lang.git`,
-`lang.json`,
-`lang.markdown`,
-`lang.python`,
-`lang.sql`,
-`lang.tailwind`,
-`lang.toml`,
-`lang.typescript`,
-`lang.yaml`
-
-**Linting**:
-`linting.eslint`
-
-**Test**:
-`test.core`
-
-**UI**:
-`ui.mini-indentscope`,
-`ui.treesitter-context`
-
-**Util**:
-`util.dot`,
-`util.mini-hipatterns`,
-`util.project`
+| Category   | Extra              | Full Key                 |
+| ---------- | ------------------ | ------------------------ |
+| AI         | `copilot`          | `ai.copilot`             |
+| AI         | `copilot-chat`     | `ai.copilot-chat`        |
+| Coding     | `mini-surround`    | `coding.mini-surround`   |
+| Coding     | `yanky`            | `coding.yanky`           |
+| DAP        | `core`             | `dap.core`               |
+| Editor     | `aerial`           | `editor.aerial`          |
+| Editor     | `dial`             | `editor.dial`            |
+| Editor     | `harpoon2`         | `editor.harpoon2`        |
+| Editor     | `inc-rename`       | `editor.inc-rename`      |
+| Editor     | `mini-move`        | `editor.mini-move`       |
+| Editor     | `overseer`         | `editor.overseer`        |
+| Editor     | `telescope`        | `editor.telescope`       |
+| Formatting | `prettier`         | `formatting.prettier`    |
+| Lang       | `ansible`          | `lang.ansible`           |
+| Lang       | `docker`           | `lang.docker`            |
+| Lang       | `git`              | `lang.git`               |
+| Lang       | `json`             | `lang.json`              |
+| Lang       | `markdown`         | `lang.markdown`          |
+| Lang       | `python`           | `lang.python`            |
+| Lang       | `sql`              | `lang.sql`               |
+| Lang       | `tailwind`         | `lang.tailwind`          |
+| Lang       | `toml`             | `lang.toml`              |
+| Lang       | `typescript`       | `lang.typescript`        |
+| Lang       | `yaml`             | `lang.yaml`              |
+| Linting    | `eslint`           | `linting.eslint`         |
+| Test       | `core`             | `test.core`              |
+| UI         | `mini-indentscope` | `ui.mini-indentscope`    |
+| UI         | `treesitter-context` | `ui.treesitter-context` |
+| Util       | `dot`              | `util.dot`               |
+| Util       | `mini-hipatterns`  | `util.mini-hipatterns`   |
+| Util       | `project`          | `util.project`           |
 
 ## IdeaVim (JetBrains)
 
@@ -186,7 +167,13 @@ JetBrains IDEs. The `<Leader>` key is `Space`.
 
 ### IdeaVim Plugins
 
-`easymotion`, `surround`, `commentary`, `paragraph-motion`, `nerdtree`,
-`which-key`
+| Plugin             | Description                          |
+| ------------------ | ------------------------------------ |
+| `easymotion`       | Jump to any visible character        |
+| `surround`         | Add/change/delete surrounding pairs  |
+| `commentary`       | Toggle line/block comments           |
+| `paragraph-motion` | Move by blank-line-delimited blocks  |
+| `nerdtree`         | File explorer sidebar                |
+| `which-key`        | Display available keybindings        |
 
 > **[IdeaVim Keymaps →](docs/ideavim.md)**
