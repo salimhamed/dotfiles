@@ -5,7 +5,7 @@
 Dotfiles managed with [yadm](https://yadm.io/). These dotfiles have been tested
 on `macOS` and `Ubuntu`.
 
-## 📦 Installation
+## ⚡ Installation
 
 First, install [`yadm`](https://yadm.io/docs/install). Then, clone the
 repository with `yadm` and run `bootstrap`.
@@ -21,16 +21,16 @@ yadm config local.class Personal
 yadm bootstrap
 ```
 
-## 🏃 Usage
+## 🔧 Usage
 
-### 🚀 Alacritty
+### Alacritty
 
 [Alacritty](https://github.com/alacritty/alacritty) is installed as the terminal
 emulator.
 
 > **[Alacritty Keymaps →](docs/alacritty.md)**
 
-### 🐚 Shell (Zsh)
+### Shell (Zsh)
 
 Zsh is configured with [antidote](https://github.com/mattmc3/antidote) as the
 plugin manager and [Starship](https://starship.rs/) as the prompt.
@@ -94,7 +94,7 @@ Below is a list of CLI utilities that are installed.
 | `eza`         | Modern replacement for `ls`.                                         | [Link](https://github.com/eza-community/eza)        |
 | `zoxide`      | A smarter `cd` command.                                              | [Link](https://github.com/ajeetdsouza/zoxide)       |
 
-### 💻 Tmux
+### Tmux
 
 [Tmux](https://github.com/tmux/tmux) is the terminal multiplexer. The prefix is
 remapped to `C-a`. When connecting over [mosh](https://mosh.org/), the prefix
@@ -119,7 +119,7 @@ session layouts:
 | [tmux-sessionx](https://github.com/omerxx/tmux-sessionx)                | Fuzzy session picker with zoxide and tmuxinator integration     |
 | [tmuxinator](https://github.com/tmuxinator/tmuxinator)                  | Define and manage tmux session layouts via YAML                 |
 
-### 🚀 Neovim (LazyVim)
+### Neovim (LazyVim)
 
 [Neovim](https://neovim.io) is configured using
 [LazyVim](https://github.com/LazyVim/LazyVim) as the base distribution. See the
@@ -183,7 +183,7 @@ The `<Leader>` key is `Space`.
 `util.mini-hipatterns`,
 `util.project`
 
-### 🔧 IdeaVim (JetBrains)
+### IdeaVim (JetBrains)
 
 [IdeaVim](https://github.com/JetBrains/ideavim) provides Vim emulation in
 JetBrains IDEs. The `<Leader>` key is `Space`.
@@ -195,7 +195,7 @@ JetBrains IDEs. The `<Leader>` key is `Space`.
 
 > **[IdeaVim Keymaps →](docs/ideavim.md)**
 
-## 📦 Acknowledgements
+## 🙏 Acknowledgements
 
 In addition to all the amazing projects listed above, thanks goes out to the
 following projects/individuals for providing inspiration and/or code:
