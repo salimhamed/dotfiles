@@ -35,7 +35,7 @@ emulator.
 Zsh is configured with [antidote](https://github.com/mattmc3/antidote) as the
 plugin manager and [Starship](https://starship.rs/) as the prompt.
 
-#### 🔌 Zsh Plugins
+#### Zsh Plugins
 
 - [zsh-completions](https://github.com/zsh-users/zsh-completions) — Additional
   completion definitions
@@ -46,7 +46,7 @@ plugin manager and [Starship](https://starship.rs/) as the prompt.
 - [zsh-vim-mode](https://github.com/softmoth/zsh-vim-mode) — Vim keybindings for
   the command line
 
-#### 🔗 Tool Integrations
+#### Tool Integrations
 
 | Tool                                            | Description                             |
 | ----------------------------------------------- | --------------------------------------- |
@@ -55,7 +55,7 @@ plugin manager and [Starship](https://starship.rs/) as the prompt.
 | [mise](https://github.com/jdx/mise)             | Runtime version management              |
 | [Starship](https://starship.rs/)                | Cross-shell prompt                      |
 
-#### ⌨️ Key Aliases
+#### Key Aliases
 
 | Alias | Expands To                                                  |
 | ----- | ----------------------------------------------------------- |
@@ -68,7 +68,7 @@ plugin manager and [Starship](https://starship.rs/) as the prompt.
 | `cd`  | `z` (zoxide, interactive terminals only)                    |
 | `f`   | `open -a Finder ./` (macOS only)                            |
 
-#### 🛠️ CLI Utilities
+#### CLI Utilities
 
 Below is a list of CLI utilities that are installed.
 
@@ -100,7 +100,7 @@ automatically switches back to `C-b` for compatibility with mobile clients.
 
 > **[Tmux Keymaps →](docs/tmux.md)**
 
-#### 🔌 Tmux Plugins
+#### Tmux Plugins
 
 Tmux plugins installed via [TPM](https://github.com/tmux-plugins/tpm), plus
 [tmuxinator](https://github.com/tmuxinator/tmuxinator) as a companion tool for
@@ -128,7 +128,7 @@ The `<Leader>` key is `Space`.
 
 > **[Neovim Keymaps →](docs/neovim.md)**
 
-#### 📦 Enabled LazyVim Extras
+#### Enabled LazyVim Extras
 
 **AI**:
 `ai.copilot`,
@@ -186,7 +186,7 @@ The `<Leader>` key is `Space`.
 [IdeaVim](https://github.com/JetBrains/ideavim) provides Vim emulation in
 JetBrains IDEs. The `<Leader>` key is `Space`.
 
-#### 🔌 IdeaVim Plugins
+#### IdeaVim Plugins
 
 `easymotion`, `surround`, `commentary`, `paragraph-motion`, `nerdtree`,
 `which-key`
