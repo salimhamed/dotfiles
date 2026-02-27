@@ -5,9 +5,6 @@ alias lg='lazygit'
 
 # --- Editor ---
 alias v='nvim'
-alias lvim="NVIM_APPNAME=lazyvim nvim"
-alias nvim-kickstart="NVIM_APPNAME=kickstart nvim"
-alias nvim-chad="NVIM_APPNAME=nvchad nvim"
 
 # --- Standard command defaults ---
 alias mkdir='mkdir -pv'
