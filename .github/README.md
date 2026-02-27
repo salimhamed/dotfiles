@@ -53,7 +53,6 @@ plugin manager and [Starship](https://starship.rs/) as the prompt.
 | [fzf](https://github.com/junegunn/fzf)          | Fuzzy finder (`C-r` for history search) |
 | [zoxide](https://github.com/ajeetdsouza/zoxide) | Smarter `cd` (aliased to `cd`)          |
 | [mise](https://github.com/jdx/mise)             | Runtime version management              |
-| [direnv](https://direnv.net/)                   | Directory-scoped environment variables  |
 | [Starship](https://starship.rs/)                | Cross-shell prompt                      |
 
 #### Key Aliases
@@ -77,7 +76,6 @@ Below is a list of CLI utilities that are installed.
 | ------------- | -------------------------------------------------------------------- | --------------------------------------------------- |
 | `mise`        | Runtime version management (replaces pyenv/rbenv/nvm).               | [Link](https://github.com/jdx/mise)                 |
 | `uv`          | Python package and project manager.                                  | [Link](https://github.com/astral-sh/uv)             |
-| `direnv`      | Directory-scoped environment variables.                              | [Link](https://direnv.net/)                         |
 | `starship`    | Cross-shell prompt.                                                  | [Link](https://starship.rs/)                        |
 | `bat`         | A `cat` clone with syntax highlighting and Git integration.          | [Link](https://github.com/sharkdp/bat)              |
 | `fd`          | A simple, fast, and user-friendly alternative to `find`.             | [Link](https://github.com/sharkdp/fd)               |
