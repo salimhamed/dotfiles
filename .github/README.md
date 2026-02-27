@@ -5,7 +5,7 @@
 Dotfiles managed with [yadm](https://yadm.io/). These dotfiles have been tested
 on `macOS` and `Ubuntu`.
 
-## ⚡ Installation
+## Installation
 
 First, install [`yadm`](https://yadm.io/docs/install). Then, clone the
 repository with `yadm` and run `bootstrap`.
@@ -21,21 +21,19 @@ yadm config local.class Personal
 yadm bootstrap
 ```
 
-## 🔧 Usage
-
-### 🖥️ Alacritty
+## Alacritty
 
 [Alacritty](https://github.com/alacritty/alacritty) is installed as the terminal
 emulator.
 
 > **[Alacritty Keymaps →](docs/alacritty.md)**
 
-### 🐚 Shell (Zsh)
+## Shell (Zsh)
 
 Zsh is configured with [antidote](https://github.com/mattmc3/antidote) as the
 plugin manager and [Starship](https://starship.rs/) as the prompt.
 
-#### Zsh Plugins
+### Zsh Plugins
 
 - [zsh-completions](https://github.com/zsh-users/zsh-completions) — Additional
   completion definitions
@@ -46,7 +44,7 @@ plugin manager and [Starship](https://starship.rs/) as the prompt.
 - [zsh-vim-mode](https://github.com/softmoth/zsh-vim-mode) — Vim keybindings for
   the command line
 
-#### Tool Integrations
+### Tool Integrations
 
 | Tool                                            | Description                             |
 | ----------------------------------------------- | --------------------------------------- |
@@ -55,7 +53,7 @@ plugin manager and [Starship](https://starship.rs/) as the prompt.
 | [mise](https://github.com/jdx/mise)             | Runtime version management              |
 | [Starship](https://starship.rs/)                | Cross-shell prompt                      |
 
-#### Key Aliases
+### Key Aliases
 
 | Alias | Expands To                                                  |
 | ----- | ----------------------------------------------------------- |
@@ -68,7 +66,7 @@ plugin manager and [Starship](https://starship.rs/) as the prompt.
 | `cd`  | `z` (zoxide, interactive terminals only)                    |
 | `f`   | `open -a Finder ./` (macOS only)                            |
 
-#### CLI Utilities
+### CLI Utilities
 
 Below is a list of CLI utilities that are installed.
 
@@ -92,7 +90,7 @@ Below is a list of CLI utilities that are installed.
 | `eza`         | Modern replacement for `ls`.                                         | [Link](https://github.com/eza-community/eza)        |
 | `zoxide`      | A smarter `cd` command.                                              | [Link](https://github.com/ajeetdsouza/zoxide)       |
 
-### 🪟 Tmux
+## Tmux
 
 [Tmux](https://github.com/tmux/tmux) is the terminal multiplexer. The prefix is
 remapped to `C-a`. When connecting over [mosh](https://mosh.org/), the prefix
@@ -100,7 +98,7 @@ automatically switches back to `C-b` for compatibility with mobile clients.
 
 > **[Tmux Keymaps →](docs/tmux.md)**
 
-#### Tmux Plugins
+### Tmux Plugins
 
 Tmux plugins installed via [TPM](https://github.com/tmux-plugins/tpm), plus
 [tmuxinator](https://github.com/tmuxinator/tmuxinator) as a companion tool for
@@ -117,7 +115,7 @@ session layouts:
 | [tmux-sessionx](https://github.com/omerxx/tmux-sessionx)                | Fuzzy session picker with zoxide and tmuxinator integration     |
 | [tmuxinator](https://github.com/tmuxinator/tmuxinator)                  | Define and manage tmux session layouts via YAML                 |
 
-### ✏️ Neovim (LazyVim)
+## Neovim (LazyVim)
 
 [Neovim](https://neovim.io) is configured using
 [LazyVim](https://github.com/LazyVim/LazyVim) as the base distribution. See the
@@ -128,7 +126,7 @@ The `<Leader>` key is `Space`.
 
 > **[Neovim Keymaps →](docs/neovim.md)**
 
-#### Enabled LazyVim Extras
+### Enabled LazyVim Extras
 
 **AI**:
 `ai.copilot`,
@@ -181,23 +179,14 @@ The `<Leader>` key is `Space`.
 `util.mini-hipatterns`,
 `util.project`
 
-### 💡 IdeaVim (JetBrains)
+## IdeaVim (JetBrains)
 
 [IdeaVim](https://github.com/JetBrains/ideavim) provides Vim emulation in
 JetBrains IDEs. The `<Leader>` key is `Space`.
 
-#### IdeaVim Plugins
+### IdeaVim Plugins
 
 `easymotion`, `surround`, `commentary`, `paragraph-motion`, `nerdtree`,
 `which-key`
 
 > **[IdeaVim Keymaps →](docs/ideavim.md)**
-
-## 🙏 Acknowledgements
-
-In addition to all the amazing projects listed above, thanks goes out to the
-following projects/individuals for providing inspiration and/or code:
-
-- [LazyVim](https://github.com/LazyVim/LazyVim): Referenced for how to properly
-  configure nvim.
-- [tjdevries](https://github.com/tjdevries): Great YouTube content code samples.
