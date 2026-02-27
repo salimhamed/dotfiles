@@ -24,6 +24,7 @@ libbz2-dev
 libffi-dev
 libglib2.0-0
 liblzma-dev
+libyaml-dev
 libncursesw5-dev
 libpq-dev
 libreadline-dev
