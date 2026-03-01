@@ -81,6 +81,10 @@ command -v luarocks &>/dev/null && echo "Installing/updating luarocks completion
 command -v mise &>/dev/null && echo "Installing/updating mise completion..." && mise completion zsh >"${completions_dir}/_mise"
 command -v tmuxinator &>/dev/null && echo "Installing/updating tmuxinator completion..." && curl --location --silent https://raw.githubusercontent.com/tmuxinator/tmuxinator/master/completion/tmuxinator.zsh --output "${completions_dir}/_tmuxinator"
 
+# download catppuccin theme for alacritty
+echo "Downloading Catppuccin Mocha theme for Alacritty..."
+curl -LO --output-dir ~/.config/alacritty https://github.com/catppuccin/alacritty/raw/main/catppuccin-mocha.toml
+
 # install tmux plugin manager
 if [ ! -d "${HOME}/.config/tmux/plugins/tpm" ]; then
     echo "Installing tmux plugin manager..."
