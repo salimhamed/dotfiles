@@ -29,7 +29,6 @@ eval "$(zoxide init zsh)"
 if command -v mise &>/dev/null; then
     eval "$(mise activate zsh)"
 fi
-eval "$(direnv hook zsh)"
 
 # Starship prompt (must be last)
 eval "$(starship init zsh)"
