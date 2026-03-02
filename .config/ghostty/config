@@ -1,5 +1,5 @@
 # Theme
-theme = tokyonight
+theme = catppuccin-mocha
 
 # Cursor
 cursor-style = block
