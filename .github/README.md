@@ -91,9 +91,9 @@ Below is a list of CLI utilities that are installed.
 ## Tmux
 
 [Tmux](https://github.com/tmux/tmux) is the terminal multiplexer. The prefix is
-remapped to `C-a`. Use `<Prefix> P` to toggle the prefix to `C-b` (useful for
-mobile clients over mosh). A ⚡ indicator appears in the status bar when the
-prefix key is active.
+remapped to `C-a`. A ⚡ indicator appears in the status bar when the prefix key
+is active. Use `<Prefix> m` to toggle mobile mode, which switches the prefix to
+`C-b`, hides status indicators, and shows a 📱 badge.
 
 > **[Tmux Keymaps →](docs/tmux.md)**
 

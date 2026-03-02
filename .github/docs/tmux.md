@@ -6,9 +6,10 @@
 
 ## Prefix
 
-The prefix is remapped to `C-a` (default `C-b`). Use `<Prefix> P` to toggle
-the prefix to `C-b` (useful for mobile clients over mosh). A ⚡ indicator
-appears in the status bar when the prefix key is active.
+The prefix is remapped to `C-a` (default `C-b`). A ⚡ indicator appears in the
+status bar when the prefix key is active. Use `<Prefix> m` to toggle mobile
+mode, which switches the prefix to `C-b`, hides status indicators, and shows a
+📱 badge.
 
 ## Custom Keybindings
 
@@ -26,8 +27,7 @@ appears in the status bar when the prefix key is active.
 | `<Prefix> S-Left` | Resize pane 5 columns left                          |
 | `<Prefix> C-l`   | Clear screen (since `C-l` is used by vim-tmux-navigator) |
 | `v` (copy mode)  | Begin selection (vi-style)                           |
-| `<Prefix> P`     | Toggle prefix between `C-a` and `C-b`                |
-| `<Prefix> m`     | Toggle status-right indicators on/off                |
+| `<Prefix> m`     | Toggle mobile mode (`C-b` prefix, no indicators, 📱) |
 | `F12`            | Toggle outer session off/on for nested tmux sessions |
 
 ## Plugin Keybindings
