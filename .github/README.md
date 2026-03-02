@@ -91,8 +91,9 @@ Below is a list of CLI utilities that are installed.
 ## Tmux
 
 [Tmux](https://github.com/tmux/tmux) is the terminal multiplexer. The prefix is
-remapped to `C-a`. When connecting over [mosh](https://mosh.org/), the prefix
-automatically switches back to `C-b` for compatibility with mobile clients.
+remapped to `C-a`. Use `<Prefix> P` to toggle the prefix to `C-b` (useful for
+mobile clients over mosh). A ⚡ indicator appears in the status bar when the
+prefix key is active.
 
 > **[Tmux Keymaps →](docs/tmux.md)**
 
@@ -104,7 +105,8 @@ session layouts:
 
 | Plugin                                                                  | Description                                                     |
 | ----------------------------------------------------------------------- | --------------------------------------------------------------- |
-| [dracula/tmux](https://github.com/dracula/tmux)                         | Status bar theme with powerline and system info                 |
+| [catppuccin/tmux](https://github.com/catppuccin/tmux)                    | Status bar theme (Mocha flavor)                                 |
+| [tmux-cpu](https://github.com/tmux-plugins/tmux-cpu)                    | CPU usage indicator in status bar                               |
 | [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect)        | Save and restore tmux sessions across restarts                  |
 | [tmux-yank](https://github.com/tmux-plugins/tmux-yank)                  | Copy to system clipboard from tmux copy mode                    |
 | [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator) | Seamless navigation between tmux panes and Vim splits           |

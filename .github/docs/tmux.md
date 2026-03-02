@@ -6,9 +6,9 @@
 
 ## Prefix
 
-The prefix is remapped to `C-a` (default `C-b`). When connecting over
-[mosh](https://mosh.org/), the prefix is automatically switched back to `C-b`
-for compatibility with mobile clients (via `refresh-status.sh`).
+The prefix is remapped to `C-a` (default `C-b`). Use `<Prefix> P` to toggle
+the prefix to `C-b` (useful for mobile clients over mosh). A ⚡ indicator
+appears in the status bar when the prefix key is active.
 
 ## Custom Keybindings
 
@@ -26,6 +26,8 @@ for compatibility with mobile clients (via `refresh-status.sh`).
 | `<Prefix> S-Left` | Resize pane 5 columns left                          |
 | `<Prefix> C-l`   | Clear screen (since `C-l` is used by vim-tmux-navigator) |
 | `v` (copy mode)  | Begin selection (vi-style)                           |
+| `<Prefix> P`     | Toggle prefix between `C-a` and `C-b`                |
+| `<Prefix> m`     | Toggle status-right indicators on/off                |
 | `F12`            | Toggle outer session off/on for nested tmux sessions |
 
 ## Plugin Keybindings
