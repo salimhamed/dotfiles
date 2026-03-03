@@ -28,6 +28,15 @@ return {
     window = {
       mappings = {
         ["<cr>"] = "open",
+        ["gy"] = {
+          function(state)
+            local node = state.tree:get_node()
+            local path = vim.fn.fnamemodify(node:get_id(), ":.")
+            vim.fn.setreg("+", path)
+            vim.notify("Copied: " .. path)
+          end,
+          desc = "Copy Relative Path",
+        },
       },
     },
   },
