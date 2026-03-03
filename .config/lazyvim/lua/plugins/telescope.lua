@@ -3,6 +3,14 @@ return {
   keys = function(_, _keys)
     local builtin = require("telescope.builtin")
 
+    -- find files including gitignored files (excludes .venv)
+    local function find_files_no_ignore()
+      builtin.find_files({
+        no_ignore = true,
+        file_ignore_patterns = { "^%.venv/" },
+      })
+    end
+
     -- returns all files tracked by yadm
     local function get_yadm_files()
       local output = vim.fn.systemlist("yadm --no-pager --literal-pathspecs ls-files")
@@ -33,7 +41,8 @@ return {
       })
     end
 
-    -- add yadm keymaps to existing keymaps
+    -- add custom keymaps to existing keymaps
+    table.insert(_keys, { "<leader>fI", find_files_no_ignore, desc = "Find Files (no ignore)" })
     table.insert(_keys, { "<leader>fyf", yadm_find_files, desc = "Find yadm Files" })
     table.insert(_keys, { "<leader>fyp", yadm_live_grep, desc = "Search yadm files with gre(p)" })
 
