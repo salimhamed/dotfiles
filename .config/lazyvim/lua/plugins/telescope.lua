@@ -1,5 +1,12 @@
 return {
   "nvim-telescope/telescope.nvim",
+  opts = {
+    pickers = {
+      find_files = {
+        no_ignore = true,
+      },
+    },
+  },
   keys = function(_, _keys)
     local builtin = require("telescope.builtin")
 
