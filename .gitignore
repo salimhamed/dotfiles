@@ -22,6 +22,7 @@
 .zsh_sessions
 .config/zsh/completions/
 myVim.log
+.Brewfile.lock.json
 package-lock.json
 work.zsh
 
