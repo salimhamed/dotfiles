@@ -1,8 +1,26 @@
 <!-- markdownlint-disable MD013 -->
 
-# 💻 Tmux Keymaps
+# 💻 Tmux
 
 [Back to README](../README.md)
+
+## Plugins
+
+Plugins installed via [TPM](https://github.com/tmux-plugins/tpm), plus
+[tmuxinator](https://github.com/tmuxinator/tmuxinator) as a companion tool for
+session layouts:
+
+| Plugin                                                                  | Description                                                     |
+| ----------------------------------------------------------------------- | --------------------------------------------------------------- |
+| [catppuccin/tmux](https://github.com/catppuccin/tmux)                    | Status bar theme (Mocha flavor)                                 |
+| [tmux-cpu](https://github.com/tmux-plugins/tmux-cpu)                    | CPU usage indicator in status bar                               |
+| [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect)        | Save and restore tmux sessions across restarts                  |
+| [tmux-yank](https://github.com/tmux-plugins/tmux-yank)                  | Copy to system clipboard from tmux copy mode                    |
+| [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator) | Seamless navigation between tmux panes and Vim splits           |
+| [tmux-fuzzback](https://github.com/roosta/tmux-fuzzback)                | Fuzzy search scrollback buffer via fzf popup                    |
+| [extrakto](https://github.com/laktak/extrakto)                          | Extract and select tokens (URLs, paths, hashes) from scrollback |
+| [tmux-sessionx](https://github.com/omerxx/tmux-sessionx)                | Fuzzy session picker with zoxide and tmuxinator integration     |
+| [tmuxinator](https://github.com/tmuxinator/tmuxinator)                  | Define and manage tmux session layouts via YAML                 |
 
 ## Prefix
 

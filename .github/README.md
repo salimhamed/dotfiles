@@ -33,149 +33,29 @@ emulator.
 Zsh is configured with [antidote](https://github.com/mattmc3/antidote) as the
 plugin manager and [Starship](https://starship.rs/) as the prompt.
 
-### Zsh Plugins
-
-| Plugin                                                                          | Description                          |
-| ------------------------------------------------------------------------------- | ------------------------------------ |
-| [zsh-completions](https://github.com/zsh-users/zsh-completions)                | Additional completion definitions    |
-| [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)         | Fish-like autosuggestions            |
-| [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) | Syntax highlighting at the prompt    |
-| [zsh-vim-mode](https://github.com/softmoth/zsh-vim-mode)                       | Vim keybindings for the command line |
-
-### Tool Integrations
-
-| Tool                                            | Description                             |
-| ----------------------------------------------- | --------------------------------------- |
-| [fzf](https://github.com/junegunn/fzf)          | Fuzzy finder (`C-r` for history search) |
-| [zoxide](https://github.com/ajeetdsouza/zoxide) | Smarter `cd` (aliased to `cd`)          |
-| [mise](https://github.com/jdx/mise)             | Runtime version management              |
-| [Starship](https://starship.rs/)                | Cross-shell prompt                      |
-
-### Key Aliases
-
-| Alias | Expands To                                                  |
-| ----- | ----------------------------------------------------------- |
-| `v`   | `nvim`                                                      |
-| `lg`  | `lazygit`                                                   |
-| `ly`  | `lazyyadm` (lazygit for yadm files)                         |
-| `ls`  | `eza`                                                       |
-| `ll`  | `eza -la --header --git --icons --changed --time-style=iso` |
-| `cat` | `bat` (interactive terminals only)                          |
-| `cd`  | `z` (zoxide, interactive terminals only)                    |
-| `f`   | `open -a Finder ./` (macOS only)                            |
-
-### CLI Utilities
-
-Below is a list of CLI utilities that are installed.
-
-| Utility       | Description                                                          | Link                                                |
-| ------------- | -------------------------------------------------------------------- | --------------------------------------------------- |
-| `mise`        | Runtime version management (replaces pyenv/rbenv/nvm).               | [Link](https://github.com/jdx/mise)                 |
-| `uv`          | Python package and project manager.                                  | [Link](https://github.com/astral-sh/uv)             |
-| `starship`    | Cross-shell prompt.                                                  | [Link](https://starship.rs/)                        |
-| `bat`         | A `cat` clone with syntax highlighting and Git integration.          | [Link](https://github.com/sharkdp/bat)              |
-| `fd`          | A simple, fast, and user-friendly alternative to `find`.             | [Link](https://github.com/sharkdp/fd)               |
-| `fzf`         | A general-purpose command-line fuzzy finder.                         | [Link](https://github.com/junegunn/fzf)             |
-| `gh`          | GitHub's official CLI tool for managing repositories.                | [Link](https://cli.github.com)                      |
-| `git-delta`   | A viewer for git and diff output with syntax highlighting.           | [Link](https://github.com/dandavison/delta)         |
-| `lazygit`     | A simple terminal UI for git commands.                               | [Link](https://github.com/jesseduffield/lazygit)    |
-| `jq`          | A lightweight and flexible command-line JSON processor.              | [Link](https://github.com/stedolan/jq)              |
-| `macos-trash` | A command-line interface to the macOS trash (e.g, `trash file.txt`). | [Link](https://github.com/sindresorhus/macos-trash) |
-| `ripgrep`     | A fast line-oriented search tool, like `grep` with steroids.         | [Link](https://github.com/BurntSushi/ripgrep)       |
-| `tealdeer`    | More readable `man` pages (e.g., `tldr grep`)                        | [Link](https://github.com/dbrgn/tealdeer)           |
-| `tmuxinator`  | Define and manage tmux session layouts via YAML.                     | [Link](https://github.com/tmuxinator/tmuxinator)    |
-| `tree`        | A recursive directory listing command with tree-like output.         | [Link](http://mama.indstate.edu/users/ice/tree)     |
-| `eza`         | Modern replacement for `ls`.                                         | [Link](https://github.com/eza-community/eza)        |
-| `zoxide`      | A smarter `cd` command.                                              | [Link](https://github.com/ajeetdsouza/zoxide)       |
+> **[Shell Details →](docs/shell.md)**
 
 ## Tmux
 
-[Tmux](https://github.com/tmux/tmux) is the terminal multiplexer. The prefix is
-remapped to `C-a`. A ⚡ indicator appears in the status bar when the prefix key
-is active. Use `<Prefix> m` to toggle mobile mode, which switches the prefix to
-`C-b`, hides status indicators, and shows a 📱 badge.
+[Tmux](https://github.com/tmux/tmux) prefix is remapped to `C-a`. A ⚡ indicator
+appears in the status bar when the prefix key is active. Use `<Prefix> m` to
+toggle mobile mode, which switches the prefix to `C-b`, hides status indicators,
+and shows a 📱 badge.
 
-> **[Tmux Keymaps →](docs/tmux.md)**
-
-### Tmux Plugins
-
-Tmux plugins installed via [TPM](https://github.com/tmux-plugins/tpm), plus
-[tmuxinator](https://github.com/tmuxinator/tmuxinator) as a companion tool for
-session layouts:
-
-| Plugin                                                                  | Description                                                     |
-| ----------------------------------------------------------------------- | --------------------------------------------------------------- |
-| [catppuccin/tmux](https://github.com/catppuccin/tmux)                    | Status bar theme (Mocha flavor)                                 |
-| [tmux-cpu](https://github.com/tmux-plugins/tmux-cpu)                    | CPU usage indicator in status bar                               |
-| [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect)        | Save and restore tmux sessions across restarts                  |
-| [tmux-yank](https://github.com/tmux-plugins/tmux-yank)                  | Copy to system clipboard from tmux copy mode                    |
-| [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator) | Seamless navigation between tmux panes and Vim splits           |
-| [tmux-fuzzback](https://github.com/roosta/tmux-fuzzback)                | Fuzzy search scrollback buffer via fzf popup                    |
-| [extrakto](https://github.com/laktak/extrakto)                          | Extract and select tokens (URLs, paths, hashes) from scrollback |
-| [tmux-sessionx](https://github.com/omerxx/tmux-sessionx)                | Fuzzy session picker with zoxide and tmuxinator integration     |
-| [tmuxinator](https://github.com/tmuxinator/tmuxinator)                  | Define and manage tmux session layouts via YAML                 |
+> **[Tmux Details →](docs/tmux.md)**
 
 ## Neovim (LazyVim)
 
 [Neovim](https://neovim.io) is configured using
 [LazyVim](https://github.com/LazyVim/LazyVim) as the base distribution. See the
 [LazyVim keymaps reference](https://www.lazyvim.org/keymaps) for all default
-keybindings. Only custom overrides and additions are documented below.
-
-The `<Leader>` key is `Space`.
+keybindings. The `<Leader>` key is `Space`.
 
 > **[Neovim Keymaps →](docs/neovim.md)**
-
-### Enabled LazyVim Extras
-
-| Category   | Extra              | Full Key                 |
-| ---------- | ------------------ | ------------------------ |
-| AI         | `copilot`          | `ai.copilot`             |
-| AI         | `copilot-chat`     | `ai.copilot-chat`        |
-| Coding     | `mini-surround`    | `coding.mini-surround`   |
-| Coding     | `yanky`            | `coding.yanky`           |
-| DAP        | `core`             | `dap.core`               |
-| Editor     | `aerial`           | `editor.aerial`          |
-| Editor     | `dial`             | `editor.dial`            |
-| Editor     | `harpoon2`         | `editor.harpoon2`        |
-| Editor     | `inc-rename`       | `editor.inc-rename`      |
-| Editor     | `mini-move`        | `editor.mini-move`       |
-| Editor     | `overseer`         | `editor.overseer`        |
-| Editor     | `telescope`        | `editor.telescope`       |
-| Formatting | `prettier`         | `formatting.prettier`    |
-| Lang       | `ansible`          | `lang.ansible`           |
-| Lang       | `docker`           | `lang.docker`            |
-| Lang       | `git`              | `lang.git`               |
-| Lang       | `json`             | `lang.json`              |
-| Lang       | `markdown`         | `lang.markdown`          |
-| Lang       | `python`           | `lang.python`            |
-| Lang       | `sql`              | `lang.sql`               |
-| Lang       | `tailwind`         | `lang.tailwind`          |
-| Lang       | `toml`             | `lang.toml`              |
-| Lang       | `typescript`       | `lang.typescript`        |
-| Lang       | `yaml`             | `lang.yaml`              |
-| Linting    | `eslint`           | `linting.eslint`         |
-| Test       | `core`             | `test.core`              |
-| UI         | `mini-indentscope` | `ui.mini-indentscope`    |
-| UI         | `treesitter-context` | `ui.treesitter-context` |
-| Util       | `dot`              | `util.dot`               |
-| Util       | `mini-hipatterns`  | `util.mini-hipatterns`   |
-| Util       | `project`          | `util.project`           |
 
 ## IdeaVim (JetBrains)
 
 [IdeaVim](https://github.com/JetBrains/ideavim) provides Vim emulation in
 JetBrains IDEs. The `<Leader>` key is `Space`.
 
-### IdeaVim Plugins
-
-| Plugin             | Description                          |
-| ------------------ | ------------------------------------ |
-| `easymotion`       | Jump to any visible character        |
-| `surround`         | Add/change/delete surrounding pairs  |
-| `commentary`       | Toggle line/block comments           |
-| `paragraph-motion` | Move by blank-line-delimited blocks  |
-| `nerdtree`         | File explorer sidebar                |
-| `which-key`        | Display available keybindings        |
-
-> **[IdeaVim Keymaps →](docs/ideavim.md)**
+> **[IdeaVim Details →](docs/ideavim.md)**
