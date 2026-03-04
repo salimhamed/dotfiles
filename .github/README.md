@@ -23,10 +23,8 @@ yadm bootstrap
 
 ## Stack
 
-| Tool                                                               | Details                      |
-| ------------------------------------------------------------------ | ---------------------------- |
-| [Alacritty](https://github.com/alacritty/alacritty)                | [Details](docs/alacritty.md) |
-| [Zsh](https://www.zsh.org/)                                        | [Details](docs/shell.md)     |
-| [Tmux](https://github.com/tmux/tmux)                               | [Details](docs/tmux.md)      |
-| [Neovim](https://neovim.io) / [LazyVim](https://www.lazyvim.org/)  | [Details](docs/neovim.md)    |
-| [IdeaVim](https://github.com/JetBrains/ideavim)                    | [Details](docs/ideavim.md)   |
+- 🖥️ **[Alacritty](https://github.com/alacritty/alacritty)** — Terminal emulator · [Details](docs/alacritty.md)
+- 🐚 **[Zsh](https://www.zsh.org/)** — Shell with antidote and Starship · [Details](docs/shell.md)
+- 💻 **[Tmux](https://github.com/tmux/tmux)** — Terminal multiplexer · [Details](docs/tmux.md)
+- 🚀 **[Neovim](https://neovim.io)** — Terminal editor via LazyVim · [Details](docs/neovim.md)
+- 🔧 **[IdeaVim](https://github.com/JetBrains/ideavim)** — Vim emulation in JetBrains · [Details](docs/ideavim.md)
