@@ -23,7 +23,7 @@ yadm bootstrap
 
 ## Stack
 
-Core tools configured in these dotfiles.
+Core tools configured in these dotfiles:
 
 - 🖥️ **[Alacritty](docs/alacritty.md)** - Terminal emulator
 - 🐚 **[Zsh](docs/shell.md)** - Shell with antidote and Starship
