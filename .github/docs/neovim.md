@@ -4,6 +4,11 @@
 
 [Back to README](../README.md)
 
+Configured using [LazyVim](https://github.com/LazyVim/LazyVim) as the base
+distribution. See the
+[LazyVim keymaps reference](https://www.lazyvim.org/keymaps) for all default
+keybindings. The `<Leader>` key is `Space`.
+
 ## Custom Keybindings
 
 | Key                | Mode            | Description                                         |

@@ -21,42 +21,12 @@ yadm config local.class Personal
 yadm bootstrap
 ```
 
-## Alacritty
+## Stack
 
-[Alacritty](https://github.com/alacritty/alacritty) is installed as the terminal
-emulator.
-
-> **[Alacritty Keymaps →](docs/alacritty.md)**
-
-## Shell (Zsh)
-
-Zsh is configured with [antidote](https://github.com/mattmc3/antidote) as the
-plugin manager and [Starship](https://starship.rs/) as the prompt.
-
-> **[Shell Details →](docs/shell.md)**
-
-## Tmux
-
-[Tmux](https://github.com/tmux/tmux) prefix is remapped to `C-a`. The status bar
-shows the ⚡ symbol when the prefix key is active. Use `<Prefix> m` to
-toggle mobile mode, which switches the prefix to `C-b` (so shortcuts work
-correctly with mobile SSH/Mosh clients), hides status indicators, and shows a
-📱 badge.
-
-> **[Tmux Details →](docs/tmux.md)**
-
-## Neovim (LazyVim)
-
-[Neovim](https://neovim.io) is configured using
-[LazyVim](https://github.com/LazyVim/LazyVim) as the base distribution. See the
-[LazyVim keymaps reference](https://www.lazyvim.org/keymaps) for all default
-keybindings. The `<Leader>` key is `Space`.
-
-> **[Neovim Keymaps →](docs/neovim.md)**
-
-## IdeaVim (JetBrains)
-
-[IdeaVim](https://github.com/JetBrains/ideavim) provides Vim emulation in
-JetBrains IDEs. The `<Leader>` key is `Space`.
-
-> **[IdeaVim Details →](docs/ideavim.md)**
+| Tool                                                               | Details                      |
+| ------------------------------------------------------------------ | ---------------------------- |
+| [Alacritty](https://github.com/alacritty/alacritty)                | [Details](docs/alacritty.md) |
+| [Zsh](https://www.zsh.org/)                                        | [Details](docs/shell.md)     |
+| [Tmux](https://github.com/tmux/tmux)                               | [Details](docs/tmux.md)      |
+| [Neovim](https://neovim.io) / [LazyVim](https://www.lazyvim.org/)  | [Details](docs/neovim.md)    |
+| [IdeaVim](https://github.com/JetBrains/ideavim)                    | [Details](docs/ideavim.md)   |

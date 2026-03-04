@@ -4,6 +4,11 @@
 
 [Back to README](../README.md)
 
+Prefix is remapped to `C-a`. The status bar shows the ⚡ symbol when the prefix
+key is active. Use `<Prefix> m` to toggle mobile mode, which switches the prefix
+to `C-b` (so shortcuts work correctly with mobile SSH/Mosh clients), hides
+status indicators, and shows a 📱 badge.
+
 ## Plugins
 
 Plugins installed via [TPM](https://github.com/tmux-plugins/tpm), plus
