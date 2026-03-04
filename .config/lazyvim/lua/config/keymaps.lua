@@ -47,13 +47,3 @@ map("n", "<C-u>", "<C-u>zz")
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
--- Remap toggle terminal
-local Snacks = require("snacks")
-
-vim.keymap.del("n", "<c-/>")
-vim.keymap.del("n", "<c-_>")
-map("n", "<F12>", Snacks.terminal.open, { desc = "Terminal (Root Dir)" })
-
-vim.keymap.del("t", "<C-/>")
-vim.keymap.del("t", "<c-_>")
-map("t", "<F12>", "<cmd>close<cr>", { desc = "Hide Terminal" })

@@ -47,3 +47,10 @@ key = "Return"
 mods = "Shift"
 chars = "\u001b\r"
 
+# Fix Ctrl+/ not being sent correctly on macOS
+# https://github.com/alacritty/alacritty/issues/3586
+[[keyboard.bindings]]
+key = "Slash"
+mods = "Control"
+chars = "\u001f"
+
