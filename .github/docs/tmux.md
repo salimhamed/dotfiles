@@ -22,13 +22,6 @@ session layouts:
 | [tmux-sessionx](https://github.com/omerxx/tmux-sessionx)                | Fuzzy session picker with zoxide and tmuxinator integration     |
 | [tmuxinator](https://github.com/tmuxinator/tmuxinator)                  | Define and manage tmux session layouts via YAML                 |
 
-## Prefix
-
-The prefix is remapped to `C-a` (default `C-b`). A ⚡ indicator appears in the
-status bar when the prefix key is active. Use `<Prefix> m` to toggle mobile
-mode, which switches the prefix to `C-b`, hides status indicators, and shows a
-📱 badge.
-
 ## Custom Keybindings
 
 | Keybinding            | Description                                               |

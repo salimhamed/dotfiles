@@ -4,8 +4,6 @@
 
 [Back to README](../README.md)
 
-The `<Leader>` key is `Space`.
-
 ## Plugins
 
 | Plugin             | Description                          |
