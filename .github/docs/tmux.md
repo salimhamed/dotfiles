@@ -2,7 +2,7 @@
 
 # 💻 Tmux
 
-[Back to README](../README.md)
+> ⬅️ [Back to README](../README.md)
 
 Prefix is remapped to `C-a`. The status bar shows the ⚡ symbol when the prefix
 key is active. Use `<Prefix> m` to toggle mobile mode, which switches the prefix

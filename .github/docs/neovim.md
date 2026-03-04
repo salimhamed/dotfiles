@@ -2,7 +2,7 @@
 
 # 🚀 Neovim Keymaps
 
-[Back to README](../README.md)
+> ⬅️ [Back to README](../README.md)
 
 Configured using [LazyVim](https://github.com/LazyVim/LazyVim) as the base
 distribution. See the

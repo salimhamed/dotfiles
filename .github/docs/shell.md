@@ -2,7 +2,7 @@
 
 # 🐚 Shell (Zsh)
 
-[Back to README](../README.md)
+> ⬅️ [Back to README](../README.md)
 
 Configured with [antidote](https://github.com/mattmc3/antidote) as the plugin
 manager and [Starship](https://starship.rs/) as the prompt.

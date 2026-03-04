@@ -2,7 +2,7 @@
 
 # 🔧 IdeaVim
 
-[Back to README](../README.md)
+> ⬅️ [Back to README](../README.md)
 
 Vim emulation in JetBrains IDEs. The `<Leader>` key is `Space`.
 
