@@ -13,22 +13,22 @@ mode, which switches the prefix to `C-b`, hides status indicators, and shows a
 
 ## Custom Keybindings
 
-| Keybinding       | Description                                          |
-| ---------------- | ---------------------------------------------------- |
-| `<Prefix> r`     | Reload tmux config                                   |
-| `<Prefix> C-]`   | Next window                                          |
-| `<Prefix> C-[`   | Previous window                                      |
-| `<Prefix> h/j/k/l` | Select pane (vi-style)                            |
-| `<Prefix> C-v`   | Vertical split (current path)                        |
-| `<Prefix> C-_`   | Horizontal split (current path)                      |
-| `<Prefix> S-Up`  | Resize pane 5 rows up                                |
-| `<Prefix> S-Down` | Resize pane 5 rows down                             |
-| `<Prefix> S-Right` | Resize pane 5 columns right                        |
-| `<Prefix> S-Left` | Resize pane 5 columns left                          |
-| `<Prefix> C-l`   | Clear screen (since `C-l` is used by vim-tmux-navigator) |
-| `v` (copy mode)  | Begin selection (vi-style)                           |
-| `<Prefix> m`     | Toggle mobile mode (`C-b` prefix, no indicators, 📱) |
-| `F12`            | Toggle outer session off/on for nested tmux sessions |
+| Keybinding            | Description                                               |
+| --------------------- | --------------------------------------------------------- |
+| `<Prefix> r`          | Reload tmux config                                        |
+| `<Prefix> h/j/k/l`   | Select pane (vi-style)                                    |
+| `<Prefix> n`          | Next window (repeatable)                                  |
+| `<Prefix> p`          | Previous window (repeatable)                              |
+| `<Prefix> C-v`        | Vertical split (current path)                             |
+| `<Prefix> C-_`        | Horizontal split (current path)                           |
+| `<Prefix> C-Up`       | Resize pane 5 rows up (repeatable)                        |
+| `<Prefix> C-Down`     | Resize pane 5 rows down (repeatable)                      |
+| `<Prefix> C-Right`    | Resize pane 5 columns right (repeatable)                  |
+| `<Prefix> C-Left`     | Resize pane 5 columns left (repeatable)                   |
+| `<Prefix> C-l`        | Clear screen (since `C-l` is used by vim-tmux-navigator)  |
+| `v` (copy mode)       | Begin selection (vi-style)                                |
+| `<Prefix> m`          | Toggle mobile mode (`C-b` prefix, no indicators, 📱)      |
+| `F12`                 | Toggle outer session off/on for nested tmux sessions      |
 
 ## Plugin Keybindings
 

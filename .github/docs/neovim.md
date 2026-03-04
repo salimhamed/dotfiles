@@ -9,18 +9,16 @@ The `<Leader>` key is `Space`. For all default LazyVim keybindings, see the
 
 ## Custom Keybindings
 
-| Key                | Mode            | Description                            |
-| ------------------ | --------------- | -------------------------------------- |
-| `<S-Up>`           | Normal          | Increase window height                 |
-| `<S-Down>`         | Normal          | Decrease window height                 |
-| `<S-Left>`         | Normal          | Decrease window width                  |
-| `<S-Right>`        | Normal          | Increase window width                  |
-| `<C-d>`            | Normal          | Half-page scroll down + center cursor  |
-| `<C-u>`            | Normal          | Half-page scroll up + center cursor    |
-| `n`                | Normal          | Search next + center + open folds      |
-| `N`                | Normal          | Search prev + center + open folds      |
-| `<F12>`            | Normal          | Open terminal (Root Dir)               |
-| `<F12>`            | Terminal        | Hide terminal                          |
+| Key                | Mode            | Description                                         |
+| ------------------ | --------------- | --------------------------------------------------- |
+| `<leader>yp`      | Normal          | Yank relative path to clipboard                     |
+| `<leader>yP`      | Normal          | Yank absolute path to clipboard                     |
+| `<leader>yr`      | Normal          | Yank file reference with line number (path:line)    |
+| `<leader>yr`      | Visual          | Yank file reference with line range (path:line-line) |
+| `<C-d>`           | Normal          | Half-page scroll down + center cursor               |
+| `<C-u>`           | Normal          | Half-page scroll up + center cursor                 |
+| `n`               | Normal          | Search next + center + open folds                   |
+| `N`               | Normal          | Search prev + center + open folds                   |
 
 ## Plugin Keybindings
 
