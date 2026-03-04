@@ -39,8 +39,9 @@ plugin manager and [Starship](https://starship.rs/) as the prompt.
 
 [Tmux](https://github.com/tmux/tmux) prefix is remapped to `C-a`. The status bar
 shows the ⚡ symbol when the prefix key is active. Use `<Prefix> m` to
-toggle mobile mode, which switches the prefix to `C-b`, hides status indicators,
-and shows a 📱 badge.
+toggle mobile mode, which switches the prefix to `C-b` (so shortcuts work
+correctly with mobile SSH/Mosh clients), hides status indicators, and shows a
+📱 badge.
 
 > **[Tmux Details →](docs/tmux.md)**
 
