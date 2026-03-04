@@ -8,6 +8,19 @@ local function map(mode, lhs, rhs, opts)
 end
 
 
+-- Copy file paths to clipboard
+map("n", "<leader>by", function()
+  local path = vim.fn.expand("%:.")
+  vim.fn.setreg("+", path)
+  vim.notify("Copied: " .. path)
+end, { desc = "Copy Relative Path" })
+
+map("n", "<leader>bY", function()
+  local path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", path)
+  vim.notify("Copied: " .. path)
+end, { desc = "Copy Absolute Path" })
+
 -- Keep cursor centered when moving 1/2 pages
 map("n", "<C-d>", "<C-d>zz")
 map("n", "<C-u>", "<C-u>zz")
