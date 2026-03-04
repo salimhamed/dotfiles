@@ -8,26 +8,26 @@ local function map(mode, lhs, rhs, opts)
 end
 
 
--- Copy file paths to clipboard
-map("n", "<leader>by", function()
+-- Yank paths and references to clipboard
+map("n", "<leader>yp", function()
   local path = vim.fn.expand("%:.")
   vim.fn.setreg("+", path)
   vim.notify("Copied: " .. path)
-end, { desc = "Copy Relative Path" })
+end, { desc = "Yank Relative Path" })
 
-map("n", "<leader>bY", function()
+map("n", "<leader>yP", function()
   local path = vim.fn.expand("%:p")
   vim.fn.setreg("+", path)
   vim.notify("Copied: " .. path)
-end, { desc = "Copy Absolute Path" })
+end, { desc = "Yank Absolute Path" })
 
-map("n", "<leader>bR", function()
+map("n", "<leader>yr", function()
   local ref = vim.fn.expand("%:.") .. ":" .. vim.fn.line(".")
   vim.fn.setreg("+", ref)
   vim.notify("Copied: " .. ref)
-end, { desc = "Copy Reference" })
+end, { desc = "Yank Reference" })
 
-map("v", "<leader>bR", function()
+map("v", "<leader>yr", function()
   local start_line = vim.fn.line("v")
   local end_line = vim.fn.line(".")
   local l1 = math.min(start_line, end_line)
@@ -37,7 +37,7 @@ map("v", "<leader>bR", function()
   vim.fn.setreg("+", ref)
   vim.notify("Copied: " .. ref)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
-end, { desc = "Copy Reference" })
+end, { desc = "Yank Reference" })
 
 -- Keep cursor centered when moving 1/2 pages
 map("n", "<C-d>", "<C-d>zz")
