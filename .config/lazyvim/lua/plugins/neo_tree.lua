@@ -9,7 +9,6 @@ return {
           hint = "floating-big-letter",
           selection_chars = "ABCDEFGHIJKL",
           filter_rules = {
-            -- filter using buffer options
             bo = {
               filetype = { "neo-tree", "neo-tree-popup", "notify", "NvimTree" },
               buftype = { "terminal", "quickfix" },
@@ -20,6 +19,7 @@ return {
     },
   },
   opts = {
+    -- Show hidden/filtered files (e.g., dotfiles) in the tree
     filesystem = {
       filtered_items = {
         visible = true,
@@ -27,7 +27,7 @@ return {
     },
     window = {
       mappings = {
-        ["<cr>"] = "open",
+        -- Copy relative path to clipboard (e.g., src/file.lua)
         ["gy"] = {
           function(state)
             local node = state.tree:get_node()
