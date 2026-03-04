@@ -3,7 +3,7 @@ return {
   opts = {
     spec = {
       { "<leader>fy", group = "yadm" },
-      { "<leader>y", group = "yank", icon = { icon = "󰆏 ", color = "yellow" } },
+      { "<leader>y", group = "yank", icon = { icon = "󰆏 ", color = "yellow" }, mode = { "n", "v" } },
     },
   },
 }
