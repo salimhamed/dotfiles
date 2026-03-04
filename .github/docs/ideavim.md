@@ -1,10 +1,21 @@
 <!-- markdownlint-disable MD013 -->
 
-# 🔧 IdeaVim Keymaps
+# 🔧 IdeaVim
 
-[Back to README](../README.md)
+> ⬅️ [Back to README](../README.md)
 
-The `<Leader>` key is `Space`.
+Vim emulation in JetBrains IDEs. The `<Leader>` key is `Space`.
+
+## Plugins
+
+| Plugin             | Description                          |
+| ------------------ | ------------------------------------ |
+| `easymotion`       | Jump to any visible character        |
+| `surround`         | Add/change/delete surrounding pairs  |
+| `commentary`       | Toggle line/block comments           |
+| `paragraph-motion` | Move by blank-line-delimited blocks  |
+| `nerdtree`         | File explorer sidebar                |
+| `which-key`        | Display available keybindings        |
 
 ## Navigation
 
