@@ -2,6 +2,8 @@ return {
   "b0o/incline.nvim",
   dependencies = { "nvim-mini/mini.icons" },
   event = "VeryLazy",
+
+  -- Register <leader>uN toggle after setup (Snacks not available during init)
   config = function(_, opts)
     require("incline").setup(opts)
     Snacks.toggle.new({
@@ -19,7 +21,11 @@ return {
       end,
     }):map("<leader>uN")
   end,
+
   opts = {
+    -- Custom render: show filetype icon, parent directory, and filename.
+    -- Modified buffers display in bold italic. Colors use Catppuccin palette
+    -- and dim when the window is unfocused.
     render = function(props)
       local buf_name = vim.api.nvim_buf_get_name(props.buf)
       local filename = vim.fn.fnamemodify(buf_name, ":t")
@@ -34,6 +40,7 @@ return {
       local icon_color = vim.api.nvim_get_hl(0, { name = hl }).fg
       local modified = vim.bo[props.buf].modified
 
+      -- Catppuccin surface1/surface0 for focused/unfocused backgrounds
       local bg = props.focused and "#45475a" or "#313244"
       local fg = props.focused and "#cdd6f4" or "#6c7086"
       local path_fg = props.focused and "#9399b2" or "#6c7086"
@@ -52,19 +59,24 @@ return {
 
       return result
     end,
+
+    -- Background colors matching the render function
     highlight = {
       groups = {
         InclineNormal = { guibg = "#45475a" },
         InclineNormalNC = { guibg = "#313244" },
       },
     },
+
     window = {
+      width = 0.4, -- cap at 40% of window width to avoid covering content
       placement = { horizontal = "right", vertical = "top" },
       padding = { left = 1, right = 1 },
       margin = { horizontal = 0, vertical = 1 },
     },
+
     hide = {
-      only_win = false,
+      only_win = false, -- show even with a single window
     },
   },
 }
