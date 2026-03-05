@@ -1,6 +1,24 @@
 return {
   "b0o/incline.nvim",
+  dependencies = { "nvim-mini/mini.icons" },
   event = "VeryLazy",
+  config = function(_, opts)
+    require("incline").setup(opts)
+    Snacks.toggle.new({
+      id = "incline",
+      name = "Filename Indicator",
+      get = function()
+        return require("incline").is_enabled()
+      end,
+      set = function(state)
+        if state then
+          require("incline").enable()
+        else
+          require("incline").disable()
+        end
+      end,
+    }):map("<leader>uN")
+  end,
   opts = {
     render = function(props)
       local buf_name = vim.api.nvim_buf_get_name(props.buf)
@@ -41,7 +59,7 @@ return {
       },
     },
     window = {
-      placement = { horizontal = "left", vertical = "top" },
+      placement = { horizontal = "right", vertical = "top" },
       padding = { left = 1, right = 1 },
       margin = { horizontal = 0, vertical = 1 },
     },
