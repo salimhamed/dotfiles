@@ -62,6 +62,7 @@ map("n", "<leader>wV", function()
   end
 end, { desc = "Split window vertically & send" })
 
+-- Same as above but with a horizontal split
 map("n", "<leader>wS", function()
   local alt_buf = vim.fn.bufnr("#")
   vim.cmd("split")
