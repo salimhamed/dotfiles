@@ -37,6 +37,23 @@ return {
           end,
           desc = "Copy Relative Path",
         },
+        -- Live grep scoped to the selected directory
+        ["gs"] = {
+          function(state)
+            local node = state.tree:get_node()
+            local path = node:get_id()
+            -- Use the node's path if it's a directory, otherwise use its parent
+            if node.type ~= "directory" then
+              path = vim.fn.fnamemodify(path, ":h")
+            end
+            local rel_path = vim.fn.fnamemodify(path, ":~:.")
+            require("telescope.builtin").live_grep({
+              search_dirs = { path },
+              prompt_title = "Grep in " .. rel_path,
+            })
+          end,
+          desc = "Grep in Directory",
+        },
       },
     },
   },
