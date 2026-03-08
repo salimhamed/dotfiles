@@ -1,8 +1,4 @@
-# Ignore everything by default. yadm tracks files explicitly, so this only
-# affects untracked files. Without this, git status scans the entire home
-# directory, causing editor plugins (gitsigns, lualine, etc.) to hang.
 *
-
 **/.DS_Store
 .CFUserTextEncoding
 .NERDTreeBookmarks
