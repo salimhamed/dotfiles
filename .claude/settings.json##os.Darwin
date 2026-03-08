@@ -40,6 +40,5 @@
     "example-skills@anthropic-agent-skills": false,
     "flow@claude-code-flow": true
   },
-  "skipDangerousModePermissionPrompt": true,
-  "effortLevel": "high"
+  "skipDangerousModePermissionPrompt": true
 }
