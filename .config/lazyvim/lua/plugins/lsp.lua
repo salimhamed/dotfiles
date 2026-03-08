@@ -3,7 +3,7 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       -- toggle hints on/off with <leader>uh
-      inlay_hints = { enabled = false },
+      inlay_hints = { enabled = true },
       servers = {
         basedpyright = {
           settings = {
