@@ -144,11 +144,15 @@ yadm checkout -b claude/<feature-description>
 #### After Modifications
 
 ```bash
-yadm add <files>               # Stage specific files
+yadm add -f <files>            # Stage specific files (-f required due to catch-all .gitignore)
 yadm status                    # Verify staged changes
 yadm commit -m "description"   # Commit (auto-signed)
 yadm push -u origin HEAD       # Push and set upstream
 ```
+
+> **Note:** `~/.gitignore` has a catch-all `*` rule to prevent slow `git status`
+> scans of the home directory. This means `yadm add` will refuse to stage files
+> unless you use `yadm add -f` (force). This does not affect already-tracked files.
 
 #### Viewing Tracked Files
 
