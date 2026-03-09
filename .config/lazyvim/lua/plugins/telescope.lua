@@ -1,5 +1,23 @@
 return {
   "nvim-telescope/telescope.nvim",
+  opts = function(_, opts)
+    local actions = require("telescope.actions")
+
+    -- Send results to quickfix list, then open in Trouble
+    local function send_to_qflist_and_open_trouble(prompt_bufnr)
+      actions.send_to_qflist(prompt_bufnr)
+      vim.schedule(function()
+        vim.cmd("Trouble qflist open focus=true")
+      end)
+    end
+
+    opts.defaults = vim.tbl_deep_extend("force", opts.defaults or {}, {
+      mappings = {
+        i = { ["<C-q>"] = send_to_qflist_and_open_trouble },
+        n = { ["<C-q>"] = send_to_qflist_and_open_trouble },
+      },
+    })
+  end,
   keys = function(_, _keys)
     local builtin = require("telescope.builtin")
 
