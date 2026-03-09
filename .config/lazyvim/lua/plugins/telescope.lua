@@ -3,7 +3,8 @@ return {
   opts = function(_, opts)
     local actions = require("telescope.actions")
 
-    -- Send results to quickfix list, then open in Trouble
+    -- Override default <C-q> to populate the quickfix list and open it in
+    -- Trouble instead of the built-in quickfix window
     local function send_to_qflist_and_open_trouble(prompt_bufnr)
       actions.send_to_qflist(prompt_bufnr)
       vim.schedule(function()
