@@ -14,3 +14,4 @@ vim.g.lazyvim_python_ruff = "ruff"
 
 -- Enable clipboard over SSH via OSC 52
 vim.opt.clipboard = "unnamedplus"
+

@@ -1,3 +1,13 @@
+-- Resolve the directory for the selected node (uses parent if node is a file)
+local function get_node_dir(state)
+  local node = state.tree:get_node()
+  local path = node:get_id()
+  if node.type ~= "directory" then
+    path = vim.fn.fnamemodify(path, ":h")
+  end
+  return path
+end
+
 return {
   "nvim-neo-tree/neo-tree.nvim",
   dependencies = {
@@ -36,6 +46,42 @@ return {
             vim.notify("Copied: " .. path)
           end,
           desc = "Copy Relative Path",
+        },
+        -- Live grep scoped to the selected directory
+        ["gg"] = {
+          function(state)
+            local path = get_node_dir(state)
+            local rel_path = vim.fn.fnamemodify(path, ":~:.")
+            require("telescope.builtin").live_grep({
+              search_dirs = { path },
+              prompt_title = "Grep in " .. rel_path,
+            })
+          end,
+          desc = "Grep in Directory",
+        },
+        -- Find files scoped to the selected directory
+        ["gf"] = {
+          function(state)
+            local path = get_node_dir(state)
+            local rel_path = vim.fn.fnamemodify(path, ":~:.")
+            require("telescope.builtin").find_files({
+              search_dirs = { path },
+              prompt_title = "Find Files in " .. rel_path,
+            })
+          end,
+          desc = "Find Files in Directory",
+        },
+        -- Search symbols (LSP workspace symbols) scoped to the selected directory
+        ["gS"] = {
+          function(state)
+            local path = get_node_dir(state)
+            local rel_path = vim.fn.fnamemodify(path, ":~:.")
+            require("telescope.builtin").lsp_workspace_symbols({
+              search_dirs = { path },
+              prompt_title = "Symbols in " .. rel_path,
+            })
+          end,
+          desc = "Find Symbols in Directory",
         },
       },
     },

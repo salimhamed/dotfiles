@@ -1,5 +1,24 @@
 return {
   "nvim-telescope/telescope.nvim",
+  opts = function(_, opts)
+    local actions = require("telescope.actions")
+
+    -- Override default <C-q> to populate the quickfix list and open it in
+    -- Trouble instead of the built-in quickfix window
+    local function send_to_qflist_and_open_trouble(prompt_bufnr)
+      actions.send_to_qflist(prompt_bufnr)
+      vim.schedule(function()
+        vim.cmd("Trouble qflist open focus=true")
+      end)
+    end
+
+    opts.defaults = vim.tbl_deep_extend("force", opts.defaults or {}, {
+      mappings = {
+        i = { ["<C-q>"] = send_to_qflist_and_open_trouble },
+        n = { ["<C-q>"] = send_to_qflist_and_open_trouble },
+      },
+    })
+  end,
   keys = function(_, _keys)
     local builtin = require("telescope.builtin")
 
@@ -45,6 +64,7 @@ return {
     table.insert(_keys, { "<leader>fI", find_files_no_ignore, desc = "Find Files (no ignore)" })
     table.insert(_keys, { "<leader>fyf", yadm_find_files, desc = "Find yadm Files" })
     table.insert(_keys, { "<leader>fyp", yadm_live_grep, desc = "Search yadm files with gre(p)" })
+    table.insert(_keys, { "<leader>sQ", builtin.quickfixhistory, desc = "Quickfix History" })
 
     return _keys
   end,

@@ -13,14 +13,14 @@ map("n", "<leader>yp", function()
   local path = vim.fn.expand("%:.")
   vim.fn.setreg("+", path)
   vim.notify("Copied: " .. path)
-end, { desc = "Yank Relative Path" })
+end, { desc = "Yank Relative File Path" })
 
 -- Yank absolute path to clipboard (e.g., /Users/.../src/file.lua)
 map("n", "<leader>yP", function()
   local path = vim.fn.expand("%:p")
   vim.fn.setreg("+", path)
   vim.notify("Copied: " .. path)
-end, { desc = "Yank Absolute Path" })
+end, { desc = "Yank Absolute File Path" })
 
 -- Yank file reference with current line number (e.g., src/file.lua:42)
 map("n", "<leader>yr", function()
@@ -49,3 +49,26 @@ map("n", "<C-u>", "<C-u>zz")
 -- Keep cursor centered when moving through search results and open folds
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
+
+-- Split and send current buffer to new window, show alternate in original
+-- If no alternate buffer exists, just perform a normal split
+map("n", "<leader>wV", function()
+  local alt_buf = vim.fn.bufnr("#")
+  vim.cmd("vsplit")
+  if alt_buf ~= -1 and vim.api.nvim_buf_is_valid(alt_buf) then
+    vim.cmd("wincmd p")
+    vim.cmd("buffer " .. alt_buf)
+    vim.cmd("wincmd p")
+  end
+end, { desc = "Split window vertically & send" })
+
+-- Same as above but with a horizontal split
+map("n", "<leader>wS", function()
+  local alt_buf = vim.fn.bufnr("#")
+  vim.cmd("split")
+  if alt_buf ~= -1 and vim.api.nvim_buf_is_valid(alt_buf) then
+    vim.cmd("wincmd p")
+    vim.cmd("buffer " .. alt_buf)
+    vim.cmd("wincmd p")
+  end
+end, { desc = "Split window & send" })
