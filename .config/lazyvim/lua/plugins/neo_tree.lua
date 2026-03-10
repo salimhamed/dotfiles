@@ -11,22 +11,7 @@ end
 return {
   "nvim-neo-tree/neo-tree.nvim",
   dependencies = {
-    {
-      "s1n7ax/nvim-window-picker",
-      version = "2.*",
-      config = function()
-        require("window-picker").setup({
-          hint = "floating-big-letter",
-          selection_chars = "ABCDEFGHIJKL",
-          filter_rules = {
-            bo = {
-              filetype = { "neo-tree", "neo-tree-popup", "notify", "NvimTree" },
-              buftype = { "terminal", "quickfix" },
-            },
-          },
-        })
-      end,
-    },
+    "s1n7ax/nvim-window-picker",
   },
   opts = {
     -- Show hidden/filtered files (e.g., dotfiles) in the tree
