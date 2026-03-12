@@ -4,6 +4,6 @@ git:
       pager: delta --dark --paging=never
 gui:
   showIcons: true
-  nerdFontsVersion: 3
+  nerdFontsVersion: "3"
 os:
   editPreset: "nvim"

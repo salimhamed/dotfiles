@@ -1,12 +1,7 @@
 -- Keymaps are automatically loaded on the VeryLazy event
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 
--- Wrapper around vim.keymap.set that defaults to silent mappings
-local function map(mode, lhs, rhs, opts)
-  opts = opts or {}
-  opts.silent = opts.silent ~= false
-  vim.keymap.set(mode, lhs, rhs, opts)
-end
+local map = LazyVim.safe_keymap_set
 
 -- Yank relative path to clipboard (e.g., src/file.lua)
 map("n", "<leader>yp", function()
