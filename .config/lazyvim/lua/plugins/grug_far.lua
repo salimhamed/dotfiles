@@ -5,7 +5,6 @@ return {
       "<leader>ss",
       ":GrugFarWithin<cr>",
       mode = "x",
-      desc = "Search and Replace (selection)",
     },
   },
 }

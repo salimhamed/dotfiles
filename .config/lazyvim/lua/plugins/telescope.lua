@@ -61,10 +61,10 @@ return {
     end
 
     -- add custom keymaps to existing keymaps
-    table.insert(_keys, { "<leader>fI", find_files_no_ignore, desc = "Find Files (no ignore)" })
-    table.insert(_keys, { "<leader>fyf", yadm_find_files, desc = "Find yadm Files" })
-    table.insert(_keys, { "<leader>fyp", yadm_live_grep, desc = "Search yadm files with gre(p)" })
-    table.insert(_keys, { "<leader>sQ", builtin.quickfixhistory, desc = "Quickfix History" })
+    table.insert(_keys, { "<leader>fI", find_files_no_ignore })
+    table.insert(_keys, { "<leader>fyf", yadm_find_files })
+    table.insert(_keys, { "<leader>fyp", yadm_live_grep })
+    table.insert(_keys, { "<leader>sQ", builtin.quickfixhistory })
 
     return _keys
   end,

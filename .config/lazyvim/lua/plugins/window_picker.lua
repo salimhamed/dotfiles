@@ -27,7 +27,6 @@ return {
         vim.api.nvim_win_set_buf(wp_target_win, wp_current_buf)
         vim.api.nvim_win_set_buf(0, wp_target_buf)
       end,
-      desc = "Move Buffer to Window",
     },
   },
 }
