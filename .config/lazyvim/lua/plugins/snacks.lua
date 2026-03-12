@@ -3,8 +3,9 @@ return {
   opts = {
     scratch = {
       win = {
-        width = 0.8,
+        width = 120,
         height = 0.75,
+        wo = { wrap = true, linebreak = true },
       },
     },
   },
