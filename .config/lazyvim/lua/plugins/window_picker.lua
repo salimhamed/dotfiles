@@ -26,6 +26,7 @@ return {
         local wp_target_buf = vim.api.nvim_win_get_buf(wp_target_win)
         vim.api.nvim_win_set_buf(wp_target_win, wp_current_buf)
         vim.api.nvim_win_set_buf(0, wp_target_buf)
+        vim.api.nvim_set_current_win(wp_target_win)
       end,
     },
   },

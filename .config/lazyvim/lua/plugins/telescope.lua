@@ -63,7 +63,7 @@ return {
     -- add custom keymaps to existing keymaps
     table.insert(_keys, { "<leader>fI", find_files_no_ignore })
     table.insert(_keys, { "<leader>fyf", yadm_find_files })
-    table.insert(_keys, { "<leader>fyp", yadm_live_grep })
+    table.insert(_keys, { "<leader>fyg", yadm_live_grep })
     table.insert(_keys, { "<leader>sQ", builtin.quickfixhistory })
 
     return _keys

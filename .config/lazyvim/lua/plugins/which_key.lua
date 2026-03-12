@@ -6,7 +6,7 @@ return {
       { "<leader>y", group = "yank", icon = { icon = "󰆏 ", color = "yellow" }, mode = { "n", "v" } },
       { "<leader>fI", desc = "Find Files (no ignore)" },
       { "<leader>fyf", desc = "Find yadm Files" },
-      { "<leader>fyp", desc = "Search yadm files with gre(p)" },
+      { "<leader>fyg", desc = "Grep yadm Files" },
       { "<leader>sQ", desc = "Quickfix History" },
       { "<leader>gq", desc = "DiffviewClose" },
       { "<leader>bm", desc = "Move Buffer to Window" },
