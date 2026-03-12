@@ -51,7 +51,20 @@ return {
         { " " },
       }
 
+      -- Truncate parent path from the left to fit the available window width,
+      -- keeping the filename always fully visible.
       if parent ~= "." then
+        local inc_win_width = vim.api.nvim_win_get_width(props.win)
+        local inc_max_width = math.floor(inc_win_width * 0.7)
+        -- 4 = icon(1) + space(1) + padding(2), 1 = trailing slash
+        local inc_budget = inc_max_width - #filename - 4 - 1
+        if inc_budget > 0 and #parent > inc_budget then
+          parent = "…" .. parent:sub(-(inc_budget - 1))
+          local inc_slash_pos = parent:find("/", 2)
+          if inc_slash_pos then
+            parent = "…" .. parent:sub(inc_slash_pos)
+          end
+        end
         table.insert(result, { parent .. "/", guifg = path_fg })
       end
 
@@ -69,8 +82,7 @@ return {
     },
 
     window = {
-      width = 0.4, -- cap at 40% of window width to avoid covering content
-      placement = { horizontal = "right", vertical = "top" },
+placement = { horizontal = "right", vertical = "top" },
       padding = { left = 1, right = 1 },
       margin = { horizontal = 0, vertical = 1 },
     },
