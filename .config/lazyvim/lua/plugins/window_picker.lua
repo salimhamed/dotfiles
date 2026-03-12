@@ -17,6 +17,7 @@ return {
   keys = {
     {
       "<leader>bm",
+      desc = "Move Buffer to Window",
       function()
         local wp_target_win = require("window-picker").pick_window()
         if not wp_target_win then
