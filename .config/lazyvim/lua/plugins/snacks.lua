@@ -3,7 +3,7 @@ return {
   keys = {
     {
       "<leader>gy",
-      desc = "Lazygit yadm",
+      desc = "Lazygit (yadm)",
       function()
         Snacks.lazygit({
           args = {
