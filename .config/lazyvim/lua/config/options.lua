@@ -15,3 +15,12 @@ vim.g.lazyvim_python_ruff = "ruff"
 -- Enable clipboard over SSH via OSC 52
 vim.opt.clipboard = "unnamedplus"
 
+-- register .j2 files as jinja filetype
+vim.filetype.add({
+  extension = {
+    j2 = "jinja",
+    jinja = "jinja",
+    jinja2 = "jinja",
+  },
+})
+

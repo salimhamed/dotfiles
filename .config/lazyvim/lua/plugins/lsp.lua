@@ -5,6 +5,9 @@ return {
       -- toggle hints on/off with <leader>uh
       inlay_hints = { enabled = true },
       servers = {
+        jinja_lsp = {
+          filetypes = { "jinja" },
+        },
         basedpyright = {
           settings = {
             basedpyright = {
