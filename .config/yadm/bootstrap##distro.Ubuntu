@@ -79,11 +79,13 @@ mise prune --yes
 echo "Installing/updating tmuxinator..."
 "$(mise which gem)" install tmuxinator
 
-# install rust and cargo
+# install or update rust
 curl https://sh.rustup.rs -sSf | sh -s -- -y
+source "$HOME/.cargo/env"
+rustup update stable
 
 # install lua tools
-sudo luarocks install luacheck
+sudo luarocks --lua-version=5.4 install luacheck
 
 # install starship
 curl -sS https://starship.rs/install.sh | sh -s -- -y

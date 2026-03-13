@@ -32,7 +32,7 @@ brew "jq"
 brew "lazygit"
 brew "libevent"
 brew "libyaml"
-brew "lua"
+brew "lua@5.4", link: true
 brew "luarocks"
 brew "macos-trash"
 brew "markdownlint-cli"

@@ -39,5 +39,7 @@
     st = status
     br = branch
     lg = log --oneline --decorate --all --graph
+[advice]
+    addIgnoredFile = false
 [include]
     path = .gitconfig.local
