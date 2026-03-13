@@ -6,7 +6,7 @@ return {
       inlay_hints = { enabled = true },
       servers = {
         jinja_lsp = {
-          filetypes = { "jinja" },
+          filetypes = { "jinja", "markdown" },
         },
         basedpyright = {
           settings = {

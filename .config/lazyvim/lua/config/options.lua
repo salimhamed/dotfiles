@@ -15,10 +15,15 @@ vim.g.lazyvim_python_ruff = "ruff"
 -- Enable clipboard over SSH via OSC 52
 vim.opt.clipboard = "unnamedplus"
 
--- register .j2 files as jinja filetype
+-- register .j2 files as jinja filetype (.md.j2 stays as markdown)
 vim.filetype.add({
   extension = {
-    j2 = "jinja",
+    j2 = function(path)
+      if path:match("%.md%.j2$") then
+        return "markdown"
+      end
+      return "jinja"
+    end,
     jinja = "jinja",
     jinja2 = "jinja",
   },
