@@ -22,8 +22,10 @@ return {
     },
     window = {
       mappings = {
-        -- Copy relative path to clipboard (e.g., src/file.lua)
-        ["gy"] = {
+        -- Custom actions group
+        ["F"] = { "show_help", nowait = false, config = { title = "Custom Actions", prefix_key = "F" } },
+        -- Copy relative path to clipboard
+        ["Fy"] = {
           function(state)
             local node = state.tree:get_node()
             local path = vim.fn.fnamemodify(node:get_id(), ":.")
@@ -33,7 +35,7 @@ return {
           desc = "Copy Relative Path",
         },
         -- Live grep scoped to the selected directory
-        ["gg"] = {
+        ["Fg"] = {
           function(state)
             local path = get_node_dir(state)
             local rel_path = vim.fn.fnamemodify(path, ":~:.")
@@ -45,7 +47,7 @@ return {
           desc = "Grep in Directory",
         },
         -- Find files scoped to the selected directory
-        ["gf"] = {
+        ["Ff"] = {
           function(state)
             local path = get_node_dir(state)
             local rel_path = vim.fn.fnamemodify(path, ":~:.")
@@ -55,18 +57,6 @@ return {
             })
           end,
           desc = "Find Files in Directory",
-        },
-        -- Search symbols (LSP workspace symbols) scoped to the selected directory
-        ["gS"] = {
-          function(state)
-            local path = get_node_dir(state)
-            local rel_path = vim.fn.fnamemodify(path, ":~:.")
-            require("telescope.builtin").lsp_workspace_symbols({
-              search_dirs = { path },
-              prompt_title = "Symbols in " .. rel_path,
-            })
-          end,
-          desc = "Find Symbols in Directory",
         },
       },
     },
