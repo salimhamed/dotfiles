@@ -37,16 +37,21 @@ echo "Installing/updating Claude Code..."
 curl -fsSL https://claude.ai/install.sh | bash
 
 # in some cases after prettierd is updated, it needs to be restarted
-prettierd restart
+prettierd restart || true
 
 # install luacheck
 echo "Installing luacheck..."
-luarocks install luacheck
+luarocks --lua-version=5.4 install luacheck
 
 # turn off behavior to support accents when holding down key
 # https://stackoverflow.com/a/39733008/3112403
 echo "Turn off default Mac support for accents..."
 defaults write -g ApplePressAndHoldEnabled -bool false
+
+# install or update rust
+curl https://sh.rustup.rs -sSf | sh -s -- -y
+source "$HOME/.cargo/env"
+rustup update stable
 
 # install mise (if not already via brew)
 if ! command -v mise >/dev/null 2>&1; then
