@@ -7,7 +7,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   group = vim.api.nvim_create_augroup("claude_prompt_files", { clear = true }),
   callback = function(args)
     local buf_name = vim.api.nvim_buf_get_name(args.buf)
-    if buf_name:match("/T/claude%-prompt%-.+%.md$") then
+    if buf_name:match("/claude%-prompt%-.+%.md$") then
       vim.diagnostic.enable(false, { bufnr = args.buf })
       local ok, incline = pcall(require, "incline")
       if ok and incline.is_enabled() then
