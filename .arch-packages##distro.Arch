@@ -58,6 +58,9 @@ ripgrep
 zoxide
 eza
 
+# Terminals
+ghostty
+
 # Docker
 docker
 docker-compose
