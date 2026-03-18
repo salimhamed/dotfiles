@@ -1,5 +1,8 @@
 [general]
-import = ["~/.config/alacritty/catppuccin-mocha.toml"]
+import = [
+    "~/.config/alacritty/catppuccin-mocha.toml",
+    "~/.config/alacritty/platform.toml",
+]
 
 [cursor.style]
 blinking = "Off"
@@ -9,8 +12,6 @@ shape = "Block"
 TERM = "xterm-256color"
 
 [font]
-size = 15.5
-
 [font.bold]
 family = "JetBrainsMono NFM"
 style = "Bold"
