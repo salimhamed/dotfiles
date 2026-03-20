@@ -1,0 +1,104 @@
+{
+  "env": {
+    "NVIM_APPNAME": "lazyvim",
+    "EDITOR": "nvim"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/salim/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/salim/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/salim/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/salim/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/salim/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/salim/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y ccstatusline@latest",
+    "padding": 0
+  },
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": false,
+    "ralph-loop@claude-plugins-official": false,
+    "plugin-dev@claude-plugins-official": false,
+    "example-skills@anthropic-agent-skills": false,
+    "flow@claude-code-flow": true,
+    "chrome-devtools-mcp@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "chrome-devtools-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "ChromeDevTools/chrome-devtools-mcp"
+      }
+    }
+  },
+  "effortLevel": "medium",
+  "voiceEnabled": false,
+  "skipDangerousModePermissionPrompt": true
+}
