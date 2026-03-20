@@ -97,6 +97,18 @@ if [ ! -d "${HOME}/.config/tmux/plugins/tpm" ]; then
     git clone https://github.com/tmux-plugins/tpm "${HOME}/.config/tmux/plugins/tpm"
 fi
 
+# install and update tmux plugins via TPM
+echo "Installing/updating tmux plugins..."
+"${HOME}/.config/tmux/plugins/tpm/bin/install_plugins"
+"${HOME}/.config/tmux/plugins/tpm/bin/update_plugins" all
+
+# setup tmux-scout for Claude Code session monitoring
+bs_scout_dir="${HOME}/.config/tmux/plugins/tmux-scout"
+if [ -d "$bs_scout_dir" ]; then
+    echo "Setting up tmux-scout..."
+    "$bs_scout_dir/scripts/setup.sh" install
+fi
+
 # update tldr cache
 echo "Updating the tldr cache..."
 tldr --update
