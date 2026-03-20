@@ -10,7 +10,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"/Users/salim/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
+            "command": "node \"$HOME/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
             "timeout": 5
           }
         ]
@@ -22,7 +22,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"/Users/salim/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
+            "command": "node \"$HOME/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
             "timeout": 5
           }
         ]
@@ -34,7 +34,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"/Users/salim/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
+            "command": "node \"$HOME/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
             "timeout": 5
           }
         ]
@@ -46,7 +46,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"/Users/salim/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
+            "command": "node \"$HOME/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
             "timeout": 5
           }
         ]
@@ -58,7 +58,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"/Users/salim/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
+            "command": "node \"$HOME/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
             "timeout": 5
           }
         ]
@@ -70,7 +70,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"/Users/salim/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
+            "command": "node \"$HOME/.config/tmux/plugins/tmux-scout/scripts/hooks/claude.js\"",
             "timeout": 5
           }
         ]
