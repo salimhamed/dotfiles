@@ -1,5 +1,8 @@
+# Platform overrides
+config-file = platform
+
 # Theme
-theme = catppuccin-mocha
+theme = Catppuccin Mocha
 
 # Cursor
 cursor-style = block
@@ -10,7 +13,6 @@ term = xterm-256color
 
 # Font
 font-family = JetBrainsMono Nerd Font Mono
-font-size = 16
 font-thicken = true
 
 # Scrolling

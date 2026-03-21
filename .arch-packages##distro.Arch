@@ -1,0 +1,67 @@
+# Build essentials
+base-devel
+cmake
+ninja
+ccache
+gettext
+pkg-config
+
+# Development libraries
+bzip2
+libffi
+libyaml
+openssl
+readline
+sqlite
+xz
+libxml2
+xmlsec
+tk
+ncurses
+postgresql-libs
+
+# System utilities
+curl
+wget
+git
+gnupg
+zsh
+tmux
+net-tools
+nfs-utils
+xclip
+unzip
+wireguard-tools
+keychain
+jq
+mc
+
+# Development tools
+github-cli
+shellcheck
+luarocks
+python
+python-pip
+python-pynvim
+python-psutil
+python-pipx
+
+# CLI tools (available in Arch repos, no manual install needed)
+fzf
+neovim
+lazygit
+git-delta
+starship
+bat
+fd
+ripgrep
+zoxide
+eza
+
+# Terminals
+ghostty
+
+# Docker
+docker
+docker-compose
+docker-buildx

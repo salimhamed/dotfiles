@@ -1,0 +1,36 @@
+#!/usr/bin/env zsh
+
+# Antidote plugin manager
+if [[ ! -d "${HOME}/.config/zsh/antidote" ]]; then
+    git clone --depth=1 https://github.com/mattmc3/antidote.git "${HOME}/.config/zsh/antidote"
+fi
+source "${HOME}/.config/zsh/antidote/antidote.zsh"
+antidote load "${HOME}/.config/zsh/.zsh_plugins.txt"
+
+# Modular config (order matters: environment before aliases/completions)
+zsh_lib="${HOME}/.config/zsh/lib"
+source "${zsh_lib}/environment-platform.zsh"
+source "${zsh_lib}/environment.zsh"
+source "${zsh_lib}/history.zsh"
+source "${zsh_lib}/completion.zsh"
+source "${zsh_lib}/aliases.zsh"
+unset zsh_lib
+
+# Source secrets
+[ -f ~/.secrets.sh ] && . ~/.secrets.sh
+
+# Source work/setup helpers
+[ -f ~/.work.zsh ] && . ~/.work.zsh
+[ -f ~/.setup.zsh ] && . ~/.setup.zsh
+
+# Direct tool init
+source <(fzf --zsh)
+if command -v zoxide &>/dev/null; then
+    eval "$(zoxide init zsh)"
+fi
+if command -v mise &>/dev/null; then
+    eval "$(mise activate zsh)"
+fi
+
+# Starship prompt (must be last)
+eval "$(starship init zsh)"

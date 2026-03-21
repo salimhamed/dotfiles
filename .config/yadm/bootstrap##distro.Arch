@@ -1,0 +1,133 @@
+#!/bin/bash
+set -euo pipefail
+
+# prompt for system password
+sudo -v
+
+# update system
+echo "Updating system..."
+sudo pacman -Syu --noconfirm
+
+# install packages from list
+if [ -f "$HOME/.arch-packages" ]; then
+    echo "Installing packages from .arch-packages..."
+    # Filter out comments and blank lines, then install
+    grep -v '^\s*#' "$HOME/.arch-packages" | grep -v '^\s*$' | sudo pacman -S --needed --noconfirm -
+fi
+
+# add user to docker group
+if ! groups | grep -q docker; then
+    sudo usermod -aG docker "$USER"
+    echo "Added $USER to docker group. Log out and back in for this to take effect."
+fi
+
+# change the default shell to zsh
+if [ "$SHELL" != "$(which zsh)" ]; then
+    echo "Changing default shell to Zsh..."
+    chsh -s "$(which zsh)"
+    echo "Default shell changed to Zsh. Log out and log back in for the changes to take effect."
+else
+    echo "Zsh is already the default shell. Skipping..."
+fi
+
+# install mise
+if ! command -v mise >/dev/null 2>&1; then
+    curl https://mise.run | sh
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+eval "$(~/.local/bin/mise activate bash --shims)"
+
+mise install
+mise prune --yes
+
+# install tmuxinator — use mise-managed gem directly because mise's gem: backend
+# may resolve to system Ruby instead of mise-managed Ruby
+echo "Installing/updating tmuxinator..."
+"$(mise which gem)" install tmuxinator
+
+# install or update rust
+curl https://sh.rustup.rs -sSf | sh -s -- -y
+source "$HOME/.cargo/env"
+rustup update stable
+
+# install lua tools
+sudo luarocks --lua-version=5.4 install luacheck
+
+# update completions
+completions_dir="${HOME}/.config/zsh/completions"
+mkdir -p "${completions_dir}"
+
+echo "Installing/updating yadm completion..."
+curl --location --silent https://raw.githubusercontent.com/TheLocehiliosan/yadm/master/completion/zsh/_yadm --output "${completions_dir}/_yadm"
+
+command -v gh &>/dev/null && echo "Installing/updating gh completion..." && gh completion -s zsh >"${completions_dir}/_gh"
+command -v docker &>/dev/null && echo "Installing/updating docker completion..." && docker completion zsh >"${completions_dir}/_docker"
+command -v pip &>/dev/null && echo "Installing/updating pip completion..." && pip completion --zsh >"${completions_dir}/_pip"
+command -v npm &>/dev/null && echo "Installing/updating npm completion..." && npm completion >"${completions_dir}/_npm"
+command -v uv &>/dev/null && echo "Installing/updating uv completion..." && uv generate-shell-completion zsh >"${completions_dir}/_uv"
+command -v uvx &>/dev/null && echo "Installing/updating uvx completion..." && uvx --generate-shell-completion zsh >"${completions_dir}/_uvx"
+command -v poetry &>/dev/null && echo "Installing/updating poetry completion..." && poetry completions zsh >"${completions_dir}/_poetry"
+command -v luarocks &>/dev/null && echo "Installing/updating luarocks completion..." && luarocks completion zsh >"${completions_dir}/_luarocks"
+command -v mise &>/dev/null && echo "Installing/updating mise completion..." && mise completion zsh >"${completions_dir}/_mise"
+command -v tmuxinator &>/dev/null && echo "Installing/updating tmuxinator completion..." && curl --location --silent https://raw.githubusercontent.com/tmuxinator/tmuxinator/master/completion/tmuxinator.zsh --output "${completions_dir}/_tmuxinator"
+
+# download catppuccin theme for alacritty
+echo "Downloading Catppuccin Mocha theme for Alacritty..."
+mkdir -p ~/.config/alacritty
+curl -LO --output-dir ~/.config/alacritty https://github.com/catppuccin/alacritty/raw/main/catppuccin-mocha.toml
+
+# install tmux plugin manager
+if [ ! -d "${HOME}/.config/tmux/plugins/tpm" ]; then
+    echo "Installing tmux plugin manager..."
+    mkdir -p "${HOME}/.config/tmux/plugins"
+    git clone https://github.com/tmux-plugins/tpm "${HOME}/.config/tmux/plugins/tpm"
+else
+    echo "tmux plugin manager is already installed. Skipping..."
+fi
+
+# install and update tmux plugins via TPM
+echo "Installing/updating tmux plugins..."
+"${HOME}/.config/tmux/plugins/tpm/bin/install_plugins"
+"${HOME}/.config/tmux/plugins/tpm/bin/update_plugins" all
+
+# setup tmux-scout for Claude Code session monitoring
+bs_scout_dir="${HOME}/.config/tmux/plugins/tmux-scout"
+if [ -d "$bs_scout_dir" ]; then
+    echo "Setting up tmux-scout..."
+    "$bs_scout_dir/scripts/setup.sh" install
+fi
+
+# install or update aws cli
+install_aws_cli() {
+    local tmp_aws_dir
+    tmp_aws_dir=$(mktemp -d)
+
+    echo "Downloading AWS CLI..."
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "${tmp_aws_dir}/awscliv2.zip"
+
+    echo "Extracting AWS CLI installer..."
+    unzip -q "${tmp_aws_dir}/awscliv2.zip" -d "${tmp_aws_dir}"
+
+    local install_dir="/usr/local/aws-cli"
+    local bin_dir="/usr/local/bin"
+
+    if [ -e "${install_dir}" ]; then
+        echo "Updating existing AWS CLI installation..."
+        sudo "${tmp_aws_dir}/aws/install" --bin-dir "${bin_dir}" --install-dir "${install_dir}" --update
+    else
+        echo "Performing fresh installation of AWS CLI..."
+        sudo "${tmp_aws_dir}/aws/install" --bin-dir "${bin_dir}" --install-dir "${install_dir}"
+    fi
+
+    echo "Cleaning up temporary files..."
+    rm -rf "${tmp_aws_dir}"
+
+    echo "AWS CLI installation/update completed successfully."
+}
+install_aws_cli
+
+# update tldr cache
+if command -v tldr &>/dev/null; then
+    echo "Updating tldr cache..."
+    tldr --update
+fi

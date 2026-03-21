@@ -3,7 +3,7 @@
 # Dotfiles
 
 Dotfiles managed with [yadm](https://yadm.io/). These dotfiles have been tested
-on `macOS` and `Ubuntu`.
+on `macOS`, `Ubuntu`, and `Arch Linux (CachyOS)`.
 
 ## Installation
 
