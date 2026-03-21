@@ -85,6 +85,18 @@ else
     echo "tmux plugin manager is already installed. Skipping..."
 fi
 
+# install and update tmux plugins via TPM
+echo "Installing/updating tmux plugins..."
+"${HOME}/.config/tmux/plugins/tpm/bin/install_plugins"
+"${HOME}/.config/tmux/plugins/tpm/bin/update_plugins" all
+
+# setup tmux-scout for Claude Code session monitoring
+bs_scout_dir="${HOME}/.config/tmux/plugins/tmux-scout"
+if [ -d "$bs_scout_dir" ]; then
+    echo "Setting up tmux-scout..."
+    "$bs_scout_dir/scripts/setup.sh" install
+fi
+
 # install or update aws cli
 install_aws_cli() {
     local tmp_aws_dir
