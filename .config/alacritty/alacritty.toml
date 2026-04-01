@@ -11,22 +11,6 @@ shape = "Block"
 [env]
 TERM = "xterm-256color"
 
-[font]
-[font.bold]
-family = "JetBrainsMono NFM"
-style = "Bold"
-
-[font.bold_italic]
-family = "JetBrainsMono NFM"
-style = "Bold Italic"
-
-[font.italic]
-family = "JetBrainsMono NFM"
-style = "Italic"
-
-[font.normal]
-family = "JetBrainsMono NFM"
-style = "Regular"
 
 [scrolling]
 history = 10000
