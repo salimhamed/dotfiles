@@ -57,6 +57,30 @@ map("v", "<leader>yR", function()
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
 end, { desc = "Yank Absolute Reference" })
 
+-- Change git base for gitsigns and neo-tree together
+vim.api.nvim_create_user_command("GitBase", function(ghc_opts)
+  local ghc_ref = vim.trim(ghc_opts.args)
+  if ghc_ref == "" then
+    require("gitsigns").reset_base(true)
+    vim.cmd("Neotree git_base=HEAD")
+    vim.notify("Git base reset to default")
+  else
+    require("gitsigns").change_base(ghc_ref, true)
+    vim.cmd("Neotree git_base=" .. ghc_ref)
+    vim.notify("Git base set to " .. ghc_ref)
+  end
+end, {
+  nargs = "?",
+  complete = function(ghc_lead)
+    local ghc_branches = vim.fn.systemlist({ "git", "branch", "-a", "--format=%(refname:short)" })
+    return vim.tbl_filter(function(ghc_b)
+      return ghc_b:find(ghc_lead, 1, true) == 1
+    end, ghc_branches)
+  end,
+  desc = "Set git base for gitsigns and neo-tree",
+})
+map("n", "<leader>ghc", ":GitBase ", { desc = "Change Git Base", silent = false })
+
 -- Keep cursor centered when moving 1/2 pages
 map("n", "<C-d>", "<C-d>zz")
 map("n", "<C-u>", "<C-u>zz")
