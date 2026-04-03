@@ -81,6 +81,9 @@ end, {
 })
 map("n", "<leader>ghc", ":GitBase ", { desc = "Change Git Base", silent = false })
 
+-- Restart all LSP clients for the current buffer
+map("n", "<leader>cx", "<cmd>LspRestart<cr>", { desc = "󰜉 Restart LSP" })
+
 -- Keep cursor centered when moving 1/2 pages
 map("n", "<C-d>", "<C-d>zz")
 map("n", "<C-u>", "<C-u>zz")
