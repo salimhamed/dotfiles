@@ -7,3 +7,5 @@ gui:
   nerdFontsVersion: "3"
 os:
   editPreset: "nvim"
+  edit: 'if [ -n "$NVIM" ]; then nvim --server "$NVIM" --remote "{{filename}}"; else nvim "{{filename}}"; fi'
+  editAtLine: 'if [ -n "$NVIM" ]; then nvim --server "$NVIM" --remote "{{filename}}"; else nvim "+{{line}}" "{{filename}}"; fi'
