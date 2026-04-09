@@ -6,6 +6,16 @@ return {
     opts.formatters.shfmt = {
       args = { "-i", "4", "-ci" },
     }
+    opts.formatters.taplo = {
+      prepend_args = {
+        "--option",
+        "indent_string=    ",
+        "--option",
+        "array_auto_collapse=false",
+      },
+    }
+    opts.formatters_by_ft = opts.formatters_by_ft or {}
+    opts.formatters_by_ft.toml = { "taplo" }
     return opts
   end,
 }
