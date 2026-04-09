@@ -7,11 +7,15 @@ return {
       args = { "-i", "4", "-ci" },
     }
     opts.formatters.taplo = {
-      prepend_args = {
+      args = {
+        "format",
         "--option",
         "indent_string=    ",
         "--option",
         "array_auto_collapse=false",
+        "--stdin-filepath",
+        "$FILENAME",
+        "-",
       },
     }
     opts.formatters_by_ft = opts.formatters_by_ft or {}
