@@ -36,6 +36,10 @@ fi
 echo "Installing/updating Claude Code..."
 curl -fsSL https://claude.ai/install.sh | bash
 
+# install codex
+echo "Installing/updating Codex..."
+npm install -g @openai/codex
+
 # in some cases after prettierd is updated, it needs to be restarted
 prettierd restart || true
 
