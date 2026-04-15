@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ka_why="${1:-User-requested keepawake}"
+if [[ -n "${TMUX:-}" ]]; then
+  ka_pane="$(tmux display-message -p '#S:#I.#P' 2>/dev/null || true)"
+  [[ -n "$ka_pane" ]] && ka_why="$ka_why [tmux $ka_pane]"
+fi
+
+cleanup() { echo; echo "keepawake: released (pid $$)"; }
+trap cleanup EXIT
+
+echo "keepawake: inhibiting idle:sleep (pid $$)"
+echo "keepawake: why=\"$ka_why\""
+echo "keepawake: verify with 'systemd-inhibit --list'; Ctrl+C to release."
+
+systemd-inhibit --what=idle:sleep --who=keepawake --why="$ka_why" --mode=block \
+  sleep infinity
