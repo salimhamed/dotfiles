@@ -2,14 +2,10 @@
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 -- Add any additional autocmds here
 
--- Disable diagnostics for .env files to avoid shellcheck noise
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  group = vim.api.nvim_create_augroup("dotenv_no_diagnostics", { clear = true }),
-  pattern = { "*.env", "*.env.*" },
-  callback = function(args)
-    vim.diagnostic.enable(false, { bufnr = args.buf })
-  end,
-})
+-- Treat .env files as dotenv so no LSP attaches (no shellcheck warnings),
+-- but use bash treesitter parser for highlighting and commenting
+vim.filetype.add({ pattern = { ["%.env"] = "dotenv", ["%.env%..*"] = "dotenv" } })
+vim.treesitter.language.register("bash", "dotenv")
 
 -- Reduce visual noise for Claude Code temporary prompt files
 vim.api.nvim_create_autocmd("BufReadPost", {
