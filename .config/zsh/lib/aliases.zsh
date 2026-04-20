@@ -7,7 +7,7 @@ alias lg='lazygit'
 alias v='nvim'
 
 # --- AI ---
-alias claude-opus-46='claude --model claude-opus-4-6'
+alias claude-opus-46='claude --model "claude-opus-4-6[1m]"'
 
 # --- Standard command defaults ---
 alias mkdir='mkdir -pv'
