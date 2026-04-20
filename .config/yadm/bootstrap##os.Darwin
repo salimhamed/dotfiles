@@ -36,6 +36,10 @@ fi
 echo "Installing/updating Claude Code..."
 curl -fsSL https://claude.ai/install.sh | bash
 
+# install hatchet cli
+echo "Installing/updating Hatchet CLI..."
+curl -fsSL https://install.hatchet.run/install.sh | bash
+
 # in some cases after prettierd is updated, it needs to be restarted
 prettierd restart || true
 
