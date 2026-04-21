@@ -14,14 +14,11 @@ return {
     "s1n7ax/nvim-window-picker",
   },
   opts = {
-    -- Show hidden/filtered files (e.g., dotfiles) in the tree
+    log_level = vim.log.levels.WARN,
     filesystem = {
       filtered_items = {
         visible = true,
       },
-      async_directory_scan = "auto",
-      scan_mode = "deep",
-      git_status_async_options = { timeout = 500 },
     },
     window = {
       mappings = {
