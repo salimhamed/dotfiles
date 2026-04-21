@@ -19,6 +19,9 @@ return {
       filtered_items = {
         visible = true,
       },
+      async_directory_scan = "auto",
+      scan_mode = "deep",
+      git_status_async_options = { timeout = 500 },
     },
     window = {
       mappings = {
