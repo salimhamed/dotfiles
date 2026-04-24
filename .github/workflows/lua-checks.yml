@@ -1,0 +1,77 @@
+name: Lint & Format Checks
+
+on:
+  push:
+    branches: [main, "claude/**"]
+    paths:
+      - ".config/lazyvim/**/*.lua"
+      - ".config/nvim/**/*.lua"
+      - ".nvim.lua"
+      - ".stylua.toml"
+      - ".luacheckrc"
+      - ".config/yadm/bootstrap##*"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".config/lazyvim/**/*.lua"
+      - ".config/nvim/**/*.lua"
+      - ".nvim.lua"
+      - ".stylua.toml"
+      - ".luacheckrc"
+      - ".config/yadm/bootstrap##*"
+
+jobs:
+  lua-format:
+    name: Lua Formatting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install stylua
+        uses: JohnnyMorganz/stylua-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest
+          args: --check .config/lazyvim/ .config/nvim/ .nvim.lua
+
+  lua-lint:
+    name: Lua Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Lua and luarocks
+        uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "5.1"
+
+      - uses: leafo/gh-actions-luarocks@v4
+
+      - name: Install luacheck
+        run: luarocks install luacheck
+
+      - name: Run luacheck
+        run: luacheck .config/lazyvim/ .config/nvim/ .nvim.lua
+
+  shell-format:
+    name: Shell Formatting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install shfmt
+        run: |
+          curl -sS https://webi.sh/shfmt | sh
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Check shell formatting
+        run: shfmt -i 4 -d ".config/yadm/bootstrap##distro.Ubuntu" ".config/yadm/bootstrap##os.Darwin"
+
+  shell-lint:
+    name: Shell Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run shellcheck
+        run: shellcheck ".config/yadm/bootstrap##distro.Ubuntu" ".config/yadm/bootstrap##os.Darwin"
