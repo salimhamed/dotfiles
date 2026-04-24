@@ -14,7 +14,7 @@ return {
     "s1n7ax/nvim-window-picker",
   },
   opts = {
-    -- Show hidden/filtered files (e.g., dotfiles) in the tree
+    log_level = vim.log.levels.WARN,
     filesystem = {
       filtered_items = {
         visible = true,

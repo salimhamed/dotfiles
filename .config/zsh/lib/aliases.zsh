@@ -6,6 +6,9 @@ alias lg='lazygit'
 # --- Editor ---
 alias v='nvim'
 
+# --- AI ---
+alias claude-opus-46='claude --model "claude-opus-4-6[1m]"'
+
 # --- Standard command defaults ---
 alias mkdir='mkdir -pv'
 alias less='less -FSRXc'
