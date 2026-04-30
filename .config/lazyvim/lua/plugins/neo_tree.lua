@@ -10,6 +10,10 @@ end
 
 return {
   "nvim-neo-tree/neo-tree.nvim",
+  -- Pin to the commit before 4d0828d, which broke `:Neotree git_base=...` by
+  -- passing the coroutine `success` boolean into the diff callback instead of
+  -- the parsed status table (see git/init.lua:632 "attempt to index ... boolean").
+  commit = "aa3500f",
   dependencies = {
     "s1n7ax/nvim-window-picker",
   },
