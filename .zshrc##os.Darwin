@@ -15,7 +15,7 @@ source "${zsh_lib}/completion.zsh"
 source "${zsh_lib}/aliases-platform.zsh"
 source "${zsh_lib}/aliases.zsh"
 source "${zsh_lib}/ssh-agent.zsh"
-source "${zsh_lib}/codex-gh.zsh"
+source "${zsh_lib}/codex.zsh"
 unset zsh_lib
 
 # Source secrets

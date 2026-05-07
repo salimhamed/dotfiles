@@ -1,0 +1,51 @@
+# Switch gh from Keychain to file-based PAT auth (needed for Codex sandbox)
+gh_auth_pat() {
+  if [ -z "${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ]; then
+    echo "GITHUB_PERSONAL_ACCESS_TOKEN is not set" >&2
+    return 1
+  fi
+
+  printf '%s\n' "${GITHUB_PERSONAL_ACCESS_TOKEN}" \
+    | gh auth login --with-token --insecure-storage
+
+  gh auth setup-git
+}
+
+# Start Codex with only allow-listed MCP servers and plugins
+codex-dotfiles() {
+  local cdf_config cdf_server cdf_plugin
+  local -a cdf_args cdf_allowed_servers cdf_allowed_plugins
+
+  cdf_config="$HOME/.codex/config.toml"
+  cdf_allowed_servers=(
+    chrome-devtools
+    notion
+    sequential-thinking
+    ssh-beelink
+    ssh-m2pro
+    ssh-north
+    ssh-nucbox2
+    ssh-optiplex
+    synology
+  )
+  cdf_allowed_plugins=(
+    "computer-use@openai-bundled"
+  )
+  cdf_args=()
+
+  for cdf_server in $(grep '^\[mcp_servers\.' "$cdf_config" \
+    | sed 's/\[mcp_servers\.\([^].]*\).*/\1/' | sort -u); do
+    if ! (( ${cdf_allowed_servers[(Ie)$cdf_server]} )); then
+      cdf_args+=(-c "mcp_servers.${cdf_server}.enabled=false")
+    fi
+  done
+
+  for cdf_plugin in $(grep '^\[plugins\.' "$cdf_config" \
+    | sed 's/\[plugins\."\([^"]*\)"\].*/\1/' | sort -u); do
+    if ! (( ${cdf_allowed_plugins[(Ie)$cdf_plugin]} )); then
+      cdf_args+=(-c "plugins.\"${cdf_plugin}\".enabled=false")
+    fi
+  done
+
+  codex "${cdf_args[@]}" "$@"
+}
