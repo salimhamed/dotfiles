@@ -19,7 +19,6 @@ codex-dotfiles() {
   cdf_config="$HOME/.codex/config.toml"
   cdf_allowed_servers=(
     chrome-devtools
-    notion
     sequential-thinking
     ssh-beelink
     ssh-m2pro
