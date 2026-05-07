@@ -23,6 +23,7 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 # Claude Code
 export ENABLE_TOOL_SEARCH=true
 export ENABLE_EXPERIMENTAL_MCP_CLI=false
+export ENABLE_CLAUDEAI_MCP_SERVERS=false
 
 # Man pages with bat/batcat when available
 if command -v bat &>/dev/null; then
