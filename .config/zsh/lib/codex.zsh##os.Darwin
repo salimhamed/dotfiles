@@ -1,5 +1,5 @@
 # Switch gh from Keychain to file-based PAT auth (needed for Codex sandbox)
-gh_auth_pat() {
+gh-auth-pat() {
   if [ -z "${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ]; then
     echo "GITHUB_PERSONAL_ACCESS_TOKEN is not set" >&2
     return 1
