@@ -1,9 +1,6 @@
 ---
 name: y-pr-desc
 description: Generate PR description for yadm branch
-allowed-tools:
-  - Bash(yadm *)
-  - Bash(python *)
 ---
 
 # Generate PR Description for Yadm Branch

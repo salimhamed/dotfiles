@@ -1,9 +1,6 @@
 ---
 name: y-pr-title
 description: Generate PR title for yadm branch
-allowed-tools:
-  - Bash(yadm *)
-  - Bash(python *)
 ---
 
 # Generate PR Title for Yadm Branch
