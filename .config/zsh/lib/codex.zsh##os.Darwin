@@ -7,8 +7,6 @@ gh-auth-pat() {
 
   printf '%s\n' "${GITHUB_PERSONAL_ACCESS_TOKEN}" \
     | gh auth login --with-token --insecure-storage
-
-  gh auth setup-git
 }
 
 # Start Codex with only allow-listed MCP servers and plugins
