@@ -9,7 +9,7 @@ go = "1.22.2"
 node = "22.22.0"
 python = "3.13.12"
 bun = "latest"
-ruby = "latest"
+ruby = "4.0.3"
 shfmt = "latest"
 yamlfmt = "latest"
 
