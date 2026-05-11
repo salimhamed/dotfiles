@@ -2,6 +2,33 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 
 local map = LazyVim.safe_keymap_set
+local _git_base_ref = nil
+local _git_status_patched = false
+
+-- neo-tree's git.status() caches raw `git status` output per worktree. On a
+-- cache hit it returns early WITHOUT the base-diff third return value, even
+-- though the diff was computed and stored on the first call. This patch falls
+-- back to the stored status_diff when the cache-hit path drops it.
+local function _ensure_git_status_patch()
+  if _git_status_patched then
+    return
+  end
+  _git_status_patched = true
+  local egsp_git = require("neo-tree.git")
+  local egsp_original = egsp_git.status
+  egsp_git.status = function(egsp_path, egsp_base_lookup, egsp_skip_bubbling, egsp_opts)
+    local egsp_status, egsp_root, egsp_over_base =
+      egsp_original(egsp_path, egsp_base_lookup, egsp_skip_bubbling, egsp_opts)
+    if egsp_status and egsp_root and not egsp_over_base and egsp_base_lookup then
+      local egsp_base = egsp_base_lookup[egsp_root]
+      local egsp_wt = egsp_base and egsp_git.worktrees[egsp_root]
+      if egsp_wt and egsp_wt.status_diff then
+        egsp_over_base = egsp_wt.status_diff[egsp_base]
+      end
+    end
+    return egsp_status, egsp_root, egsp_over_base
+  end
+end
 
 -- Yank relative path to clipboard (e.g., src/file.lua)
 map("n", "<leader>yp", function()
@@ -59,14 +86,48 @@ end, { desc = "Yank Absolute Reference" })
 
 -- Change git base for gitsigns and neo-tree together
 vim.api.nvim_create_user_command("GitBase", function(ghc_opts)
+  _ensure_git_status_patch()
   local ghc_ref = vim.trim(ghc_opts.args)
+  local ghc_manager = require("neo-tree.sources.manager")
+  local ghc_git = require("neo-tree.git")
+  local ghc_renderer = require("neo-tree.ui.renderer")
+  local ghc_fs_state = ghc_manager.get_state("filesystem")
+  local ghc_gs_state = ghc_manager.get_state("git_status")
+  local ghc_path = ghc_fs_state.path or vim.fn.getcwd()
+  local ghc_worktree_root = ghc_git.find_worktree_info(ghc_path)
   if ghc_ref == "" then
+    _git_base_ref = nil
     require("gitsigns").reset_base(true)
-    vim.cmd("Neotree git_base=HEAD")
+    if ghc_worktree_root then
+      if ghc_fs_state.git_base_by_worktree then
+        ghc_fs_state.git_base_by_worktree[ghc_worktree_root] = nil
+      end
+      if ghc_gs_state.git_base_by_worktree then
+        ghc_gs_state.git_base_by_worktree[ghc_worktree_root] = nil
+      end
+    end
+    if ghc_renderer.window_exists(ghc_fs_state) then
+      ghc_manager.navigate(ghc_fs_state, ghc_fs_state.path)
+    end
+    if ghc_renderer.window_exists(ghc_gs_state) then
+      ghc_manager.navigate(ghc_gs_state, ghc_gs_state.path)
+    end
     vim.notify("Git base reset to default")
   else
+    _git_base_ref = ghc_ref
     require("gitsigns").change_base(ghc_ref, true)
-    vim.cmd("Neotree git_base=" .. ghc_ref)
+    if ghc_worktree_root then
+      ghc_fs_state.git_base_by_worktree = ghc_fs_state.git_base_by_worktree or {}
+      ghc_fs_state.git_base_by_worktree[ghc_worktree_root] = ghc_ref
+      ghc_gs_state.git_base_by_worktree = ghc_gs_state.git_base_by_worktree or {}
+      ghc_gs_state.git_base_by_worktree[ghc_worktree_root] = ghc_ref
+    end
+    if ghc_renderer.window_exists(ghc_fs_state) then
+      ghc_manager.navigate(ghc_fs_state, ghc_fs_state.path)
+    end
+    if ghc_renderer.window_exists(ghc_gs_state) then
+      ghc_manager.navigate(ghc_gs_state, ghc_gs_state.path)
+    end
     vim.notify("Git base set to " .. ghc_ref)
   end
 end, {
@@ -80,6 +141,16 @@ end, {
   desc = "Set git base for gitsigns and neo-tree",
 })
 map("n", "<leader>ghc", ":GitBase ", { desc = "Change Git Base", silent = false })
+
+map("n", "<leader>ge", function()
+  _ensure_git_status_patch()
+  local ge_args = { source = "git_status", toggle = true }
+  if _git_base_ref then
+    ge_args.git_base = _git_base_ref
+    require("neo-tree.sources.manager").get_state("git_status").dirty = true
+  end
+  require("neo-tree.command").execute(ge_args)
+end, { desc = "Git Explorer" })
 
 -- Restart all LSP clients for the current buffer
 map("n", "<leader>cx", "<cmd>LspRestart<cr>", { desc = "󰜉 Restart LSP" })
