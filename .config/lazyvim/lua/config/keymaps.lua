@@ -119,6 +119,7 @@ map("n", "<leader>ge", function()
   local ge_args = { source = "git_status", toggle = true }
   if _git_base_ref then
     ge_args.git_base = _git_base_ref
+    require("neo-tree.sources.manager").get_state("git_status").dirty = true
   end
   require("neo-tree.command").execute(ge_args)
 end, { desc = "Git Explorer" })
