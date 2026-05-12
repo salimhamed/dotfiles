@@ -1,12 +1,15 @@
 [settings]
 idiomatic_version_file_enable_tools = ["node", "ruby"]
 
+[settings.ruby]
+compile = false
+
 [tools]
 go = "1.22.2"
 node = "22.22.0"
 python = "3.13.12"
 bun = "latest"
-ruby = "latest"
+ruby = "4.0.3"
 shfmt = "latest"
 yamlfmt = "latest"
 
@@ -32,6 +35,8 @@ yamlfmt = "latest"
 "npm:prettier" = "latest"
 "npm:@openai/codex" = "latest"
 "npm:@taplo/cli" = "latest"
+"npm:@earendil-works/pi-coding-agent" = "latest"
+"npm:opencode-ai" = "latest"
 "npm:tree-sitter-cli" = "latest"
 pnpm = "latest"
 yarn = "latest"
