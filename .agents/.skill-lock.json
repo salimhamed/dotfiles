@@ -1,0 +1,150 @@
+{
+  "version": 3,
+  "skills": {
+    "defuddle": {
+      "source": "git@github.com:kepano/obsidian-skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:kepano/obsidian-skills.git",
+      "skillPath": "skills/defuddle/SKILL.md",
+      "skillFolderHash": "0ed68bc3e818ba0e6b8d192357ea3daaf552a3893f8854e7fd43c06831f91323",
+      "installedAt": "2026-05-18T20:13:49.311Z",
+      "updatedAt": "2026-05-18T21:53:01.473Z"
+    },
+    "json-canvas": {
+      "source": "git@github.com:kepano/obsidian-skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:kepano/obsidian-skills.git",
+      "skillPath": "skills/json-canvas/SKILL.md",
+      "skillFolderHash": "56cbac74a93e4fba97f4d44bccfdeaae89e545b223f47df392c7705e01e6c543",
+      "installedAt": "2026-05-18T20:13:49.312Z",
+      "updatedAt": "2026-05-18T21:53:01.481Z"
+    },
+    "obsidian-bases": {
+      "source": "git@github.com:kepano/obsidian-skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:kepano/obsidian-skills.git",
+      "skillPath": "skills/obsidian-bases/SKILL.md",
+      "skillFolderHash": "ed0a53502693e56c67575a9958daca9a3a1ac7ba483367f400b4cad9488bfb3c",
+      "installedAt": "2026-05-18T20:13:49.313Z",
+      "updatedAt": "2026-05-18T21:53:01.482Z"
+    },
+    "obsidian-cli": {
+      "source": "git@github.com:kepano/obsidian-skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:kepano/obsidian-skills.git",
+      "skillPath": "skills/obsidian-cli/SKILL.md",
+      "skillFolderHash": "f46ae626875f7e47c410c2ee93896c4526024ebe127719e8fb430261b5677edc",
+      "installedAt": "2026-05-18T20:13:49.313Z",
+      "updatedAt": "2026-05-18T21:53:01.482Z"
+    },
+    "obsidian-markdown": {
+      "source": "git@github.com:kepano/obsidian-skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:kepano/obsidian-skills.git",
+      "skillPath": "skills/obsidian-markdown/SKILL.md",
+      "skillFolderHash": "cacc9058a35ad3fd4985b4c31121bff8202f1337c39808c1326ded6a19a7915f",
+      "installedAt": "2026-05-18T20:13:49.314Z",
+      "updatedAt": "2026-05-18T21:53:01.483Z"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "3013fdeb8a11b10b1eb795ec3ae8bfca38f7c26d",
+      "installedAt": "2026-05-18T20:13:57.481Z",
+      "updatedAt": "2026-05-18T21:53:02.533Z"
+    },
+    "architecture-read": {
+      "source": "git@github.com:salimhamed/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:salimhamed/skills.git",
+      "skillPath": "skills/architecture-read/SKILL.md",
+      "skillFolderHash": "2b524786ac0a73e7c4169b85da0d6e555efa09f703edfc478cc5a93cd5e8e975",
+      "installedAt": "2026-05-18T21:18:37.764Z",
+      "updatedAt": "2026-05-18T21:52:59.156Z"
+    },
+    "architecture-update": {
+      "source": "git@github.com:salimhamed/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:salimhamed/skills.git",
+      "skillPath": "skills/architecture-update/SKILL.md",
+      "skillFolderHash": "f5e0b39ddcb576a8ca6cced390b6d15822bde7e1634b43e1f21e0ccccb201278",
+      "installedAt": "2026-05-18T21:18:37.765Z",
+      "updatedAt": "2026-05-18T21:52:59.158Z"
+    },
+    "postman-cerebro-debug-add-request": {
+      "source": "git@github.com:salimhamed/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:salimhamed/skills.git",
+      "skillPath": "skills/postman-cerebro-debug-add-request/SKILL.md",
+      "skillFolderHash": "c31cfca36f169021225a39eebeb070f35e87cb7d3e3efea125815c9e06da9707",
+      "installedAt": "2026-05-18T21:18:37.766Z",
+      "updatedAt": "2026-05-18T21:52:59.159Z"
+    },
+    "y-pr": {
+      "source": "git@github.com:salimhamed/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:salimhamed/skills.git",
+      "skillPath": "skills/y-pr/SKILL.md",
+      "skillFolderHash": "2b238acb04b0dc2f5c8f7ebbbe73fac8c20bc0bd1f48e391e89afc7521ae4830",
+      "installedAt": "2026-05-18T21:18:37.774Z",
+      "updatedAt": "2026-05-18T21:52:59.168Z"
+    },
+    "y-pr-desc": {
+      "source": "git@github.com:salimhamed/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:salimhamed/skills.git",
+      "skillPath": "skills/y-pr-desc/SKILL.md",
+      "skillFolderHash": "aa36633fc830bca7a626c0ca7a2a348cd9fc4276fb5bf2e98a7afc7e4d3844ec",
+      "installedAt": "2026-05-18T21:18:37.774Z",
+      "updatedAt": "2026-05-18T21:52:59.169Z"
+    },
+    "y-pr-title": {
+      "source": "git@github.com:salimhamed/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:salimhamed/skills.git",
+      "skillPath": "skills/y-pr-title/SKILL.md",
+      "skillFolderHash": "533619c648f9cec6f8c442b024667728f4e4174cecc66885bfebbe1e699eec1c",
+      "installedAt": "2026-05-18T21:18:37.775Z",
+      "updatedAt": "2026-05-18T21:52:59.170Z"
+    },
+    "architecture-seed": {
+      "source": "git@github.com:salimhamed/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:salimhamed/skills.git",
+      "skillPath": "skills/architecture-seed/SKILL.md",
+      "skillFolderHash": "40f53ecaa667ce778820213cfd962c4fc70fd486f6eb20cf0a60f67a2ac4e6f4",
+      "installedAt": "2026-05-18T21:33:34.689Z",
+      "updatedAt": "2026-05-18T21:52:59.157Z"
+    },
+    "dotfiles": {
+      "source": "git@github.com:salimhamed/skills.git",
+      "sourceType": "git",
+      "sourceUrl": "git@github.com:salimhamed/skills.git",
+      "skillPath": "skills/dotfiles/SKILL.md",
+      "skillFolderHash": "cadb094da927ba119b40c2b1301a9d7c6c6dd16ecd5b8cb25b00f2a529f7d3aa",
+      "installedAt": "2026-05-18T21:33:34.689Z",
+      "updatedAt": "2026-05-18T21:52:59.159Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "antigravity",
+    "cline",
+    "codex",
+    "cursor",
+    "deepagents",
+    "dexto",
+    "firebender",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode",
+    "warp",
+    "claude-code"
+  ]
+}
