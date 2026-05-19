@@ -18,9 +18,9 @@ fi
 export STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
 
 # Hermes Agent
-# Telegram gateway service state lives here on Ubuntu hosts. Keep this separate
+# Telegram bot/service state lives here on Ubuntu hosts. Keep this separate
 # from HERMES_HOME so normal commands can opt in explicitly when needed.
-export HERMES_GATEWAY_HOME="${HERMES_GATEWAY_HOME:-/opt/hermes-agent/data}"
+export HERMES_BOT_HOME="${HERMES_BOT_HOME:-/opt/hermes-agent/data}"
 
 # Virtualenv prompt (starship handles this)
 export VIRTUAL_ENV_DISABLE_PROMPT=1
