@@ -39,7 +39,8 @@ yamlfmt = "latest"
 "npm:@earendil-works/pi-coding-agent" = "latest"
 "npm:opencode-ai" = "latest"
 "npm:tree-sitter-cli" = "latest"
-pnpm = "latest"
+"npm:obsidian-cli" = "latest"
+"npm:pnpm" = "latest"
 yarn = "latest"
 
 # Rust CLI tools (installed via aqua — prebuilt binaries)

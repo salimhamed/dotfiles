@@ -1,2 +1,10 @@
 # PATH additions
 export PATH="/opt/nvim/bin:$HOME/.local/bin:${PATH}"
+
+# Hermes Agent
+# Match the service home for interactive Ubuntu zsh sessions. Login shells may
+# also receive this from /etc/profile.d/hermes-agent.sh; this keeps non-login
+# terminal tabs consistent without needing a separate alias.
+if [[ -d /opt/hermes-agent/data ]]; then
+    export HERMES_HOME="${HERMES_HOME:-/opt/hermes-agent/data}"
+fi
