@@ -9,11 +9,6 @@ alias v='nvim'
 # --- AI ---
 alias claude-opus-46='claude --model "claude-opus-4-6[1m]"'
 
-hermes-bot() {
-    HERMES_HOME="${HERMES_BOT_HOME:-/opt/hermes-agent/data}" command hermes "$@"
-}
-alias hbot='hermes-bot'
-
 # --- Standard command defaults ---
 alias mkdir='mkdir -pv'
 alias less='less -FSRXc'
