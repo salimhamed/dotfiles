@@ -9,6 +9,11 @@ alias v='nvim'
 # --- AI ---
 alias claude-opus-46='claude --model "claude-opus-4-6[1m]"'
 
+hermes-gateway() {
+    HERMES_HOME="${HERMES_GATEWAY_HOME:-/opt/hermes-agent/data}" command hermes "$@"
+}
+alias hermes-gw='hermes-gateway'
+
 # --- Standard command defaults ---
 alias mkdir='mkdir -pv'
 alias less='less -FSRXc'
