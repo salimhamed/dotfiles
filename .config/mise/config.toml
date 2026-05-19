@@ -39,6 +39,7 @@ yamlfmt = "latest"
 "npm:@earendil-works/pi-coding-agent" = "latest"
 "npm:opencode-ai" = "latest"
 "npm:tree-sitter-cli" = "latest"
+"npm:obsidian-cli" = "latest"
 pnpm = "latest"
 yarn = "latest"
 

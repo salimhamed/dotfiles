@@ -75,6 +75,17 @@ mise install
 mise upgrade
 mise prune --yes
 
+# install agent skills via npx skills (https://www.npmjs.com/package/skills)
+# fans symlinks out from ~/.agents/skills/ into each agent's skills dir
+echo "Installing/updating agent skills..."
+skills_agent_flags=(-a claude-code -a codex -a cursor -a opencode -a pi)
+npx --yes skills add -g git@github.com:salimhamed/skills.git \
+    -s '*' "${skills_agent_flags[@]}" -y
+npx --yes skills add -g git@github.com:kepano/obsidian-skills.git \
+    -s '*' "${skills_agent_flags[@]}" -y
+npx --yes skills add -g vercel-labs/skills \
+    -s find-skills "${skills_agent_flags[@]}" -y
+
 # install tmuxinator — use mise-managed gem directly because mise's gem: backend
 # may resolve to system Ruby instead of mise-managed Ruby
 echo "Installing/updating tmuxinator..."
