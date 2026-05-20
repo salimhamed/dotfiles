@@ -69,8 +69,7 @@ mise upgrade
 mise prune --yes
 
 # install local coding-agent skills via npx skills (https://www.npmjs.com/package/skills)
-# This bootstraps tools Salim uses directly in terminals/editors. Hermes skills
-# are runtime state managed by Hermes itself under $HERMES_HOME/skills.
+# This bootstraps agent skills for tools used directly in terminals/editors.
 echo "Installing/updating agent skills..."
 skills_agent_args=(-a claude-code codex cursor opencode pi)
 npx --yes skills add -g git@github.com:salimhamed/skills.git \
