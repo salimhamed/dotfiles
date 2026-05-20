@@ -21,6 +21,26 @@ add_gh_cli_to_apt_sources() {
 }
 add_gh_cli_to_apt_sources
 
+# Add 1Password CLI repository to apt sources. The 1Password skill is managed
+# by Hermes itself, but the required `op` CLI is part of this machine's
+# developer/tooling environment and belongs in bootstrap.
+add_1password_cli_to_apt_sources() {
+    curl -sS https://downloads.1password.com/linux/keys/1password.asc |
+        sudo gpg --dearmor --yes --output /usr/share/keyrings/1password-archive-keyring.gpg
+
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/$(dpkg --print-architecture) stable main" |
+        sudo tee /etc/apt/sources.list.d/1password.list >/dev/null
+
+    sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22/
+    curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol |
+        sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol >/dev/null
+
+    sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
+    curl -sS https://downloads.1password.com/linux/keys/1password.asc |
+        sudo gpg --dearmor --yes --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
+}
+add_1password_cli_to_apt_sources
+
 # update apt
 sudo apt-get update
 
@@ -75,19 +95,15 @@ mise install
 mise upgrade
 mise prune --yes
 
-# install agent skills via npx skills (https://www.npmjs.com/package/skills)
-# fans symlinks out from ~/.agents/skills/ into each agent's skills dir
-# HERMES_HOME is set explicitly so the hermes-agent target installs into the
-# same home used by the Telegram gateway service on this host.
+# install local coding-agent skills via npx skills (https://www.npmjs.com/package/skills)
+# This bootstraps agent skills for tools used directly in terminals/editors.
 echo "Installing/updating agent skills..."
-hermes_agent_home="${HERMES_HOME:-/opt/hermes-agent/data}"
-mkdir -p "${hermes_agent_home}/skills"
-skills_agent_args=(-a claude-code codex cursor opencode hermes-agent pi)
-HERMES_HOME="${hermes_agent_home}" npx --yes skills add -g git@github.com:salimhamed/skills.git \
+skills_agent_args=(-a claude-code codex cursor opencode pi)
+npx --yes skills add -g git@github.com:salimhamed/skills.git \
     -s '*' "${skills_agent_args[@]}" -y
-HERMES_HOME="${hermes_agent_home}" npx --yes skills add -g git@github.com:kepano/obsidian-skills.git \
+npx --yes skills add -g git@github.com:kepano/obsidian-skills.git \
     -s '*' "${skills_agent_args[@]}" -y
-HERMES_HOME="${hermes_agent_home}" npx --yes skills add -g vercel-labs/skills \
+npx --yes skills add -g vercel-labs/skills \
     -s find-skills "${skills_agent_args[@]}" -y
 
 # install tmuxinator — use mise-managed gem directly because mise's gem: backend

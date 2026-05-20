@@ -68,19 +68,15 @@ mise install
 mise upgrade
 mise prune --yes
 
-# install agent skills via npx skills (https://www.npmjs.com/package/skills)
-# fans symlinks out from ~/.agents/skills/ into each agent's skills dir
-# HERMES_HOME is set explicitly so the hermes-agent target respects a custom
-# Hermes home when one is configured; otherwise it uses the normal ~/.hermes.
+# install local coding-agent skills via npx skills (https://www.npmjs.com/package/skills)
+# This bootstraps agent skills for tools used directly in terminals/editors.
 echo "Installing/updating agent skills..."
-hermes_agent_home="${HERMES_HOME:-${HOME}/.hermes}"
-mkdir -p "${hermes_agent_home}/skills"
-skills_agent_args=(-a claude-code codex cursor opencode hermes-agent pi)
-HERMES_HOME="${hermes_agent_home}" npx --yes skills add -g git@github.com:salimhamed/skills.git \
+skills_agent_args=(-a claude-code codex cursor opencode pi)
+npx --yes skills add -g git@github.com:salimhamed/skills.git \
     -s '*' "${skills_agent_args[@]}" -y
-HERMES_HOME="${hermes_agent_home}" npx --yes skills add -g git@github.com:kepano/obsidian-skills.git \
+npx --yes skills add -g git@github.com:kepano/obsidian-skills.git \
     -s '*' "${skills_agent_args[@]}" -y
-HERMES_HOME="${hermes_agent_home}" npx --yes skills add -g vercel-labs/skills \
+npx --yes skills add -g vercel-labs/skills \
     -s find-skills "${skills_agent_args[@]}" -y
 
 # install tmuxinator — use mise-managed gem directly because mise's gem: backend
