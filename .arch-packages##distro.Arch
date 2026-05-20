@@ -21,6 +21,7 @@ ncurses
 postgresql-libs
 
 # System utilities
+bubblewrap
 curl
 wget
 git
