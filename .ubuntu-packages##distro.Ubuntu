@@ -1,6 +1,7 @@
 apt-transport-https
 1password-cli
 bat
+bubblewrap
 build-essential
 bzip2
 ca-certificates

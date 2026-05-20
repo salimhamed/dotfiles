@@ -54,6 +54,9 @@ rustup update stable
 # install lua tools
 sudo luarocks --lua-version=5.4 install luacheck
 
+# install or update uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
 # update completions
 completions_dir="${HOME}/.config/zsh/completions"
 mkdir -p "${completions_dir}"
