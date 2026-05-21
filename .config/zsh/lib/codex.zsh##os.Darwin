@@ -9,40 +9,38 @@ gh-auth-pat() {
     | gh auth login --with-token --insecure-storage
 }
 
-# Start Codex with only allow-listed MCP servers and plugins
+# Start Codex with the dotfiles MCP profile.
 codex-dotfiles() {
-  local cdf_config cdf_server cdf_plugin
-  local -a cdf_args cdf_allowed_servers cdf_allowed_plugins
+  local cdf_profile_file="${HOME}/.codex/dotfiles.config.toml"
 
-  cdf_config="$HOME/.codex/config.toml"
-  cdf_allowed_servers=(
-    chrome-devtools
-    sequential-thinking
-    ssh-beelink
-    ssh-m2pro
-    ssh-north
-    ssh-nucbox2
-    ssh-optiplex
-    synology
-  )
-  cdf_allowed_plugins=(
-    "computer-use@openai-bundled"
-  )
-  cdf_args=()
+  if [[ ! -f "${cdf_profile_file}" ]]; then
+    print -u2 "codex-dotfiles: missing ${cdf_profile_file}"
+    return 1
+  fi
 
-  for cdf_server in $(grep '^\[mcp_servers\.' "$cdf_config" \
-    | sed 's/\[mcp_servers\.\([^].]*\).*/\1/' | sort -u); do
-    if ! (( ${cdf_allowed_servers[(Ie)$cdf_server]} )); then
-      cdf_args+=(-c "mcp_servers.${cdf_server}.enabled=false")
-    fi
-  done
+  codex --profile-v2 dotfiles "$@"
+}
 
-  for cdf_plugin in $(grep '^\[plugins\.' "$cdf_config" \
-    | sed 's/\[plugins\."\([^"]*\)"\].*/\1/' | sort -u); do
-    if ! (( ${cdf_allowed_plugins[(Ie)$cdf_plugin]} )); then
-      cdf_args+=(-c "plugins.\"${cdf_plugin}\".enabled=false")
-    fi
-  done
+# Start Codex with the debug MCP profile.
+codex-debug() {
+  local cdg_profile_file="${HOME}/.codex/debug.config.toml"
 
-  codex "${cdf_args[@]}" "$@"
+  if [[ ! -f "${cdg_profile_file}" ]]; then
+    print -u2 "codex-debug: missing ${cdg_profile_file}"
+    return 1
+  fi
+
+  codex --profile-v2 debug "$@"
+}
+
+# Start Codex with the ad hoc MCP profile.
+codex-adhoc() {
+  local cad_profile_file="${HOME}/.codex/adhoc.config.toml"
+
+  if [[ ! -f "${cad_profile_file}" ]]; then
+    print -u2 "codex-adhoc: missing ${cad_profile_file}"
+    return 1
+  fi
+
+  codex --profile-v2 adhoc "$@"
 }
