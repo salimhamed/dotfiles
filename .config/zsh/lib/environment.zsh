@@ -34,3 +34,9 @@ fi
 
 # https://superuser.com/a/1447349
 unset LESS
+
+# llama.cpp Metal workaround — disable residency sets to avoid the
+# ggml_metal_rsets_free assertion on device shutdown.
+# Tracked upstream at github.com/ggml-org/llama.cpp/issues/22593 (fix in PR #22595).
+# Remove once QMD bundles a llama.cpp version that includes the fix.
+export GGML_METAL_NO_RESIDENCY=1
