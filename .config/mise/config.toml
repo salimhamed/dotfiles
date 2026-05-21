@@ -41,6 +41,7 @@ yamlfmt = "latest"
 "npm:tree-sitter-cli" = "latest"
 "npm:obsidian-cli" = "latest"
 "npm:pnpm" = "latest"
+"npm:@tobilu/qmd" = "latest"
 yarn = "latest"
 
 # Rust CLI tools (installed via aqua — prebuilt binaries)
