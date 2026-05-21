@@ -105,6 +105,8 @@ npx --yes skills add -g git@github.com:kepano/obsidian-skills.git \
     -s '*' "${skills_agent_args[@]}" -y
 npx --yes skills add -g vercel-labs/skills \
     -s find-skills "${skills_agent_args[@]}" -y
+npx --yes skills add -g Ar9av/obsidian-wiki \
+    -s '*' "${skills_agent_args[@]}" -y
 
 # install tmuxinator — use mise-managed gem directly because mise's gem: backend
 # may resolve to system Ruby instead of mise-managed Ruby
